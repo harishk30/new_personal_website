@@ -852,33 +852,70 @@
 
 @media (max-width: 768px) {
   .app {
-    padding: 24px 20px;
+    padding: 20px 16px;
   }
 
   .header {
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
     text-align: center;
+    padding: 0;
   }
 
   .nav {
-    gap: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px 16px;
+    padding: 0 10px;
+  }
+
+  .nav-link {
+    font-size: 0.95rem;
   }
 
   .site-title {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   .about-name {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .section-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .research-grid {
     grid-template-columns: 1fr;
+  }
+
+  .about-card {
+    padding: 24px 20px;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+
+  /* Photography page mobile */
+  .photography-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .photography-header .section-title {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .photography-intro {
+    padding: 0 10px;
+    font-size: 1rem;
+  }
+
+  .photo-gallery {
+    padding: 0;
   }
 
   .about-card {
@@ -897,6 +934,44 @@
   .tag-button {
     padding: 8px 18px;
     font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .app {
+    padding: 16px 12px;
+  }
+
+  .nav {
+    gap: 8px 12px;
+  }
+
+  .nav-link {
+    font-size: 0.85rem;
+  }
+
+  .site-title {
+    font-size: 1.3rem;
+  }
+
+  .about-name {
+    font-size: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .photography-header .section-title {
+    font-size: 1.3rem;
+  }
+
+  .research-card-content {
+    padding: 20px 16px 24px 16px;
+  }
+
+  .photo-info {
+    padding: 16px;
   }
 }
 
