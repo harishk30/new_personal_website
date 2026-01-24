@@ -244,9 +244,17 @@
 }
 
 @keyframes fadeOut {
-  0% { opacity: 1; }
-  70% { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
 .footnote-tooltip::after {
@@ -320,8 +328,15 @@
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(3px); }
+
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(3px);
+  }
 }
 
 /* ================================
@@ -343,8 +358,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .footnote-modal {
@@ -361,11 +381,12 @@
 }
 
 @keyframes slideUp {
-  from { 
+  from {
     opacity: 0;
     transform: translateY(20px);
   }
-  to { 
+
+  to {
     opacity: 1;
     transform: translateY(0);
   }
@@ -528,9 +549,12 @@
    Blogs Section
    ================================ */
 .blogs-section {
-  text-align: center;
   margin-top: 80px;
   padding-bottom: 60px;
+}
+
+.blogs-section .section-title {
+  text-align: center;
 }
 
 /* ================================
@@ -648,7 +672,7 @@
   .photo-gallery {
     grid-template-columns: 1fr;
   }
-  
+
   .photo-image-container {
     height: 200px;
   }
@@ -974,4 +998,3 @@
     padding: 16px;
   }
 }
-
