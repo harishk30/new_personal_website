@@ -70,7 +70,7 @@ const blogsData = [
     summary: "Exploring proactive assistants beyond prompts and chat. What changes when systems help at the right moment, without being asked?",
     thumbnail: sidekickThumb,
     links: [
-      { label: "Substack", url: "https://open.substack.com/pub/harishkk/p/sidekick-from-passive-to-proactive?r=75hdfc&utm_campaign=post&utm_medium=web" },
+      { label: "Post", url: "https://open.substack.com/pub/harishkk/p/sidekick-from-passive-to-proactive?r=75hdfc&utm_campaign=post&utm_medium=web" },
       { label: "GitHub", url: "https://github.com/harishk30/Sidekick" }
     ]
   }
@@ -82,12 +82,14 @@ const footnotes = {
     content: (
       <div className="footnote-courses">
         <p className="footnote-intro">Some interesting courses I've taken at Princeton include —</p>
-        <p className="footnote-note">* denotes a graduate course</p>
+        <p className="footnote-note">* denotes a graduate course, <span className="in-progress">blue</span> denotes in progress</p>
 
         <p className="footnote-category">Computer Science:</p>
         <ul>
           <li>COS 418 | Distributed Systems</li>
+          <li className="in-progress">COS 423 | Theory of Algorithms</li>
           <li>ECE 435 | Machine Learning and Pattern Recognition</li>
+          <li className="in-progress">ECE 476 | Parallel Computing</li>
           <li>ECE 524* | Foundations of Reinforcement Learning</li>
           <li>COS 598A* | AI Safety & Alignment</li>
         </ul>
@@ -97,10 +99,12 @@ const footnotes = {
           <li>PHY 105 | Advanced Mechanics</li>
           <li>PHY 207 | From Classical to Quantum Mechanics</li>
           <li>PHY 208 | Quantum Mechanics</li>
+          <li className="in-progress">AST/PHY 401 | Cosmology</li>
         </ul>
 
         <p className="footnote-category">Misc:</p>
         <ul>
+          <li className="in-progress">COS/SPI 351 | Tech Policy and Law</li>
           <li>ORF 309 | Probability and Stochastic Systems</li>
           <li>SAN 101 | Introductory Sanskrit</li>
           <li>ITA 303 | Dante's Inferno</li>
@@ -269,8 +273,7 @@ function App() {
               </p>
 
               <p className="about-paragraph">
-                My current research interests include making more efficient reinforcement learning
-                algorithms and occasionally dabbling in vision
+                My current research centers on training tool-using reinforcement learning agents for automated scientific research, with some work in computer vision
                 <span
                   className={`footnote-marker ${clickedFootnote === 2 ? 'active' : ''}`}
                   onClick={() => handleFootnoteClick(2)}
