@@ -273,7 +273,7 @@ function App() {
               </p>
 
               <p className="about-paragraph">
-                My current research centers on training tool-using reinforcement learning agents for automated scientific research, with some work in computer vision
+                My current research centers on training tool-using reinforcement learning agents for automated scientific research, along with occasional projects in computer vision
                 <span
                   className={`footnote-marker ${clickedFootnote === 2 ? 'active' : ''}`}
                   onClick={() => handleFootnoteClick(2)}
