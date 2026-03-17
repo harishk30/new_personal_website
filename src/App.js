@@ -10,6 +10,7 @@ import gnnPreview from './assets/gnn_preview.jpg';
 
 // Blog thumbnail images
 import sidekickThumb from './assets/sidekick_thumb.jpg';
+import endlessTrajectoriesThumb from './assets/endless_trajectories_thumbnail.png';
 
 // Research data
 const researchData = [
@@ -66,6 +67,16 @@ const allTags = ["Reinforcement Learning", "Vision", "Astrophysics"];
 const blogsData = [
   {
     id: 1,
+    title: "Endless Trajectories: Web Page In, RL Dataset Out",
+    summary: "Turning live websites into scalable training data for browser agents. Endless Trajectories automatically explores sites, models their behavior, and produces verified RL trajectories for training and evaluation.",
+    thumbnail: endlessTrajectoriesThumb,
+    links: [
+      { label: "Post", url: "https://builder.aws.com/content/3B2zWf1O982tjqQItYFYUDOUBdF/endless-trajectories-web-page-in-rl-dataset-out" },
+      { label: "GitHub", url: "https://github.com/ashtonchew/endless-trajectories" }
+    ]
+  },
+  {
+    id: 2,
     title: "Sidekick: From Passive to Proactive Assistants",
     summary: "Exploring proactive assistants beyond prompts and chat. What changes when systems help at the right moment, without being asked?",
     thumbnail: sidekickThumb,
