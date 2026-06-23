@@ -7,15 +7,44 @@ import headshotImage from './assets/harish_headshot.jpg';
 import xSagaPreview from './assets/xSagaPreview.png';
 import ringPreview from './assets/ring_preview.png';
 import gnnPreview from './assets/gnn_preview.jpg';
+import worldbenchPreview from './assets/worldbench.jpg';
 
 // Blog thumbnail images
 import sidekickThumb from './assets/sidekick_thumb.jpg';
-import endlessTrajectoriesThumb from './assets/endless_trajectories_thumbnail.png';
 
 // Research data
 const researchData = [
   {
     id: 1,
+    title: "WorldBench: A Challenging and Visually Diverse Multimodal Reasoning Benchmark",
+    authors: [
+      { name: "Yida Yin*", url: "https://davidyyd.github.io/" },
+      { name: "Harish Krishnakumar*", isMe: true },
+      { name: "Chung Peng Lee", url: "https://anderson-lee-git.github.io/" },
+      { name: "Boya Zeng", url: "https://boyazeng.github.io/" },
+      { name: "Wenhao Chai", url: "https://wenhaochai.com" },
+      { name: "Shengbang Tong", url: "https://tsb0601.github.io" },
+      { name: "Wenhu Chen", url: "https://wenhuchen.github.io/" },
+      { name: "Hu Xu", url: "https://howardhsu.github.io/" },
+      { name: "Xingyu Fu", url: "https://zeyofu.github.io" },
+      { name: "Gabriel Sarch", url: "https://gabesarch.me/" },
+      { name: "Aleksandra Korolova", url: "https://www.korolova.com/" },
+      { name: "Zhuang Liu", url: "https://liuzhuang13.github.io/" }
+    ],
+    description: "A challenging and visually diverse benchmark for evaluating multimodal reasoning across real-world visual domains.",
+    tags: ["Vision"],
+    badges: [],
+    preview: worldbenchPreview,
+    previewFit: "contain",
+    links: [
+      { label: "Paper", url: "https://arxiv.org/abs/2606.06538" },
+      { label: "Dataset", url: "https://huggingface.co/datasets/zlab-princeton/WorldBench" },
+      { label: "Code", url: "https://github.com/zlab-princeton/WorldBench" },
+      { label: "Page", url: "https://worldbench-vl.github.io" }
+    ]
+  },
+  {
+    id: 2,
     title: "Extending the SAGA Survey (xSAGA). II. Satellite Properties of Low-Redshift Milky Way and Local Group Analogs",
     authors: [
       { name: "Harish Krishnakumar", isMe: true },
@@ -27,11 +56,11 @@ const researchData = [
     preview: xSagaPreview,
     links: [
       { label: "Abstract", url: "https://ui.adsabs.harvard.edu/abs/2025AAS...24515812K/abstract" },
-      { label: "GitHub", url: "https://github.com/harishk30/DwarfGalaxyAnalysis" }
+      { label: "Code", url: "https://github.com/harishk30/DwarfGalaxyAnalysis" }
     ]
   },
   {
-    id: 2,
+    id: 3,
     title: "Analysis of Ring Galaxies Detected Using Deep Learning with Real and Simulated Data",
     authors: [
       { name: "Harish Krishnakumar", isMe: true },
@@ -43,11 +72,11 @@ const researchData = [
     preview: ringPreview,
     links: [
       { label: "Paper", url: "https://arxiv.org/abs/2210.11428" },
-      { label: "GitHub", url: "https://github.com/harishk30/RingGalaxiesCNNAnalysis" }
+      { label: "Code", url: "https://github.com/harishk30/RingGalaxiesCNNAnalysis" }
     ]
   },
   {
-    id: 3,
+    id: 4,
     title: "Using GNNs to Predict Cosmological Parameters from Heterogeneous Graphs of Galaxies",
     authors: [],
     description: "Applied Graph Neural Networks (GNNs) to predict cosmological parameters from graphs of galaxies. I was advised by Francisco Villaescusa-Navarro at the Center for Computational Astrophysics.",
@@ -56,7 +85,7 @@ const researchData = [
     badges: [],
     preview: gnnPreview,
     links: [
-      { label: "GitHub", url: "https://github.com/harishk30/CamelsHeteroGNN" }
+      { label: "Code", url: "https://github.com/harishk30/CamelsHeteroGNN" }
     ]
   }
 ];
@@ -67,22 +96,12 @@ const allTags = ["Reinforcement Learning", "Vision", "Astrophysics"];
 const blogsData = [
   {
     id: 1,
-    title: "Endless Trajectories: Web Page In, RL Dataset Out",
-    summary: "Turning live websites into scalable training data for browser agents. Endless Trajectories automatically explores sites, models their behavior, and produces verified RL trajectories for training and evaluation.",
-    thumbnail: endlessTrajectoriesThumb,
-    links: [
-      { label: "Post", url: "https://builder.aws.com/content/3B2zWf1O982tjqQItYFYUDOUBdF/endless-trajectories-web-page-in-rl-dataset-out" },
-      { label: "GitHub", url: "https://github.com/ashtonchew/endless-trajectories" }
-    ]
-  },
-  {
-    id: 2,
     title: "Sidekick: From Passive to Proactive Assistants",
     summary: "Exploring proactive assistants beyond prompts and chat. What changes when systems help at the right moment, without being asked?",
     thumbnail: sidekickThumb,
     links: [
       { label: "Post", url: "https://open.substack.com/pub/harishkk/p/sidekick-from-passive-to-proactive?r=75hdfc&utm_campaign=post&utm_medium=web" },
-      { label: "GitHub", url: "https://github.com/harishk30/Sidekick" }
+      { label: "Code", url: "https://github.com/harishk30/Sidekick" }
     ]
   }
 ];
@@ -337,6 +356,7 @@ function App() {
         {/* Research Section */}
         <section className="research-section" id="research">
           <h2 className="section-title">Research</h2>
+          <p className="section-note">* equal contribution</p>
 
           <div className="tag-filters">
             {allTags.map(tag => (
@@ -369,7 +389,11 @@ function App() {
                 )}
                 {research.preview && (
                   <div className="research-preview">
-                    <img src={research.preview} alt={research.title} className="research-preview-img" />
+                    <img
+                      src={research.preview}
+                      alt={research.title}
+                      className={`research-preview-img ${research.previewFit === 'contain' ? 'contain' : ''}`}
+                    />
                   </div>
                 )}
                 <div className="research-card-content">
@@ -378,17 +402,17 @@ function App() {
                     <p className="research-authors">
                       {research.authors.map((author, index) => (
                         <span key={author.name}>
-                          {author.isMe ? (
-                            <strong>{author.name}</strong>
-                          ) : author.url ? (
+                          {author.url ? (
                             <a
                               href={author.url}
                               className="text-link"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              {author.name}
+                              {author.isMe ? <strong>{author.name}</strong> : author.name}
                             </a>
+                          ) : author.isMe ? (
+                            <strong>{author.name}</strong>
                           ) : (
                             <span>{author.name}</span>
                           )}
@@ -487,4 +511,3 @@ function App() {
 }
 
 export default App;
-
