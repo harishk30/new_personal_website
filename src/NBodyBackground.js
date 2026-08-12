@@ -6,6 +6,10 @@ const FIXED_STEP = 1 / 120;
 const MAX_STEPS = 5;
 const TRAIL_LIFETIME_MS = 6500;
 const TRAIL_SAMPLE_MS = 70;
+const DESKTOP_USER_BODY_LIMIT = 12;
+const MOBILE_USER_BODY_LIMIT = 6;
+const TAP_MOVE_TOLERANCE = 12;
+const TAP_DURATION_MS = 500;
 
 function seededRandom(seed = 47381) {
   let state = seed >>> 0;
@@ -17,18 +21,21 @@ function seededRandom(seed = 47381) {
 
 function createSystem(width, height) {
   const compact = width < 720;
-  const count = compact ? 22 : 46;
+  const baseCount = compact ? 22 : 46;
+  const userBodyLimit = compact ? MOBILE_USER_BODY_LIMIT : DESKTOP_USER_BODY_LIMIT;
+  const capacity = baseCount + userBodyLimit;
   const random = seededRandom(Math.round(width * 13 + height * 7));
-  const x = new Float32Array(count);
-  const y = new Float32Array(count);
-  const vx = new Float32Array(count);
-  const vy = new Float32Array(count);
-  const ax = new Float32Array(count);
-  const ay = new Float32Array(count);
-  const mass = new Float32Array(count);
-  const radius = new Float32Array(count);
-  const hue = new Uint8Array(count);
-  const history = Array.from({ length: count }, () => []);
+  const x = new Float32Array(capacity);
+  const y = new Float32Array(capacity);
+  const vx = new Float32Array(capacity);
+  const vy = new Float32Array(capacity);
+  const ax = new Float32Array(capacity);
+  const ay = new Float32Array(capacity);
+  const mass = new Float32Array(capacity);
+  const radius = new Float32Array(capacity);
+  const hue = new Uint8Array(capacity);
+  const userCreated = new Uint8Array(capacity);
+  const history = Array.from({ length: capacity }, () => []);
   const centerX = width / 2;
   const centerY = height / 2;
   const totalPrimaryMass = 132;
@@ -54,7 +61,7 @@ function createSystem(width, height) {
   const minOrbit = Math.max(primarySeparation * 0.8, compact ? 72 : 110);
   const maxOrbit = Math.max(minOrbit + 50, Math.min(width, height) * (compact ? 0.54 : 0.62));
 
-  for (let i = 2; i < count; i += 1) {
+  for (let i = 2; i < baseCount; i += 1) {
     const angle = random() * Math.PI * 2;
     const orbit = minOrbit + (maxOrbit - minOrbit) * Math.sqrt(random());
     const flatten = 0.72 + random() * 0.25;
@@ -73,17 +80,34 @@ function createSystem(width, height) {
   let totalMass = 0;
   let momentumX = 0;
   let momentumY = 0;
-  for (let i = 0; i < count; i += 1) {
+  for (let i = 0; i < baseCount; i += 1) {
     totalMass += mass[i];
     momentumX += vx[i] * mass[i];
     momentumY += vy[i] * mass[i];
   }
-  for (let i = 0; i < count; i += 1) {
+  for (let i = 0; i < baseCount; i += 1) {
     vx[i] -= momentumX / totalMass;
     vy[i] -= momentumY / totalMass;
   }
 
-  return { count, x, y, vx, vy, ax, ay, mass, radius, hue, history, random };
+  return {
+    count: baseCount,
+    baseCount,
+    capacity,
+    nextUserIndex: baseCount,
+    x,
+    y,
+    vx,
+    vy,
+    ax,
+    ay,
+    mass,
+    radius,
+    hue,
+    userCreated,
+    history,
+    random,
+  };
 }
 
 function NBodyBackground({ theme }) {
@@ -104,6 +128,7 @@ function NBodyBackground({ theme }) {
     const lightPalette = ['#315f68', '#4d6f7e', '#42675c', '#596584', '#56767d'];
     const darkPalette = ['#91bfc5', '#9bb6c5', '#91b5a7', '#a5acd0', '#a9c3c7'];
     const pointer = { active: false, x: 0, y: 0 };
+    let pendingDrop = null;
     let width = window.innerWidth;
     let height = window.innerHeight;
     let dpr = 1;
@@ -168,6 +193,50 @@ function NBodyBackground({ theme }) {
       }
     };
 
+    const dropBody = (dropX, dropY) => {
+      const {
+        baseCount,
+        capacity,
+        x,
+        y,
+        vx,
+        vy,
+        ax,
+        ay,
+        mass,
+        radius,
+        hue,
+        userCreated,
+        history,
+        random,
+      } = system;
+      const index = system.count < capacity ? system.count : system.nextUserIndex;
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const dx = dropX - centerX;
+      const dy = dropY - centerY;
+      const distance = Math.max(Math.hypot(dx, dy), SOFTENING * 2);
+      const orbitalSpeed = Math.sqrt((G * 132) / distance) * (0.72 + random() * 0.2);
+      const direction = random() < 0.14 ? -1 : 1;
+
+      x[index] = dropX;
+      y[index] = dropY;
+      vx[index] = (-dy / distance) * orbitalSpeed * direction + (random() - 0.5) * 2;
+      vy[index] = (dx / distance) * orbitalSpeed * direction + (random() - 0.5) * 2;
+      ax[index] = 0;
+      ay[index] = 0;
+      mass[index] = 1.3 + random() * 1.2;
+      radius[index] = width < 720 ? 1.45 : 1.8;
+      hue[index] = Math.floor(random() * 5);
+      userCreated[index] = 1;
+      history[index].length = 0;
+
+      if (system.count < capacity) system.count += 1;
+      system.nextUserIndex = baseCount + ((index - baseCount + 1) % (capacity - baseCount));
+      staticFrameDrawn = false;
+      redrawRef.current = true;
+    };
+
     const respawnEscapedBodies = () => {
       const { count, x, y, vx, vy, mass, radius, hue, history, random } = system;
       const centerX = width / 2;
@@ -213,7 +282,7 @@ function NBodyBackground({ theme }) {
     };
 
     const draw = (time, recordTrail = true) => {
-      const { count, x, y, radius, hue, history } = system;
+      const { count, x, y, radius, hue, userCreated, history } = system;
       const isDark = themeRef.current === 'dark';
       const palette = isDark ? darkPalette : lightPalette;
       fillBackground(1);
@@ -243,6 +312,7 @@ function NBodyBackground({ theme }) {
           : (isDark ? 0.4 : 0.52) + (i % 5) * 0.05;
         const alpha = baseAlpha * quietFactor;
         const bodyRadius = radius[i];
+        const isUserBody = userCreated[i] === 1;
 
         if (trail.length > 1) {
           for (let point = 1; point < trail.length; point += 1) {
@@ -267,8 +337,8 @@ function NBodyBackground({ theme }) {
 
         context.beginPath();
         context.fillStyle = palette[hue[i]];
-        context.globalAlpha = alpha * 0.2;
-        context.arc(x[i], y[i], bodyRadius * 3.4, 0, Math.PI * 2);
+        context.globalAlpha = alpha * (isUserBody ? 0.3 : 0.2);
+        context.arc(x[i], y[i], bodyRadius * (isUserBody ? 4.2 : 3.4), 0, Math.PI * 2);
         context.fill();
 
         context.beginPath();
@@ -313,6 +383,43 @@ function NBodyBackground({ theme }) {
       pointer.x = event.clientX;
       pointer.y = event.clientY;
     };
+    const handlePointerDown = (event) => {
+      if (!event.isPrimary || event.button !== 0) return;
+      const target = event.target instanceof Element ? event.target : null;
+      const interactive = target?.closest(
+        'a, button, input, textarea, select, summary, label, [role="button"], [contenteditable="true"]',
+      );
+
+      pendingDrop = {
+        pointerId: event.pointerId,
+        x: event.clientX,
+        y: event.clientY,
+        time: performance.now(),
+        scrollX: window.scrollX,
+        scrollY: window.scrollY,
+        interactive: Boolean(interactive),
+      };
+    };
+    const handlePointerUp = (event) => {
+      if (!pendingDrop || pendingDrop.pointerId !== event.pointerId) return;
+      const movement = Math.hypot(event.clientX - pendingDrop.x, event.clientY - pendingDrop.y);
+      const scrollMovement = Math.hypot(
+        window.scrollX - pendingDrop.scrollX,
+        window.scrollY - pendingDrop.scrollY,
+      );
+      const elapsed = performance.now() - pendingDrop.time;
+      const shouldDrop =
+        !pendingDrop.interactive &&
+        movement <= TAP_MOVE_TOLERANCE &&
+        scrollMovement <= TAP_MOVE_TOLERANCE &&
+        elapsed <= TAP_DURATION_MS;
+
+      if (shouldDrop) dropBody(event.clientX, event.clientY);
+      pendingDrop = null;
+    };
+    const handlePointerCancel = () => {
+      pendingDrop = null;
+    };
     const handlePointerLeave = () => {
       pointer.active = false;
     };
@@ -325,6 +432,9 @@ function NBodyBackground({ theme }) {
     resize();
     window.addEventListener('resize', resize);
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
+    window.addEventListener('pointerdown', handlePointerDown, { passive: true });
+    window.addEventListener('pointerup', handlePointerUp, { passive: true });
+    window.addEventListener('pointercancel', handlePointerCancel, { passive: true });
     document.documentElement.addEventListener('mouseleave', handlePointerLeave);
     document.addEventListener('visibilitychange', handleVisibility);
     frameId = window.requestAnimationFrame(animate);
@@ -333,6 +443,9 @@ function NBodyBackground({ theme }) {
       window.cancelAnimationFrame(frameId);
       window.removeEventListener('resize', resize);
       window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerdown', handlePointerDown);
+      window.removeEventListener('pointerup', handlePointerUp);
+      window.removeEventListener('pointercancel', handlePointerCancel);
       document.documentElement.removeEventListener('mouseleave', handlePointerLeave);
       document.removeEventListener('visibilitychange', handleVisibility);
     };
