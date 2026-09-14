@@ -1,0 +1,1436 @@
+{
+  "title": "Prime Intellect Blogpost",
+  "documentId": "1HqP4nLDMz-PcZbxPhZgdVJgVZOjKsOAr9IqzIRUVE9k",
+  "revisionId": "ANLCKQlTgYhE15YrckljvUhlW6D-775jr0CukRACV7vxsUk6EnFxrLuXmD_Hl8fQ-bSQ2mtOI48VLD6o3vPBMnOudYesdftKSOtHpEYHOws",
+  "retrievedOn": "2026-09-13",
+  "paragraphs": [
+    {
+      "elements": [
+        {
+          "startIndex": 1,
+          "endIndex": 98,
+          "textRun": {
+            "content": "Is Bigger Always Better? Diagnosing How to Improve Vision-Language Models (VLMs) with WorldBench\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "headingId": "h.xqahz0coesa4",
+        "namedStyleType": "TITLE",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 98,
+          "endIndex": 99,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 99,
+          "endIndex": 407,
+          "textRun": {
+            "content": "When a VLM fails at a given task, it’s often instinctual to reach for a larger model. However, while certain failures can stem from missing knowledge or reasoning capacity, others can arise because of the model’s inability to inspect an image at inference time, which doesn’t necessarily change with scale. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 407,
+          "endIndex": 408,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 408,
+          "endIndex": 484,
+          "textRun": {
+            "content": "These failure modes suggest two distinct paths to improvement. The first is ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 484,
+          "endIndex": 491,
+          "textRun": {
+            "content": "scaling",
+            "textStyle": {
+              "bold": true
+            }
+          }
+        },
+        {
+          "startIndex": 491,
+          "endIndex": 605,
+          "textRun": {
+            "content": ", which can compound the knowledge “stored” by any given model and increase its capacity to reason. The second is ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 605,
+          "endIndex": 616,
+          "textRun": {
+            "content": "scaffolding",
+            "textStyle": {
+              "bold": true
+            }
+          }
+        },
+        {
+          "startIndex": 616,
+          "endIndex": 727,
+          "textRun": {
+            "content": ": giving the model a harness to let it programmatically zoom, enhance, and measure an image before answering. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 727,
+          "endIndex": 728,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 728,
+          "endIndex": 767,
+          "textRun": {
+            "content": "To investigate these mechanisms, I use ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 767,
+          "endIndex": 777,
+          "textRun": {
+            "content": "WorldBench",
+            "textStyle": {
+              "bold": true,
+              "underline": true,
+              "foregroundColor": {
+                "color": {
+                  "rgbColor": {
+                    "red": 0.06666667,
+                    "green": 0.33333334,
+                    "blue": 0.8
+                  }
+                }
+              },
+              "link": {
+                "url": "https://worldbench-vl.github.io/"
+              }
+            }
+          }
+        },
+        {
+          "startIndex": 777,
+          "endIndex": 823,
+          "textRun": {
+            "content": ", now available as a Verifiers v1 environment ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 823,
+          "endIndex": 834,
+          "textRun": {
+            "content": "(link here)",
+            "textStyle": {
+              "italic": true
+            }
+          }
+        },
+        {
+          "startIndex": 834,
+          "endIndex": 1030,
+          "textRun": {
+            "content": " on the Prime Intellect platform. WorldBench is a 2,000-question VQA benchmark centered on visual diversity, with questions spanning multiple domains and requiring both knowledge and perception. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1030,
+          "endIndex": 1031,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1031,
+          "endIndex": 1229,
+          "textRun": {
+            "content": "I evaluate each problem with eight rollouts and report both Pass@1 and Pass@8. These experiments were done across four model sizes: Qwen-3.5 4B, Qwen-3.5 9B, Qwen-3.6 27B, and Qwen 3.5 397B (A17B).\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1229,
+          "endIndex": 1230,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1230,
+          "endIndex": 1257,
+          "textRun": {
+            "content": "What Improves With Scale? \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "headingId": "h.hfh5d2apptav",
+        "namedStyleType": "SUBTITLE",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1257,
+          "endIndex": 1403,
+          "textRun": {
+            "content": "Across all model sizes, scaling consistently improves Pass@1, while Pass@8 remains relatively flat. This suggests that scaling often improves the ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 1403,
+          "endIndex": 1414,
+          "textRun": {
+            "content": "reliability",
+            "textStyle": {
+              "bold": true
+            }
+          }
+        },
+        {
+          "startIndex": 1414,
+          "endIndex": 1482,
+          "textRun": {
+            "content": " of a model discovering the right solution, while not expanding the ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 1482,
+          "endIndex": 1490,
+          "textRun": {
+            "content": "coverage",
+            "textStyle": {
+              "bold": true
+            }
+          }
+        },
+        {
+          "startIndex": 1490,
+          "endIndex": 1530,
+          "textRun": {
+            "content": " of the solutions the model can solve. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1530,
+          "endIndex": 1531,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1531,
+          "endIndex": 1532,
+          "inlineObjectElement": {
+            "inlineObjectId": "kix.8tw930gv76hy",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 1532,
+          "endIndex": 1533,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1533,
+          "endIndex": 1534,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1534,
+          "endIndex": 1630,
+          "textRun": {
+            "content": "To investigate this further, we classify every WorldBench question into one of four categories:\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1630,
+          "endIndex": 1655,
+          "textRun": {
+            "content": "Perception and extraction",
+            "textStyle": {
+              "bold": true
+            }
+          }
+        },
+        {
+          "startIndex": 1655,
+          "endIndex": 1704,
+          "textRun": {
+            "content": ": OCR, counting, attributes, and small details. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT",
+        "indentFirstLine": {
+          "magnitude": 18,
+          "unit": "PT"
+        },
+        "indentStart": {
+          "magnitude": 36,
+          "unit": "PT"
+        }
+      },
+      "bullet": {
+        "listId": "kix.rtgskug9ijba",
+        "textStyle": {
+          "underline": false
+        }
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1704,
+          "endIndex": 1728,
+          "textRun": {
+            "content": "Relational understanding",
+            "textStyle": {
+              "bold": true
+            }
+          }
+        },
+        {
+          "startIndex": 1728,
+          "endIndex": 1767,
+          "textRun": {
+            "content": ": spatial and temporal relationships. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT",
+        "indentFirstLine": {
+          "magnitude": 18,
+          "unit": "PT"
+        },
+        "indentStart": {
+          "magnitude": 36,
+          "unit": "PT"
+        }
+      },
+      "bullet": {
+        "listId": "kix.rtgskug9ijba",
+        "textStyle": {
+          "underline": false
+        }
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1767,
+          "endIndex": 1801,
+          "textRun": {
+            "content": "Logical and quantitative reasoning",
+            "textStyle": {
+              "bold": true
+            }
+          }
+        },
+        {
+          "startIndex": 1801,
+          "endIndex": 1852,
+          "textRun": {
+            "content": ": arithmetic, constants, and deductive reasoning. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT",
+        "indentFirstLine": {
+          "magnitude": 18,
+          "unit": "PT"
+        },
+        "indentStart": {
+          "magnitude": 36,
+          "unit": "PT"
+        }
+      },
+      "bullet": {
+        "listId": "kix.rtgskug9ijba",
+        "textStyle": {
+          "underline": false
+        }
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1852,
+          "endIndex": 1875,
+          "textRun": {
+            "content": "Knowledge and semantics",
+            "textStyle": {
+              "bold": true
+            }
+          }
+        },
+        {
+          "startIndex": 1875,
+          "endIndex": 1944,
+          "textRun": {
+            "content": ": world understanding, language, conventions, and domain knowledge. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT",
+        "indentFirstLine": {
+          "magnitude": 18,
+          "unit": "PT"
+        },
+        "indentStart": {
+          "magnitude": 36,
+          "unit": "PT"
+        }
+      },
+      "bullet": {
+        "listId": "kix.rtgskug9ijba",
+        "textStyle": {
+          "underline": false
+        }
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1944,
+          "endIndex": 1945,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT",
+        "indentFirstLine": {
+          "unit": "PT"
+        },
+        "indentStart": {
+          "unit": "PT"
+        }
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1945,
+          "endIndex": 1946,
+          "inlineObjectElement": {
+            "inlineObjectId": "kix.g2gztivq6a6d",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 1946,
+          "endIndex": 1947,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT",
+        "indentFirstLine": {
+          "unit": "PT"
+        },
+        "indentStart": {
+          "unit": "PT"
+        }
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1947,
+          "endIndex": 1948,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1948,
+          "endIndex": 2106,
+          "textRun": {
+            "content": "Across every category, Pass@1 increases with scale. Gains are particularly substantial in reasoning and knowledge. The same is not true for Pass@8, however. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2106,
+          "endIndex": 2107,
+          "inlineObjectElement": {
+            "inlineObjectId": "kix.bivcug1ekzwq",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 2107,
+          "endIndex": 2108,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2108,
+          "endIndex": 2109,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2109,
+          "endIndex": 2110,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2110,
+          "endIndex": 2275,
+          "textRun": {
+            "content": "In some cases, the largest model has the lowest coverage. Therefore, scale helps with reliability but doesn’t necessarily enable the model to solve “new” problems. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2275,
+          "endIndex": 2276,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2276,
+          "endIndex": 2322,
+          "textRun": {
+            "content": "When Is Scaffolding Useful? When Does It Hurt?",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 2322,
+          "endIndex": 2323,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "headingId": "h.uiu5qrldlbf1",
+        "namedStyleType": "SUBTITLE",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2323,
+          "endIndex": 2566,
+          "textRun": {
+            "content": "To see where harness changes can improve VLM performance, we measure the performance of Qwen-3.6 27B in the Codex harness across eight rollouts, allowing it to analyze images programmatically using Python, with Pillow and NumPy preinstalled. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2566,
+          "endIndex": 2567,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2567,
+          "endIndex": 2568,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2568,
+          "endIndex": 2569,
+          "inlineObjectElement": {
+            "inlineObjectId": "kix.54z9fnwapje3",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 2569,
+          "endIndex": 2570,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2570,
+          "endIndex": 2571,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2571,
+          "endIndex": 2752,
+          "textRun": {
+            "content": "Looking at the distribution of problems solved, we see that the number of questions solved at least once (Pass@8) increases. This suggests that the harness allows us to improve the ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 2752,
+          "endIndex": 2760,
+          "textRun": {
+            "content": "coverage",
+            "textStyle": {
+              "italic": true
+            }
+          }
+        },
+        {
+          "startIndex": 2760,
+          "endIndex": 2794,
+          "textRun": {
+            "content": " of the base Qwen-3.6 27B model. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2794,
+          "endIndex": 2795,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2795,
+          "endIndex": 2796,
+          "inlineObjectElement": {
+            "inlineObjectId": "kix.gyy0ewwv8oru",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 2796,
+          "endIndex": 2797,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2797,
+          "endIndex": 2798,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2798,
+          "endIndex": 2930,
+          "textRun": {
+            "content": "However, the variance across rollouts also increases – the number of problems solved successfully in all eight rollouts goes down. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2930,
+          "endIndex": 2931,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2931,
+          "endIndex": 2932,
+          "inlineObjectElement": {
+            "inlineObjectId": "kix.iva6ocwni2zy",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 2932,
+          "endIndex": 2933,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2933,
+          "endIndex": 2934,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2934,
+          "endIndex": 3681,
+          "textRun": {
+            "content": "We additionally see that using the harness benefits some categories more than others. Relational understanding sees the largest increase in Pass@8, at 4.3 percentage points, in contrast with a smaller gain of 0.6 percentage points in Pass@1. This suggests that scaffolding helps the model find more ways to approach difficult visual problems without necessarily reliably solving these problems. This is clearly shown in perception and extraction, where Pass@1 decreases by 1.8 percentage points and Pass@8 increases by 1.8 percentage points. The logical and quantitative reasoning category shows only a modest gain in Pass@8, suggesting that capabilities in this domain are largely possessed by the model itself and not amplified by the harness. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 3681,
+          "endIndex": 3682,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 3682,
+          "endIndex": 3780,
+          "textRun": {
+            "content": "(embed in trajectory examples of where scaffolding takes responses from 0/8 -> some solved here) \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 3780,
+          "endIndex": 3781,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 3781,
+          "endIndex": 4004,
+          "textRun": {
+            "content": "Scaffolding also changes how the model allocates its inference budget. Rather than requiring models to respond in a single turn, it allows models to alternate between using tools, doing analysis, and manipulating images.  \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 4004,
+          "endIndex": 4005,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 4005,
+          "endIndex": 4006,
+          "inlineObjectElement": {
+            "inlineObjectId": "kix.9gkikr752avz",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 4006,
+          "endIndex": 4007,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 4007,
+          "endIndex": 4008,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 4008,
+          "endIndex": 4278,
+          "textRun": {
+            "content": "We see that this interaction budget is not used uniformly, with mixed-outcome problems consuming more turns than those that are consistently passed or failed. This suggests that the model tends to explore more in scenarios where success is possible but not guaranteed. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 4278,
+          "endIndex": 4279,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 4279,
+          "endIndex": 4330,
+          "textRun": {
+            "content": "Conclusion: Scale and Scaffolding Are Complementary",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 4330,
+          "endIndex": 4331,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "headingId": "h.coxu3jw2lcq5",
+        "namedStyleType": "SUBTITLE",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 4331,
+          "endIndex": 4517,
+          "textRun": {
+            "content": "There’s no single best way to improve a VLM. Across these experiments, scaling improved single-attempt reliability, whereas scaffolding expanded the set of problems that were solvable. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 4517,
+          "endIndex": 4518,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 4518,
+          "endIndex": 4519,
+          "inlineObjectElement": {
+            "inlineObjectId": "kix.iz4t8osnmbm8",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 4519,
+          "endIndex": 4520,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 4520,
+          "endIndex": 4697,
+          "textRun": {
+            "content": "Moving from 4B to 27B improved Pass@1 substantially, with a much smaller change in Pass@8; adding a harness at 27B improved Pass@8 while leaving Pass@1 approximately unchanged.\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 4697,
+          "endIndex": 4698,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 4698,
+          "endIndex": 5021,
+          "textRun": {
+            "content": "This is also supported by the trajectories, which show that cropping and inspecting images enable the model to answer questions that it previously missed in all eight attempts, with the largest coverage gains in relational understanding. However, making a problem solvable is not the same as making its solution reliable. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 5021,
+          "endIndex": 5022,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 5022,
+          "endIndex": 5311,
+          "textRun": {
+            "content": "The next challenge is to turn tool-assisted successes into consistent performance improvements. This should be done by testing harnesses across scales, training models to work within visual harnesses effectively, and improving performance by means of a better training data distribution. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 5311,
+          "endIndex": 5312,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 5312,
+          "endIndex": 5592,
+          "textRun": {
+            "content": "To conclude, improving a VLM’s performance for your intended task shouldn’t just be done by choosing the “better” model. Instead, consider the capabilities your task requires and use your judgement to decide whether the right lever is scale, a better inference harness, or both. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 5592,
+          "endIndex": 5593,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 5593,
+          "endIndex": 5610,
+          "textRun": {
+            "content": "Acknowledgements\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "headingId": "h.q4q69pvkk5sv",
+        "namedStyleType": "SUBTITLE",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 5610,
+          "endIndex": 5854,
+          "textRun": {
+            "content": "This work was conducted as part of the Prime Intellect RL Residency. I would like to thank Sebastian Müller for his invaluable mentorship and support and Prime Intellect for providing me with the compute necessary to conduct these experiments. ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 5854,
+          "endIndex": 5855,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 5855,
+          "endIndex": 5856,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    }
+  ]
+}

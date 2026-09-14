@@ -1,0 +1,262 @@
+{
+  "provenance": {
+    "scaling": "analysis/worldbench/worldbench_model_size_primary_category_metrics.json; verified against derived_scores/worldbench_*_task_scores.tsv",
+    "histogram": "plots/plot_worldbench_qwen36_27b_codex_histogram.py and source Google Doc figure",
+    "problems": 2000,
+    "rolloutsPerProblem": 8,
+    "scaffolding": "evals/worldbench/qwen36_27b_codex_pillow_pass8_reasoning_preserved_first100_c8_20260823/shards/task_*/eval_output/traces.jsonl; 16000 unique traces, 2000 complete groups"
+  },
+  "overall": [
+    {
+      "model": "4B",
+      "pass1": 46.7375,
+      "pass8": 79.45,
+      "correct": 7478,
+      "rollouts": 16000,
+      "passed": 1589,
+      "problems": 2000
+    },
+    {
+      "model": "9B",
+      "pass1": 49.21875,
+      "pass8": 78.2,
+      "correct": 7875,
+      "rollouts": 16000,
+      "passed": 1564,
+      "problems": 2000
+    },
+    {
+      "model": "27B",
+      "pass1": 55.25,
+      "pass8": 80.10000000000001,
+      "correct": 8840,
+      "rollouts": 16000,
+      "passed": 1602,
+      "problems": 2000
+    },
+    {
+      "model": "397B",
+      "pass1": 59.06875,
+      "pass8": 77.35,
+      "correct": 9451,
+      "rollouts": 16000,
+      "passed": 1547,
+      "problems": 2000
+    }
+  ],
+  "categories": [
+    {
+      "id": "perception_and_extraction",
+      "label": "Perception and extraction",
+      "problems": 735,
+      "values": [
+        {
+          "model": "4B",
+          "pass1": 47.31292517006803,
+          "pass8": 79.45578231292517
+        },
+        {
+          "model": "9B",
+          "pass1": 51.59863945578231,
+          "pass8": 80.1360544217687
+        },
+        {
+          "model": "27B",
+          "pass1": 57.61904761904761,
+          "pass8": 80.40816326530611
+        },
+        {
+          "model": "397B",
+          "pass1": 59.54081632653061,
+          "pass8": 78.50340136054422
+        }
+      ]
+    },
+    {
+      "id": "relational_understanding",
+      "label": "Relational understanding",
+      "problems": 761,
+      "values": [
+        {
+          "model": "4B",
+          "pass1": 43.42969776609724,
+          "pass8": 79.23784494086728
+        },
+        {
+          "model": "9B",
+          "pass1": 43.51182654402103,
+          "pass8": 73.98160315374507
+        },
+        {
+          "model": "27B",
+          "pass1": 50.44349540078844,
+          "pass8": 78.18659658344284
+        },
+        {
+          "model": "397B",
+          "pass1": 54.91130091984231,
+          "pass8": 75.42706964520369
+        }
+      ]
+    },
+    {
+      "id": "logical_and_quantitative_reasoning",
+      "label": "Logical and quantitative reasoning",
+      "problems": 317,
+      "values": [
+        {
+          "model": "4B",
+          "pass1": 50.03943217665615,
+          "pass8": 78.54889589905363
+        },
+        {
+          "model": "9B",
+          "pass1": 54.337539432176655,
+          "pass8": 80.12618296529969
+        },
+        {
+          "model": "27B",
+          "pass1": 58.753943217665615,
+          "pass8": 82.64984227129337
+        },
+        {
+          "model": "397B",
+          "pass1": 64.90536277602523,
+          "pass8": 79.49526813880126
+        }
+      ]
+    },
+    {
+      "id": "knowledge_and_semantics",
+      "label": "Knowledge and semantics",
+      "problems": 187,
+      "values": [
+        {
+          "model": "4B",
+          "pass1": 52.33957219251337,
+          "pass8": 81.81818181818183
+        },
+        {
+          "model": "9B",
+          "pass1": 54.41176470588235,
+          "pass8": 84.49197860962568
+        },
+        {
+          "model": "27B",
+          "pass1": 59.55882352941176,
+          "pass8": 82.35294117647058
+        },
+        {
+          "model": "397B",
+          "pass1": 64.2379679144385,
+          "pass8": 77.00534759358288
+        }
+      ]
+    }
+  ],
+  "histogram": [
+    {
+      "successes": 0,
+      "null": 398,
+      "codex": 347
+    },
+    {
+      "successes": 1,
+      "null": 164,
+      "codex": 165
+    },
+    {
+      "successes": 2,
+      "null": 142,
+      "codex": 165
+    },
+    {
+      "successes": 3,
+      "null": 141,
+      "codex": 144
+    },
+    {
+      "successes": 4,
+      "null": 113,
+      "codex": 141
+    },
+    {
+      "successes": 5,
+      "null": 123,
+      "codex": 150
+    },
+    {
+      "successes": 6,
+      "null": 133,
+      "codex": 162
+    },
+    {
+      "successes": 7,
+      "null": 184,
+      "codex": 209
+    },
+    {
+      "successes": 8,
+      "null": 602,
+      "codex": 517
+    }
+  ],
+  "scaffolding": [
+    {
+      "setup": "NullHarness",
+      "pass1": 55.25,
+      "pass8": 80.10000000000001
+    },
+    {
+      "setup": "Codex harness",
+      "pass1": 55.074999999999996,
+      "pass8": 82.65
+    }
+  ],
+  "categoryDeltas": [
+    {
+      "category": "Perception and extraction",
+      "problems": 735,
+      "pass1": -1.8367346938775526,
+      "pass8": 1.7687074829932072
+    },
+    {
+      "category": "Relational understanding",
+      "problems": 761,
+      "pass1": 0.6406044678055167,
+      "pass8": 4.336399474375824
+    },
+    {
+      "category": "Logical and quantitative reasoning",
+      "problems": 317,
+      "pass1": 1.5378548895899087,
+      "pass8": 0.6309148264984401
+    },
+    {
+      "category": "Knowledge and semantics",
+      "problems": 187,
+      "pass1": 0.13368983957219882,
+      "pass8": 1.6042780748663148
+    }
+  ],
+  "turns": [
+    {
+      "outcome": "0/8",
+      "mean": 2.9495677233429394,
+      "assistantTurns": 8188,
+      "rollouts": 2776
+    },
+    {
+      "outcome": "1-7/8",
+      "mean": 3.8220730633802815,
+      "assistantTurns": 34735,
+      "rollouts": 9088
+    },
+    {
+      "outcome": "8/8",
+      "mean": 2.28747582205029,
+      "assistantTurns": 9461,
+      "rollouts": 4136
+    }
+  ]
+}
