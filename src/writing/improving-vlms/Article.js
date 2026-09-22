@@ -8,7 +8,7 @@ import { TraceExamples } from './traces';
 const figures = {
     'kix.8tw930gv76hy': { kind: 'overall', caption: 'Pass@1 and Pass@8 across model sizes' },
     'kix.g2gztivq6a6d': { kind: 'pass1', caption: 'Pass@1 by problem category' },
-    'kix.bivcug1ekzwq': { kind: 'pass8', caption: 'Pass@8 by problem category' },
+    'kix.bivcug1ekzwq': { kind: 'pass8', caption: 'Pass@8 by problem category. Bars show pointwise 95% Wilson confidence intervals over problems (perception: n = 735; relational: n = 761; reasoning: n = 317; knowledge: n = 187).' },
     'kix.54z9fnwapje3': { kind: 'histogram', caption: 'Qwen-3.6 27B rollout outcomes with and without the Codex harness' },
     'kix.gyy0ewwv8oru': { kind: 'scaffolding', caption: 'Qwen-3.6 27B Pass@1 and Pass@8 with and without the Codex harness' },
     'kix.iva6ocwni2zy': { kind: 'categoryDeltas', caption: 'Change in Pass@1 and Pass@8 by category with the Codex harness' },

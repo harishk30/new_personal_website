@@ -1,7 +1,8 @@
 'use client';
-import { Bar, BarChart, CartesianGrid, Cell, LabelList, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Cell, ErrorBar, LabelList, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from './ui';
 import data from './chart-data.json';
+import { pass8Interval } from './confidence';
 const config = {
     pass1: { label: 'Pass@1', color: 'var(--plot-blue)' },
     pass8: { label: 'Pass@8', color: 'var(--plot-green)' },
@@ -22,7 +23,7 @@ function Legend({ series }) {
     <span className={`legend-swatch ${key}`} style={{ background: config[key].color }} aria-hidden="true"/>{config[key].label}
   </li>)}</ul>;
 }
-function MetricLines({ values, metric, domain, ticks, title }) {
+function MetricLines({ values, metric, domain, ticks, title, confidence = false }) {
     const series = metric ? [metric] : ['pass1', 'pass8'];
     return <>
     <div className="y-axis-heading">{metric ? config[metric].label : 'Pass rate'}</div>
@@ -31,15 +32,18 @@ function MetricLines({ values, metric, domain, ticks, title }) {
         <CartesianGrid vertical={false} stroke="var(--line)"/>
         <XAxis dataKey="model" interval={0} tick={<ModelTick />} tickLine={false} axisLine={{ stroke: 'var(--line)' }} height={52} padding={{ left: 25, right: 36 }}/>
         <YAxis domain={domain} ticks={ticks} tickFormatter={v => `${v}%`} width={44} tickLine={false} axisLine={false} tickMargin={8}/>
-        <ChartTooltip cursor={{ stroke: 'var(--muted)', strokeDasharray: '3 4' }} content={<ChartTooltipContent className="chart-tooltip" labelFormatter={label => names[String(label)] || label} formatter={(value, name) => <div className="tooltip-row"><span>{config[name]?.label || name}</span><strong>{Number(value).toFixed(2)}%</strong></div>}/>}/>
+        <ChartTooltip cursor={{ stroke: 'var(--muted)', strokeDasharray: '3 4' }} content={<ChartTooltipContent className="chart-tooltip" labelFormatter={label => names[String(label)] || label} formatter={(value, name, item) => <><div className="tooltip-row"><span>{config[name]?.label || name}</span><strong>{Number(value).toFixed(2)}%</strong></div>{confidence && <div>95% CI: {percent(item.payload.pass8Lower)} to {percent(item.payload.pass8Upper)}</div>}</>}/>}/>
         {series.map(key => <Line key={key} type="linear" dataKey={key} stroke={metric ? 'var(--plot-blue)' : config[key].color} strokeWidth={2.6} dot={key === 'pass8' && !metric ? ({ cx, cy }) => <rect key={`${cx}-${cy}`} x={(cx ?? 0) - 4} y={(cy ?? 0) - 4} width={8} height={8} fill="var(--plot-green)"/> : { r: 4, fill: 'var(--plot-blue)', strokeWidth: 0 }} activeDot={{ r: 6, stroke: 'var(--paper)', strokeWidth: 2 }} isAnimationActive={false}>
-          <LabelList dataKey={key} position="top" offset={12} formatter={percent} fill={metric ? 'var(--plot-blue)' : config[key].color} className="point-label"/>
+          {confidence ? <ErrorBar dataKey="pass8Error" direction="y" width={5} stroke="var(--plot-blue)" strokeWidth={1.5} isAnimationActive={false}/> : <LabelList dataKey={key} position="top" offset={12} formatter={percent} fill={metric ? 'var(--plot-blue)' : config[key].color} className="point-label"/>}
         </Line>)}
+        {confidence && <Line dataKey="pass8Upper" stroke="none" dot={false} activeDot={false} tooltipType="none" legendType="none" isAnimationActive={false}>
+          <LabelList dataKey="pass8" position="top" offset={10} formatter={percent} fill="var(--plot-blue)" className="point-label"/>
+        </Line>}
       </LineChart>
     </ChartContainer>
     <div className="x-axis-heading">Model size</div>
-    <table className="sr-only"><caption>{title}</caption><thead><tr><th>Model</th>{series.map(key => <th key={key}>{config[key].label}</th>)}</tr></thead>
-      <tbody>{values.map(row => <tr key={row.model}><th>{names[row.model]}</th>{series.map(key => <td key={key}>{row[key]}%</td>)}</tr>)}</tbody>
+    <table className="sr-only"><caption>{title}</caption><thead><tr><th>Model</th>{series.map(key => <th key={key}>{config[key].label}</th>)}{confidence && <th>95% Wilson confidence interval</th>}</tr></thead>
+      <tbody>{values.map(row => <tr key={row.model}><th>{names[row.model]}</th>{series.map(key => <td key={key}>{row[key]}%</td>)}{confidence && <td>{percent(row.pass8Lower)} to {percent(row.pass8Upper)}</td>}</tr>)}</tbody>
     </table>
   </>;
 }
@@ -159,13 +163,14 @@ export function NativePlot({ kind, expanded = false }) {
       <MetricLines values={data.overall} domain={[40, 86]} ticks={[40, 50, 60, 70, 80]} title="Pass@1 and Pass@8 across model sizes"/>
     </> : <>
       <div className="chart-grid">{data.categories.map(category => {
-                const values = category.values.map(row => row[kind]);
-                const lower = Math.max(0, Math.floor((Math.min(...values) - 3.5) / 5) * 5);
-                const upper = Math.min(100, Math.ceil((Math.max(...values) + 3.5) / 5) * 5);
+                const confidence = kind === 'pass8';
+                const rows = category.values.map(row => confidence ? { ...row, ...pass8Interval(row.passed, category.problems) } : row);
+                const lower = Math.max(0, Math.floor((Math.min(...rows.map(row => confidence ? row.pass8Lower : row[kind])) - 3.5) / 5) * 5);
+                const upper = Math.min(100, Math.ceil((Math.max(...rows.map(row => confidence ? row.pass8Upper : row[kind])) + 3.5) / 5) * 5);
                 const ticks = Array.from({ length: Math.round((upper - lower) / 5) + 1 }, (_, i) => lower + i * 5);
                 return <section className="chart-panel" key={category.id} aria-label={category.label}>
           <h4>{category.label}</h4>
-          <MetricLines values={category.values} metric={kind} domain={[lower, upper]} ticks={ticks} title={`${category.label}: ${config[kind].label}`}/>
+          <MetricLines values={rows} metric={kind} domain={[lower, upper]} ticks={ticks} confidence={confidence} title={`${category.label}: ${config[kind].label}`}/>
         </section>;
             })}</div>
     </>}
