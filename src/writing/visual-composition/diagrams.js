@@ -36,10 +36,10 @@ export function EncoderDiagram() {
         </g>
         <text x="275" y="146" className="stage-label">Projector</text>
         <text x="382" y="35" className="token-label">Image tokens</text>
-        <g className="image-token-stack">{[0,1,2,3,4].map(i=><rect key={`image-${i}`} x="357" y={52+i*11} width="50" height="8" rx="2" fill="var(--diagram-sea)" opacity={.5+i*.12} />)}</g>
+        <g className="image-token-stack">{[0,1,2,3,4].map(i=><rect key={`image-${i}`} x="357" y={52+i*11} width="50" height="8" rx="2" fill="var(--diagram-sea)" />)}</g>
         <text x="46" y="196" className="stage-label">Question</text>
         <text x="382" y="195" className="token-label">Text tokens</text>
-        <g className="text-token-stack">{[0,1,2,3,4].map(i=><rect key={`text-${i}`} x="357" y={117+i*11} width="50" height="8" rx="2" fill="var(--diagram-copper)" opacity={.5+i*.12} />)}</g>
+        <g className="text-token-stack">{[0,1,2,3,4].map(i=><rect key={`text-${i}`} x="357" y={117+i*11} width="50" height="8" rx="2" fill="var(--diagram-copper)" />)}</g>
         <path d="M419 51 Q425 51 425 57 V163 Q425 170 419 170" fill="none" stroke="var(--diagram-wire)" />
         <path d="M501 72 H489 V152 H501 M581 72 H593 V152 H581" fill="none" stroke="var(--diagram-wire)" strokeWidth="1" />
         <text x="541" y="103" className="language-label"><tspan x="541">Language</tspan><tspan x="541" dy="23">model</tspan></text>
