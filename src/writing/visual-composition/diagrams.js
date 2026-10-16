@@ -137,7 +137,7 @@ export function HarnessComparison() {
         {lane('With a harness',withHarness,true)}
       </div>
     </div>
-    <Caption number={2}>A harness can turn a single global question into a sequence of local inspections, then combine their evidence into an answer.</Caption>
+    <Caption number={2}>A harness can turn a single global question into a sequence of local inspections, then combine their evidence into an answer. (Click a segment to view the trajectory.)</Caption>
     <div id={panelId} hidden={!selected} className="example-disclosure" role="region" aria-label="Qwen 3.6 27B example">
       {selected && <>
         <div className="example-heading">
