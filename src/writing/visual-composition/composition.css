@@ -1,124 +1,73 @@
-.composition-page { --diagram-wash: rgba(79,116,128,.055); --diagram-visual: #367c73; --diagram-text: #866446; }
-:root[data-theme='dark'] .composition-page { --diagram-wash: rgba(143,183,193,.045); --diagram-visual: #91c9b9; --diagram-text: #d4b38e; }
+.composition-page { --diagram-visual: #367c73; --diagram-text: #866446; --diagram-model: #716186; }
+:root[data-theme='dark'] .composition-page { --diagram-visual: #91c9b9; --diagram-text: #d4b38e; --diagram-model: #bdb0d0; }
 .composition-page .composition-subtitle { color: var(--muted); font-size: 20px; line-height: 1.5; margin: 16px 0 0; }
 .composition-page #introduction { scroll-margin-top: 28px; }
 .composition-page .article-header h1 { max-width: 720px; }
-.composition-page .composition-figure { margin: 44px 0 48px; width: 100%; }
-.composition-page .composition-figure figcaption { max-width: 840px; }
-.composition-page .composition-arrow { flex: none; color: var(--soft); display: flex; align-items: center; justify-content: center; }
-.composition-page .diagram-block { border: 1px solid var(--line); padding: 10px 12px; font-size: 13px; font-weight: 500; text-align: center; border-radius: 2px; background: var(--diagram-wash); }
-.composition-page .encoder-flow { display: grid; grid-template-columns: minmax(0,1fr) 12px 34px 145px 34px 64px; align-items: center; padding: 36px 12px; border-block: 1px solid var(--line); font-size: 13px; }
-.composition-page .encoder-inputs { display: grid; gap: 24px; min-width: 0; }
-.composition-page .encoding-lane { display: grid; grid-template-columns: minmax(80px,1fr) 34px minmax(120px,1.2fr) 34px minmax(100px,1fr); align-items: center; gap: 6px; }
-.composition-page .diagram-image-input { display: flex; align-items: center; gap: 10px; }
-.composition-page .diagram-image-input img { width: 60px; height: 72px; object-fit: contain; background: var(--diagram-wash); }
-.composition-page .encoding-stack { display: grid; justify-items: center; gap: 5px; }
-.composition-page .encoding-stack .diagram-block { width: 100%; }
-.composition-page .encoding-stack > svg { color: var(--soft); }
-.composition-page .projector { font-size: 12px; padding-block: 6px; }
-.composition-page .token-sequence { display: grid; gap: 8px; text-align: center; font-size: 12px; color: var(--diagram-text); }
-.composition-page .token-sequence > div { display: flex; justify-content: center; gap: 5px; }
-.composition-page .token-sequence i { display: block; width: 17px; height: 23px; border: 1px solid currentColor; background: color-mix(in srgb,currentColor 12%,transparent); }
-.composition-page .visual-tokens { color: var(--diagram-visual); }
-.composition-page .prompt-input { display: flex; gap: 8px; align-items: center; }
-.composition-page .prompt-input svg { flex: none; color: var(--muted); }
-.composition-page .text-input-line { grid-column: span 3; border-top: 1px solid var(--line); position: relative; margin-inline: 4px; }
-.composition-page .text-input-line::after { content:''; position:absolute; right:0; top:-4px; width:6px; height:6px; border-right:1px solid var(--soft); border-top:1px solid var(--soft); transform:rotate(45deg); }
-.composition-page .input-merge { border: 1px solid var(--line); border-left: 0; height: 150px; margin-top: 10px; }
-.composition-page .language-model { min-height: 108px; display: grid; align-content: center; gap: 12px; font-size: 15px; }
-.composition-page .llm-label { color: var(--muted); font-size: 11px; }
-.composition-page .diagram-answer { font-weight: 500; }
-.composition-page .comparison-figure { border-top: 1px solid var(--line); padding-top: 28px; }
-.composition-page .comparison-question { max-width: 840px; margin-bottom: 24px; }
-.composition-page .comparison-kicker { display: flex; gap: 16px; color: var(--ink); font-size: 13px; font-weight: 600; }
-.composition-page .comparison-kicker span { color: var(--muted); font-weight: 400; text-transform: capitalize; }
-.composition-page .comparison-question > p { font-size: 21px; line-height: 1.5; font-weight: 500; margin: 12px 0 14px; }
-.composition-page .composition-options { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; padding: 0; font-size: 14px; margin: 0; }
-.composition-page .composition-options strong { color: var(--muted); margin-right: 3px; }
-.composition-page .comparison-paths { border-bottom: 1px solid var(--line); padding-bottom: 24px; }
-.composition-page .trace-node { border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 2px; padding: 10px 12px; cursor: pointer; transition: background .12s,border-color .12s; }
-.composition-page .trace-node[aria-selected='true'], .composition-page .trace-node:hover { background: var(--diagram-wash); border-color: var(--accent); }
-.composition-page .trace-node img { object-fit: contain; }
-.composition-page .shared-input { display: flex; width: 100%; gap: 16px; align-items: center; text-align: left; padding: 12px 18px; }
-.composition-page .shared-input > img { width: 100px; height: 90px; background: var(--diagram-wash); }
-.composition-page .shared-input > div { display: grid; gap: 4px; }
-.composition-page .shared-input > svg { margin-left: auto; flex: none; color: var(--muted); }
-.composition-page .trace-node-label { font-size: 14px; line-height: 1.5; }
-.composition-page .shared-input-note { font-size: 12px; color: var(--muted); }
-.composition-page .comparison-lane { display: grid; grid-template-columns: 166px minmax(0,1fr); gap: 24px; margin-top: 26px; align-items: center; }
-.composition-page .lane-label { display: grid; gap: 4px; font-size: 15px; line-height: 1.4; }
-.composition-page .lane-label > span { color: var(--muted); font-size: 12px; }
-.composition-page .lane-path { display: flex; gap: 12px; align-items: center; }
-.composition-page .plain-model-node { display: flex; gap: 22px; align-items: center; font-size: 14px; color: var(--muted); flex: 1; }
-.composition-page .plain-model-node > span:last-child { color: var(--ink); padding: 10px 22px; border: 1px solid var(--line); border-radius: 2px; }
-.composition-page .lane-path > .composition-arrow { flex: 1; justify-content: flex-end; }
-.composition-page .answer-node { min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; white-space: nowrap; }
-.composition-page .answer-node.correct { color: var(--plot-green); }
-.composition-page .answer-node.incorrect { color: var(--plot-coral); }
-.composition-page .harness-path { display: flex; align-items: center; gap: 12px; }
-.composition-page .tool-path-step { display: flex; flex: 1; min-width: 0; align-items: center; gap: 12px; }
-.composition-page .tool-node { display: grid; grid-template-columns: 18px minmax(0,1fr); align-items: center; gap: 8px; width: 100%; text-align: left; min-height: 116px; }
-.composition-page .tool-node img { width: 100%; height: 58px; }
-.composition-page .tool-node .trace-node-label { grid-column: 1/-1; font-size: 12px; }
-.composition-page .step-number { color: var(--soft); font-size: 11px; align-self: start; }
-.composition-page .composition-inspector { padding: 20px 0 22px; border-bottom: 1px solid var(--line); }
-.composition-page .inspector-heading { display: flex; justify-content: space-between; gap: 20px; font-size: 13px; font-weight: 600; margin-bottom: 18px; }
-.composition-page .reference-answer { color: var(--muted); font-weight: 400; }
-.composition-page .inspector-content { min-height: 310px; }
-.composition-page .inspector-content.has-image { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); gap: 32px; align-items: start; }
+.composition-page .composition-figure { max-width: 720px; width: 100%; margin: 36px auto 40px; }
+.composition-page .diagram-arrow { display: flex; justify-content: center; align-items: center; flex: none; color: var(--muted); }
+.composition-page .visual-tone { --node-color: var(--diagram-visual); }
+.composition-page .prompt-tone { --node-color: var(--diagram-text); }
+.composition-page .model-tone { --node-color: var(--diagram-model); }
+.composition-page .answer-tone { --node-color: var(--accent); }
+.composition-page .encoding-overview { display: grid; grid-template-columns: minmax(0,1fr) 8px 24px 64px 24px 48px; align-items: center; font-size: 12px; padding: 10px 0 14px; }
+.composition-page .encoding-inputs { display: grid; gap: 16px; }
+.composition-page .encoding-row { display: grid; grid-template-columns: minmax(40px,.6fr) 14px minmax(60px,1fr) 14px minmax(54px,.8fr) 14px minmax(54px,.8fr); gap: 2px; align-items: center; }
+.composition-page .encoding-source { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.composition-page .encoding-node { display: flex; align-items: center; justify-content: center; text-align: center; padding: 8px 5px; min-height: 44px; line-height: 1.35; color: var(--ink); background: color-mix(in srgb,var(--node-color) 11%,transparent); }
+.composition-page .encoding-tokens { color: var(--node-color); text-align: center; font-size: 11px; line-height: 1.35; }
+.composition-page .encoding-tokens > div { display: flex; gap: 3px; justify-content: center; margin-top: 5px; }
+.composition-page .encoding-tokens i { width: 10px; height: 16px; background: color-mix(in srgb,var(--node-color) 16%,transparent); border: 1px solid color-mix(in srgb,var(--node-color) 50%,transparent); }
+.composition-page .prompt-connector { grid-column: span 5; height: 1px; background: var(--line); margin-inline: 6px; }
+.composition-page .encoding-join { border-right: 1px solid var(--line); border-block: 1px solid var(--line); height: 77px; }
+.composition-page .encoding-answer { text-align: center; }
+.composition-page .concept-comparison { display: grid; gap: 24px; padding: 8px 0 10px; }
+.composition-page .concept-lane h3 { font-size: 14px; font-weight: 600; line-height: 1.4; margin: 0 0 10px; }
+.composition-page .concept-sequence { display: flex; align-items: center; gap: 6px; }
+.composition-page .concept-block { display: flex; align-items: center; justify-content: center; gap: 6px; flex: 1; min-width: 0; min-height: 64px; padding: 8px; border: 0; border-radius: 0; background: color-mix(in srgb,var(--node-color) 11%,transparent); color: var(--ink); cursor: pointer; font-size: 12px; line-height: 1.4; text-align: center; }
+.composition-page .concept-block > svg { flex: none; color: var(--node-color); }
+.composition-page .concept-block .block-expand { width: 10px; opacity: .6; }
+.composition-page .concept-block.wide-block { flex: 3.45; }
+.composition-page .concept-block:hover, .composition-page .concept-block[aria-expanded='true'] { background: color-mix(in srgb,var(--node-color) 20%,transparent); }
+.composition-page .concept-block[aria-expanded='true'] .block-expand { transform: rotate(180deg); }
+.composition-page .example-disclosure { border-block: 1px solid var(--line); margin-top: 22px; padding: 18px 0; }
+.composition-page .example-heading { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.composition-page .example-heading > div { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; font-size: 14px; }
+.composition-page .example-heading span { color: var(--muted); font-size: 12px; }
+.composition-page .example-close { display: flex; align-items: center; justify-content: center; flex: none; width: 30px; height: 30px; border: 0; background: transparent; color: var(--muted); cursor: pointer; }
+.composition-page .example-content.has-image { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 24px; align-items: start; }
+.composition-page .example-text { font-size: 14px; line-height: 1.7; min-width: 0; }
+.composition-page .example-text h4 { margin: 0 0 8px; font-size: 14px; font-weight: 600; }
+.composition-page .example-text p { margin: 0 0 12px; }
+.composition-page .example-options { list-style: none; padding: 0; margin: 12px 0; font-size: 12px; }
+.composition-page .example-options li { margin-bottom: 6px; }
+.composition-page .example-options strong { margin-right: 4px; color: var(--muted); }
+.composition-page .example-text blockquote { white-space: pre-line; border-left: 2px solid var(--line); padding-left: 14px; margin: 12px 0; }
+.composition-page .example-reference { font-size: 12px; color: var(--muted); }
+.composition-page .example-note { margin: 20px 0 0; font-size: 12px; line-height: 1.6; color: var(--muted); }
 .composition-page .composition-image { min-width: 0; }
-.composition-page .image-open { display: block; position: relative; width: 100%; padding: 0; border: 0; background: var(--diagram-wash); cursor: zoom-in; }
-.composition-page .image-open > img { display: block; width: 100%; height: 310px; object-fit: contain; }
-.composition-page .image-open-icon { position: absolute; right: 8px; bottom: 8px; box-sizing: content-box; padding: 6px; color: var(--ink); background: var(--paper); }
-.composition-page .inspector-text { font-size: 15px; line-height: 1.8; max-width: 720px; }
-.composition-page .inspector-text p { margin: 0 0 12px; }
-.composition-page .step-evidence summary { display: flex; align-items: center; gap: 7px; color: var(--accent); cursor: pointer; font-size: 13px; list-style: none; }
+.composition-page .image-open { position: relative; display: block; width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
+.composition-page .image-open > img { display: block; width: 100%; max-height: 300px; object-fit: contain; }
+.composition-page .image-open-icon { position: absolute; right: 4px; bottom: 4px; box-sizing: content-box; padding: 5px; color: var(--ink); background: var(--paper); }
+.composition-page .step-evidence summary { display: flex; align-items: center; gap: 7px; color: var(--accent); cursor: pointer; font-size: 12px; list-style: none; }
 .composition-page .step-evidence summary::-webkit-details-marker { display: none; }
 .composition-page .step-evidence[open] summary svg { transform: rotate(180deg); }
-.composition-page .step-evidence blockquote { margin: 16px 0; padding-left: 16px; border-left: 2px solid var(--line); white-space: pre-line; font-size: 14px; max-height: 350px; overflow: auto; }
-.composition-page .step-evidence pre { font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--diagram-wash); padding: 14px; max-height: 300px; overflow: auto; }
-.composition-page .composition-image-dialog { border: 1px solid var(--line); padding: 42px 18px 18px; border-radius: 3px; width: min(1080px,calc(100% - 28px)); max-width: none; max-height: 92dvh; background: var(--paper); color: var(--ink); }
+.composition-page .step-evidence pre { font-size: 11px; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--line); padding: 12px; max-height: 250px; overflow: auto; }
+.composition-page .composition-image-dialog { border: 1px solid var(--line); padding: 42px 18px 18px; border-radius: 2px; width: min(1080px,calc(100% - 28px)); max-width: none; max-height: 92dvh; background: var(--paper); color: var(--ink); }
 .composition-page .composition-image-dialog::backdrop { background: rgba(0,0,0,.7); }
-.composition-page .composition-image-dialog-content > img { display: block; max-width: 100%; max-height: calc(92dvh - 76px); width: auto; margin: auto; object-fit: contain; }
+.composition-page .composition-image-dialog > img { display: block; max-width: 100%; max-height: calc(92dvh - 76px); width: auto; margin: auto; object-fit: contain; }
 .composition-page .image-close { position: absolute; right: 8px; top: 6px; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0; border: 0; color: var(--ink); background: transparent; cursor: pointer; }
-@media(max-width:1000px) {
-  .composition-page .encoder-flow { grid-template-columns: minmax(0,1fr) 10px 24px 100px 24px 54px; padding-inline: 0; }
-  .composition-page .encoding-lane { grid-template-columns: minmax(60px,1fr) 22px minmax(90px,1fr) 22px 80px; gap: 3px; }
-  .composition-page .token-sequence i { width: 13px; }
-  .composition-page .diagram-image-input { flex-direction: column; gap: 5px; }
-  .composition-page .comparison-lane { grid-template-columns: 136px minmax(0,1fr); gap: 16px; }
-  .composition-page .harness-path, .composition-page .tool-path-step { gap: 8px; }
-}
-@media(max-width:720px) {
+@media(max-width:620px) {
   .composition-page .composition-subtitle { font-size: 18px; }
-  .composition-page .encoder-flow { grid-template-columns: minmax(0,1fr); padding: 24px 0; justify-items: stretch; }
-  .composition-page .encoding-lane { grid-template-columns: minmax(48px,1fr) 18px minmax(76px,1.2fr) 18px minmax(68px,1fr); gap: 3px; }
-  .composition-page .diagram-block { padding-inline: 6px; font-size: 12px; }
-  .composition-page .prompt-input { font-size: 12px; gap: 4px; flex-direction: column; }
-  .composition-page .diagram-image-input { font-size: 12px; }
-  .composition-page .encoder-inputs { gap: 22px; }
-  .composition-page .input-merge { border: 0; border-bottom: 1px solid var(--line); height: 22px; margin: 0 34px; }
-  .composition-page .merge-arrow { transform: rotate(90deg); height: 30px; }
-  .composition-page .language-model { width: 200px; margin: 0 auto; min-height: 68px; display: flex; align-items: center; justify-content: center; gap: 18px; }
-  .composition-page .answer-arrow { display: flex; transform: rotate(90deg); height: 28px; }
-  .composition-page .diagram-answer { display: block; text-align: center; }
-  .composition-page .comparison-lane { grid-template-columns: minmax(0,1fr); gap: 12px; }
-  .composition-page .lane-label { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-  .composition-page .comparison-question > p { font-size: 19px; }
-  .composition-page .harness-path { flex-wrap: wrap; align-items: stretch; }
-  .composition-page .tool-path-step { flex: 1 1 34%; }
-  .composition-page .tool-path-step > .composition-arrow { display: none; }
-  .composition-page .harness-path > .answer-node { width: 100%; margin-top: 4px; }
-  .composition-page .tool-node { min-height: 122px; }
-  .composition-page .shared-input { padding: 10px; gap: 12px; }
-  .composition-page .shared-input > img { width: 76px; height: 72px; }
-  .composition-page .shared-input > svg { display: none; }
-  .composition-page .plain-model-node { gap: 8px; font-size: 12px; }
-  .composition-page .plain-model-node > span:last-child { padding-inline: 12px; }
-  .composition-page .lane-path { gap: 8px; }
-  .composition-page .answer-node { font-size: 13px; padding-inline: 10px; }
-  .composition-page .inspector-content.has-image { grid-template-columns: minmax(0,1fr); gap: 20px; }
-  .composition-page .inspector-content { min-height: 420px; }
-  .composition-page .image-open > img { height: 270px; }
-  .composition-page .inspector-text { font-size: 14px; }
+  .composition-page .encoding-overview { grid-template-columns: minmax(0,1fr); justify-items: stretch; }
+  .composition-page .encoding-join { height: 16px; border: 0; border-bottom: 1px solid var(--line); margin-inline: 28px; }
+  .composition-page .encoding-exit { height: 22px; transform: rotate(90deg); }
+  .composition-page .encoding-llm { width: 100px; min-height: 32px; margin: auto; }
+  .composition-page .concept-sequence { flex-direction: column; gap: 5px; }
+  .composition-page .concept-sequence > .diagram-arrow { transform: rotate(90deg); }
+  .composition-page .concept-block { width: 100%; min-height: 40px; flex: none; font-size: 13px; }
+  .composition-page .concept-block.wide-block { flex: none; }
+  .composition-page .concept-comparison { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 18px; }
+  .composition-page .concept-block > svg:not(.block-expand) { display: none; }
+  .composition-page .concept-block { min-height: 58px; }
+  .composition-page .example-content.has-image { grid-template-columns: minmax(0,1fr); gap: 20px; }
 }
