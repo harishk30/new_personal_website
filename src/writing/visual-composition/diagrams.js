@@ -1,5 +1,5 @@
 import { useId, useRef, useState } from 'react';
-import { ArrowRight, Maximize2, X } from 'lucide-react';
+import { ArrowRight, Crop, ImageOff, Maximize2, X } from 'lucide-react';
 import Markdown from 'react-markdown';
 import traces from '../improving-vlms/trace-examples.json';
 import { reasoningMarkdown } from '../improving-vlms/trace-format';
@@ -76,35 +76,49 @@ function TraceText({ children }) {
   return <div className="saved-model-text"><Markdown components={{ img: () => null }}>{reasoningMarkdown(children)}</Markdown></div>;
 }
 
-function SavedSequence({ events }) {
-  return <div className="saved-sequence">
-    {events.map(event=><div key={event.node} className="saved-event">
-      {event.role==='assistant' && event.reasoning && <TraceText>{event.reasoning}</TraceText>}
-      {event.role==='assistant' && event.text && <TraceText>{event.text}</TraceText>}
+function ToolResult({ step }) {
+  return <div className="saved-tool">
+    {step.attempted && <p className="tool-status">Not executed; no tool result was recorded.</p>}
+    {step.results?.map(event=><div key={event.node}>
+      {event.text && <pre className="tool-output">{event.text.split('\nOutput:\n').at(-1)}</pre>}
       {event.images.map(picture=><ImageView key={picture.src} src={picture.src} alt={picture.label} reconstructed={picture.reconstructed} />)}
     </div>)}
+    <details className="tool-command"><summary>Tool call</summary>{step.commentary && <TraceText>{step.commentary}</TraceText>}<pre><code>{step.command}</code></pre></details>
   </div>;
 }
 
-const visibleEvents = events => events.filter(event => event.role==='assistant' || event.images.length);
-const harnessEvents = visibleEvents(example.events);
-const nullEvents = visibleEvents(example.withoutHarness.events);
-const inspections = example.events.flatMap((event,index) => event.images.map(picture=>{
-  const nextImage = example.events.findIndex((next,i)=>i>index && next.images.length);
-  return { picture, events:visibleEvents(example.events.slice(index,nextImage<0?undefined:nextImage)) };
-}));
-const commonInput = { image:example.input.src, input:true };
-const noHarness = [
-  { ...commonInput, id:'null-image',title:'Image',tone:'image-segment' },
-  { ...commonInput, id:'null-question',title:'Question',tone:'prompt-segment' },
-  { id:'null-reason',title:'Reasoning',tone:'reason-segment',events:nullEvents },
-];
-const withHarness = [
-  { ...commonInput, id:'harness-image',title:'Image',tone:'image-segment' },
-  { ...commonInput, id:'harness-question',title:'Question',tone:'prompt-segment' },
-  ...inspections.map(({picture,events},i)=>({ id:`crop-${i}`,title:i===0?'Inspect left':'Inspect right',crop_box:picture.box,events,tone:'inspection-segment' })),
-  { id:'combine',title:'Combine evidence',tone:'reason-segment',events:harnessEvents },
-];
+function sequence(events, prefix) {
+  let reasoningCount = 0;
+  const steps = [
+    { id:`${prefix}-image`,title:'Image',tone:'image-segment',input:true },
+    { id:`${prefix}-question`,title:'Question',tone:'prompt-segment',input:true },
+  ];
+  events.forEach((event,index)=>{
+    if(event.role!=='assistant') return;
+    // Textual tool attempts are not executed calls. Keep them separate without inventing results.
+    (event.reasoning || '').split(/(<tool_call>[\s\S]*?<\/tool_call>)/g).forEach((part,i)=>{
+      if(!part.trim()) return;
+      const attempted=part.startsWith('<tool_call>');
+      steps.push({ id:`${prefix}-${event.node}-${i}`,title:attempted?'Attempt':'Reasoning',
+        detail:attempted?'Unexecuted image-view attempt':`Reasoning ${++reasoningCount}`,
+        tone:attempted?'inspection-segment':'reason-segment',attempted,
+        ...(attempted?{command:part}:{text:part}) });
+    });
+    const next = events.findIndex((item,i)=>i>index && item.role!=='tool');
+    const results=events.slice(index+1,next<0?undefined:next).filter(item=>item.role==='tool');
+    event.calls.forEach((call,i)=>{
+      const picture=results.flatMap(item=>item.images)[0];
+      const crop=call.name==='exec_command';
+      steps.push({ id:`${prefix}-${event.node}-tool-${i}`,title:crop?'Crop':picture?.box[0]===0?'Left':'Right',
+        detail:call.name,tone:'inspection-segment',crop_box:picture?.box,
+        command:`${call.name}\n${call.arguments.cmd || JSON.stringify(call.arguments,null,2)}`,
+        commentary:event.text,results });
+    });
+  });
+  return steps;
+}
+const noHarness = sequence(example.withoutHarness.events,'null');
+const withHarness = sequence(example.events,'harness');
 
 export function HarnessComparison() {
   const panelId = useId();
@@ -112,25 +126,29 @@ export function HarnessComparison() {
   const lastTrigger = useRef(null);
   function close() { setSelected(null);lastTrigger.current?.focus(); }
   function block(step,label,harness) {
-    return <button key={step.id} type="button" className={`sequence-segment ${step.tone}`} title={`Show Qwen 3.6 27B example: ${step.title}`}
-      aria-label={`${label}: ${step.title}. Show Qwen example`} aria-expanded={selected?.id===step.id} aria-controls={panelId}
+    return <button key={step.id} type="button" className={`sequence-segment ${step.tone}`} title={`Show Qwen 3.6 27B example: ${step.detail || step.title}`}
+      aria-label={`${label}: ${step.detail || step.title}${step.verdict?`. ${step.verdict}`:''}. Show Qwen example`} aria-expanded={selected?.id===step.id} aria-controls={panelId}
       onClick={e=>{lastTrigger.current=e.currentTarget;setSelected(selected?.id===step.id?null:{...step,harness});}}>
-      {(step.tone==='image-segment' || step.crop_box) && <RegionIcon crop={step.crop_box} />}<span>{step.title}</span>
+      {(step.tone==='image-segment' || step.crop_box) && <RegionIcon crop={step.crop_box} />}
+      {step.command && !step.crop_box && (step.attempted?<ImageOff size={18} aria-hidden="true" />:<Crop size={18} aria-hidden="true" />)}
+      {step.tone!=='image-segment' && <span>{step.title}</span>}
+      {step.verdict && <span className="answer-verdict">{step.verdict}</span>}
     </button>;
   }
   function lane(label, steps, harness) {
-    const events=harness?harnessEvents:nullEvents;
+    const events=harness?example.events:example.withoutHarness.events;
     const reply=events.filter(event=>event.role==='assistant' && !event.calls.length && event.text).at(-1);
+    const correct=reply.text.match(/Answer:\s*([A-D])/i)?.[1]===example.answer;
     return <section className="concept-lane" aria-label={label}>
       <h3>{label}</h3>
       <div className="sequence-row">
-        <div className={`sequence-strip ${harness?'assisted-strip':'direct-strip'}`}>{steps.map(step=>block(step,label,harness))}</div>
+        <div className="sequence-strip" style={{gridTemplateColumns:steps.map(step=>step.tone==='reason-segment'?'minmax(64px,1fr)':step.tone==='prompt-segment'?'54px':'44px').join(' ')}}>{steps.map(step=>block(step,label,harness))}</div>
         <ArrowRight size={22} className="sequence-output-arrow" aria-hidden="true" />
-        {block({id:harness?'harness-answer':'null-answer',title:'Answer',tone:'answer-segment',text:reply.text},label,harness)}
+        {block({id:harness?'harness-answer':'null-answer',title:'Answer',tone:`answer-segment ${correct?'answer-correct':'answer-incorrect'}`,verdict:correct?'Correct':'Incorrect',text:reply.text},label,harness)}
       </div>
     </section>;
   }
-  return <figure className="composition-figure comparison-figure">
+  return <figure className="composition-figure comparison-figure" onKeyDown={e=>{if(e.key==='Escape' && selected && !e.target.closest('dialog')){e.stopPropagation();close();}}}>
     <div className="illustration-scroll" tabIndex={0} role="group" aria-label="Horizontal comparison of model calls with and without a harness">
       <div className="concept-comparison">
         {lane('No harness',noHarness,false)}
@@ -138,16 +156,16 @@ export function HarnessComparison() {
       </div>
     </div>
     <Caption number={2}>A harness can turn a single global question into a sequence of local inspections, then combine their evidence into an answer.</Caption>
-    <div id={panelId} hidden={!selected} className="example-disclosure" role="region" aria-label="Qwen 3.6 27B example" onKeyDown={e=>{if(e.key==='Escape' && !e.target.closest('dialog')){e.stopPropagation();close();}}}>
+    <div id={panelId} hidden={!selected} className="example-disclosure" role="region" aria-label="Qwen 3.6 27B example">
       {selected && <>
         <div className="example-heading">
           <button className="example-close" type="button" title="Close example" aria-label="Close example" onClick={close}><X size={18} /></button>
         </div>
         <div className={`example-content ${selected.input?'has-image':''}`}>
-          {selected.input && <ImageView src={selected.image} alt="Original webpage image" />}
+          {selected.input && <ImageView src={example.input.src} alt="Original webpage image" />}
           <div className="example-text">
             {selected.input && <><p>{example.question}</p><ul className="example-options">{Object.entries(example.options).map(([letter,value])=><li key={letter}><strong>{letter}</strong> {value}</li>)}</ul></>}
-            {selected.events && <SavedSequence events={selected.events} />}
+            {selected.command && <ToolResult key={selected.id} step={selected} />}
             {selected.text && <TraceText>{selected.text}</TraceText>}
           </div>
         </div>

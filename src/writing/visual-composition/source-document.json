@@ -2,7 +2,7 @@
   "documentId": "1HqP4nLDMz-PcZbxPhZgdVJgVZOjKsOAr9IqzIRUVE9k",
   "tab": "New Article",
   "tabId": "t.te5tt51hld0w",
-  "revision": "AHj4eMQ2ZRc4BrlM199eD0lyIgyb1xWuc0p8vMn15pElszJLydT963gB2Rw6zd2IWlk43KMdadAriBKjrvUjqXZU2EZEwp6bgSTRcjFhhjE",
+  "revision": "AHj4eMT3pURs9iKG8JzvoQFSHeh1UZBmhPEYDR7mIP6hoClfnSRcaUbHXTOT5rCGrPUdYE8Jm0if30C0fuMxraucELVraJTaJ-5ZN9tLFkg",
   "paragraphs": [
     {
       "elements": [
@@ -195,9 +195,9 @@
       "elements": [
         {
           "startIndex": 877,
-          "endIndex": 1073,
+          "endIndex": 1154,
           "textRun": {
-            "content": "In the visual domain, the harness matters just as much. The harness can not just break apart the question posed to the model, but also the image itself, cropping and rescaling particular regions.\n",
+            "content": "In the visual domain, the harness matters just as much. The harness can not just break apart the question posed to the model, but also the image itself, cropping and rescaling particular regions to surface visual information that might be inaccessible to the underlying model.\n",
             "textStyle": {}
           }
         }
@@ -210,8 +210,8 @@
     {
       "elements": [
         {
-          "startIndex": 1073,
-          "endIndex": 1074,
+          "startIndex": 1154,
+          "endIndex": 1155,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -226,8 +226,8 @@
     {
       "elements": [
         {
-          "startIndex": 1074,
-          "endIndex": 1113,
+          "startIndex": 1155,
+          "endIndex": 1194,
           "textRun": {
             "content": "Why is decomposition useful in vision?\n",
             "textStyle": {
@@ -244,8 +244,8 @@
     {
       "elements": [
         {
-          "startIndex": 1113,
-          "endIndex": 1114,
+          "startIndex": 1194,
+          "endIndex": 1195,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -260,8 +260,8 @@
     {
       "elements": [
         {
-          "startIndex": 1114,
-          "endIndex": 1115,
+          "startIndex": 1195,
+          "endIndex": 1196,
           "inlineObjectElement": {
             "inlineObjectId": "kix.abxcmli6i6c",
             "textStyle": {
@@ -270,8 +270,8 @@
           }
         },
         {
-          "startIndex": 1115,
-          "endIndex": 1117,
+          "startIndex": 1196,
+          "endIndex": 1198,
           "textRun": {
             "content": " \n",
             "textStyle": {}
@@ -286,8 +286,8 @@
     {
       "elements": [
         {
-          "startIndex": 1117,
-          "endIndex": 1118,
+          "startIndex": 1198,
+          "endIndex": 1199,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -302,8 +302,8 @@
     {
       "elements": [
         {
-          "startIndex": 1118,
-          "endIndex": 1202,
+          "startIndex": 1199,
+          "endIndex": 1283,
           "textRun": {
             "content": "(Generate a version of this diagram which has a LLM and these inputs to the left). \n",
             "textStyle": {}
@@ -318,8 +318,8 @@
     {
       "elements": [
         {
-          "startIndex": 1202,
-          "endIndex": 1203,
+          "startIndex": 1283,
+          "endIndex": 1284,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -334,16 +334,16 @@
     {
       "elements": [
         {
-          "startIndex": 1203,
-          "endIndex": 1258,
+          "startIndex": 1284,
+          "endIndex": 1339,
           "textRun": {
             "content": "VLMs typically encode images through what’s known as a ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 1258,
-          "endIndex": 1272,
+          "startIndex": 1339,
+          "endIndex": 1353,
           "textRun": {
             "content": "vision encoder",
             "textStyle": {
@@ -352,8 +352,8 @@
           }
         },
         {
-          "startIndex": 1272,
-          "endIndex": 1518,
+          "startIndex": 1353,
+          "endIndex": 1599,
           "textRun": {
             "content": ", which projects image inputs into the textual latent space (or a shared embedding space), such that they can be interpreted along with text. This has been remarkably useful to bridge the inherent knowledge of LLMs with multimodal capabilities. \n",
             "textStyle": {}
@@ -368,8 +368,8 @@
     {
       "elements": [
         {
-          "startIndex": 1518,
-          "endIndex": 1519,
+          "startIndex": 1599,
+          "endIndex": 1600,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -384,16 +384,16 @@
     {
       "elements": [
         {
-          "startIndex": 1519,
-          "endIndex": 1661,
+          "startIndex": 1600,
+          "endIndex": 1742,
           "textRun": {
             "content": "However, this representation is lossy with respect to the original image. It has been shown that passing an image through a vision encoder can",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 1661,
-          "endIndex": 1707,
+          "startIndex": 1742,
+          "endIndex": 1788,
           "textRun": {
             "content": " remove distinctions necessary to solve a task",
             "textStyle": {
@@ -414,16 +414,16 @@
           }
         },
         {
-          "startIndex": 1707,
-          "endIndex": 1753,
+          "startIndex": 1788,
+          "endIndex": 1834,
           "textRun": {
             "content": ". Even if this information survives encoding, ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 1753,
-          "endIndex": 1841,
+          "startIndex": 1834,
+          "endIndex": 1922,
           "textRun": {
             "content": "it isn’t guaranteed that the LLM can translate this representation into the right answer",
             "textStyle": {
@@ -444,8 +444,8 @@
           }
         },
         {
-          "startIndex": 1841,
-          "endIndex": 1844,
+          "startIndex": 1922,
+          "endIndex": 1925,
           "textRun": {
             "content": "! \n",
             "textStyle": {}
@@ -460,8 +460,8 @@
     {
       "elements": [
         {
-          "startIndex": 1844,
-          "endIndex": 1845,
+          "startIndex": 1925,
+          "endIndex": 1926,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -476,16 +476,16 @@
     {
       "elements": [
         {
-          "startIndex": 1845,
-          "endIndex": 1846,
+          "startIndex": 1926,
+          "endIndex": 1927,
           "inlineObjectElement": {
             "inlineObjectId": "kix.tpmsq37gadx0",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 1846,
-          "endIndex": 1847,
+          "startIndex": 1927,
+          "endIndex": 1928,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -500,8 +500,8 @@
     {
       "elements": [
         {
-          "startIndex": 1847,
-          "endIndex": 2384,
+          "startIndex": 1928,
+          "endIndex": 2465,
           "textRun": {
             "content": "(rework these diagrams similar to the experiments we ran, have “No Harness” be similar to OOD with just the image prompt (with an image thumbnail there), task prompt, and then answer, and “Harness” be similar to this, but we have a big image bar initially and we show that it’s decomposed. let’s also select a real example from luna harness v no harness experiments and have some way that we can actually see this comparison here (choose a good example where the composition can be seen and have some hovering way we can see this here))\n",
             "textStyle": {}
@@ -516,8 +516,8 @@
     {
       "elements": [
         {
-          "startIndex": 2384,
-          "endIndex": 2385,
+          "startIndex": 2465,
+          "endIndex": 2466,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -532,8 +532,8 @@
     {
       "elements": [
         {
-          "startIndex": 2385,
-          "endIndex": 2641,
+          "startIndex": 2466,
+          "endIndex": 2722,
           "textRun": {
             "content": "A visual harness can help address both bottlenecks. Cropping and zooming can give the vision encoder a second chance to represent relevant information, and targeted inspections/measurements can break down the problem into solvable, in-distribution tasks. \n",
             "textStyle": {}
@@ -548,8 +548,8 @@
     {
       "elements": [
         {
-          "startIndex": 2641,
-          "endIndex": 2642,
+          "startIndex": 2722,
+          "endIndex": 2723,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -564,40 +564,8 @@
     {
       "elements": [
         {
-          "startIndex": 2642,
-          "endIndex": 2956,
-          "textRun": {
-            "content": "This motivates well-executed compositions, where operations like crops can give the vision encoder a second chance to represent relevant information. Additionally, a problem can be broken down into solvable, in-distribution tasks. The challenge here is learning how to reliably decompose a problem in such a way. \n",
-            "textStyle": {}
-          }
-        }
-      ],
-      "paragraphStyle": {
-        "namedStyleType": "NORMAL_TEXT",
-        "direction": "LEFT_TO_RIGHT"
-      }
-    },
-    {
-      "elements": [
-        {
-          "startIndex": 2956,
-          "endIndex": 2957,
-          "textRun": {
-            "content": "\n",
-            "textStyle": {}
-          }
-        }
-      ],
-      "paragraphStyle": {
-        "namedStyleType": "NORMAL_TEXT",
-        "direction": "LEFT_TO_RIGHT"
-      }
-    },
-    {
-      "elements": [
-        {
-          "startIndex": 2957,
-          "endIndex": 2982,
+          "startIndex": 2723,
+          "endIndex": 2748,
           "textRun": {
             "content": "When does a harness help?",
             "textStyle": {
@@ -606,8 +574,8 @@
           }
         },
         {
-          "startIndex": 2982,
-          "endIndex": 2983,
+          "startIndex": 2748,
+          "endIndex": 2749,
           "textRun": {
             "content": "\n",
             "textStyle": {

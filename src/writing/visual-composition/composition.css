@@ -12,11 +12,9 @@
 .composition-page .encoder-illustration .token-label { fill: var(--muted); font-size: 12px; }
 .composition-page .concept-comparison { display: grid; width: 720px; gap: 24px; padding: 4px 0; }
 .composition-page .concept-lane h3 { position: sticky; left: 0; width: max-content; font-size: 14px; font-weight: 600; line-height: 1.4; margin: 0 0 10px; }
-.composition-page .sequence-row { display: grid; grid-template-columns: minmax(0,1fr) 40px 84px; align-items: center; }
+.composition-page .sequence-row { display: grid; grid-template-columns: minmax(0,1fr) 28px 84px; align-items: center; }
 .composition-page .sequence-strip { display: grid; height: 60px; }
-.composition-page .direct-strip { grid-template-columns: 86px 88px minmax(0,1fr); }
-.composition-page .assisted-strip { grid-template-columns: 86px 88px 130px 140px minmax(0,1fr); }
-.composition-page .sequence-segment { display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; height: 60px; padding: 6px; border: 0; border-bottom: 2px solid var(--diagram-wire); border-radius: 0; color: var(--ink); cursor: pointer; font-size: 13px; line-height: 1.35; text-align: center; transition: background-color .15s; }
+.composition-page .sequence-segment { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-width: 0; height: 60px; padding: 3px; border: 0; border-bottom: 2px solid var(--diagram-wire); border-radius: 0; color: var(--ink); cursor: pointer; font-size: 12px; line-height: 1.35; text-align: center; transition: background-color .15s; }
 .composition-page .sequence-segment > svg { flex: none; }
 .composition-page .sequence-strip .sequence-segment:first-child { border-radius: 4px 0 0 4px; }
 .composition-page .sequence-strip .sequence-segment:last-child { border-radius: 0 4px 4px 0; }
@@ -25,7 +23,13 @@
 .composition-page .reason-segment { background: var(--diagram-ink-wash); border-bottom-style: dashed; }
 .composition-page .inspection-segment { background: var(--diagram-copper-wash); border-color: var(--diagram-copper); }
 .composition-page .inspection-segment + .inspection-segment { border-left: 1px solid color-mix(in srgb,var(--diagram-copper) 35%,transparent); }
-.composition-page .answer-segment { background: transparent; border-color: var(--ink); height: 38px; font-weight: 600; }
+.composition-page .answer-segment { height: 60px; font-weight: 600; border-radius: 3px; }
+.composition-page .answer-correct { background: #d8ebdc; color: #285c38; border-color: #408151; }
+.composition-page .answer-incorrect { background: #f2dedb; color: #883e38; border-color: #b35c51; }
+:root[data-theme='dark'] .composition-page .answer-correct { background: #213d2e; color: #a7dbb2; border-color: #78b58b; }
+:root[data-theme='dark'] .composition-page .answer-incorrect { background: #442e2d; color: #f0b0a7; border-color: #d58e83; }
+.composition-page .answer-verdict { font-size: 11px; font-weight: 500; }
+.composition-page .inspection-segment { font-size: 10px; }
 .composition-page .region-icon { width: 30px; height: 24px; color: var(--diagram-sea); }
 .composition-page .inspection-segment .region-icon { color: var(--diagram-copper); }
 .composition-page .crop-highlight { fill: var(--diagram-copper); stroke: var(--diagram-copper); stroke-width: 9px; }
@@ -39,8 +43,12 @@
 .composition-page .example-content.has-image { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 24px; align-items: start; }
 .composition-page .example-text { font-size: 14px; line-height: 1.7; min-width: 0; }
 .composition-page .example-text p { margin: 0 0 12px; }
-.composition-page .saved-sequence { display: grid; gap: 18px; }
-.composition-page .saved-event:empty { display: none; }
+.composition-page .saved-tool { display: grid; gap: 16px; }
+.composition-page .saved-tool pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; line-height: 1.6; margin: 0; }
+.composition-page .tool-output { border-left: 2px solid var(--diagram-copper); padding-left: 14px; }
+.composition-page .tool-status { color: var(--muted); font-size: 13px; }
+.composition-page .tool-command summary { color: var(--muted); cursor: pointer; font-size: 12px; width: fit-content; }
+.composition-page .tool-command[open] summary { margin-bottom: 12px; }
 .composition-page .saved-model-text + .saved-model-text { margin-top: 18px; }
 .composition-page .saved-model-text pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; line-height: 1.6; }
 .composition-page .saved-model-text ul, .composition-page .saved-model-text ol { padding-left: 22px; }
