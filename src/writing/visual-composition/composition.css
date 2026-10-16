@@ -14,12 +14,11 @@
 .composition-page .concept-lane h3 { position: sticky; left: 0; width: max-content; font-size: 14px; font-weight: 600; line-height: 1.4; margin: 0 0 10px; }
 .composition-page .sequence-row { display: grid; grid-template-columns: minmax(0,1fr) 28px 84px; align-items: center; }
 .composition-page .sequence-strip { display: grid; height: 60px; }
-.composition-page .sequence-segment { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-width: 0; height: 60px; padding: 3px; border: 0; border-bottom: 2px solid var(--diagram-wire); border-radius: 0; color: var(--ink); cursor: pointer; font-size: 12px; line-height: 1.35; text-align: center; transition: background-color .15s; }
+.composition-page .sequence-segment { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-width: 0; height: 60px; padding: 6px; border: 0; border-bottom: 2px solid var(--diagram-wire); border-radius: 0; color: var(--ink); cursor: pointer; font-size: 13px; line-height: 1.35; text-align: center; transition: background-color .15s; }
 .composition-page .sequence-segment > svg { flex: none; }
 .composition-page .sequence-strip .sequence-segment:first-child { border-radius: 4px 0 0 4px; }
 .composition-page .sequence-strip .sequence-segment:last-child { border-radius: 0 4px 4px 0; }
 .composition-page .image-segment { background: var(--diagram-sea-wash); border-color: var(--diagram-sea); }
-.composition-page .prompt-segment { background: color-mix(in srgb,var(--diagram-sea-wash) 52%,var(--paper)); border-color: var(--diagram-sea); }
 .composition-page .reason-segment { background: var(--diagram-ink-wash); border-bottom-style: dashed; }
 .composition-page .inspection-segment { background: var(--diagram-copper-wash); border-color: var(--diagram-copper); }
 .composition-page .inspection-segment + .inspection-segment { border-left: 1px solid color-mix(in srgb,var(--diagram-copper) 35%,transparent); }
@@ -29,7 +28,7 @@
 :root[data-theme='dark'] .composition-page .answer-correct { background: #213d2e; color: #a7dbb2; border-color: #78b58b; }
 :root[data-theme='dark'] .composition-page .answer-incorrect { background: #442e2d; color: #f0b0a7; border-color: #d58e83; }
 .composition-page .answer-verdict { font-size: 11px; font-weight: 500; }
-.composition-page .inspection-segment { font-size: 10px; }
+.composition-page .inspection-segment { font-size: 11px; }
 .composition-page .region-icon { width: 30px; height: 24px; color: var(--diagram-sea); }
 .composition-page .inspection-segment .region-icon { color: var(--diagram-copper); }
 .composition-page .crop-highlight { fill: var(--diagram-copper); stroke: var(--diagram-copper); stroke-width: 9px; }
@@ -54,6 +53,8 @@
 .composition-page .composition-image { min-width: 0; }
 .composition-page .image-open { display: grid; width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
 .composition-page .image-open > img { display: block; width: 100%; max-height: 300px; object-fit: contain; }
+.composition-page .example-text > .composition-image .image-open { width: fit-content; max-width: 100%; margin: auto; }
+.composition-page .example-text > .composition-image .image-open > img { width: auto; max-width: 100%; max-height: 420px; }
 .composition-page .image-open-icon { justify-self: end; margin-top: 6px; box-sizing: content-box; padding: 5px; color: var(--ink); }
 .composition-page .composition-image-dialog { border: 1px solid var(--line); padding: 42px 18px 18px; border-radius: 2px; width: min(1080px,calc(100% - 28px)); max-width: none; max-height: 92dvh; background: var(--paper); color: var(--ink); }
 .composition-page .composition-image-dialog::backdrop { background: rgba(0,0,0,.7); }

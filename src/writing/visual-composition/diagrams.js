@@ -4,7 +4,7 @@ import Markdown from 'react-markdown';
 import traces from '../improving-vlms/trace-examples.json';
 import { reasoningMarkdown } from '../improving-vlms/trace-format';
 
-const example = traces.find(trace => trace.idx === 23);
+const example = traces.find(trace => trace.idx === 175);
 
 function Caption({ number, children }) {
   return <figcaption><span className="figure-number">Figure {number}</span><span>{children}</span></figcaption>;
@@ -79,23 +79,22 @@ function TraceText({ children }) {
 function sequence(events, prefix) {
   let reasoningCount = 0;
   const steps = [
-    { id:`${prefix}-image`,title:'Image',tone:'image-segment',input:true },
-    { id:`${prefix}-question`,title:'Question',tone:'prompt-segment',input:true },
+    { id:`${prefix}-image`,title:'Image',detail:'Original image and question',tone:'image-segment',input:true },
   ];
-  events.forEach((event,index)=>{
-    if(event.role!=='assistant') return;
-    // Display saved prose and image results only; retain the complete trace in the source data.
-    (event.reasoning || '').split(/(<tool_call>[\s\S]*?<\/tool_call>)/g).forEach((part,i)=>{
-      if(!part.trim() || part.startsWith('<tool_call>')) return;
-      steps.push({ id:`${prefix}-${event.node}-${i}`,title:'Reasoning',
-        detail:`Reasoning ${++reasoningCount}`,tone:'reason-segment',text:part,
-        commentary:event.calls.length?event.text:undefined });
-    });
-    const next = events.findIndex((item,i)=>i>index && item.role!=='tool');
-    const results=events.slice(index+1,next<0?undefined:next).filter(item=>item.role==='tool');
-    results.flatMap(item=>item.images).forEach((picture,i)=>{
-      steps.push({ id:`${prefix}-${event.node}-image-${i}`,title:picture.box[0]===0?'Left':'Right',
-        detail:picture.box[0]===0?'Inspect text':'Inspect sidebar',
+  events.forEach(event=>{
+    if(event.role==='assistant' && event.reasoning) {
+      // Group consecutive prose until the next viewed image, without summarizing it.
+      let step=steps.at(-1);
+      if(step.tone!=='reason-segment') {
+        step={id:`${prefix}-${event.node}-reason`,title:'Reasoning',detail:`Reasoning ${++reasoningCount}`,tone:'reason-segment',passages:[]};
+        steps.push(step);
+      }
+      step.passages.push(event.reasoning);
+      if(event.calls.length && event.text) step.passages.push(event.text);
+    }
+    event.images.forEach((picture,i)=>{
+      steps.push({ id:`${prefix}-${event.node}-image-${i}`,title:picture.label.replace(' pipe',''),
+        detail:`Inspect ${picture.label.toLowerCase()}`,
         tone:'inspection-segment',crop_box:picture.box,picture });
     });
   });
@@ -114,7 +113,7 @@ export function HarnessComparison() {
       aria-label={`${label}: ${step.detail || step.title}${step.verdict?`. ${step.verdict}`:''}. Show Qwen example`} aria-expanded={selected?.id===step.id} aria-controls={panelId}
       onClick={e=>{lastTrigger.current=e.currentTarget;setSelected(selected?.id===step.id?null:{...step,harness});}}>
       {(step.tone==='image-segment' || step.crop_box) && <RegionIcon crop={step.crop_box} />}
-      {step.tone!=='image-segment' && <span>{step.title}</span>}
+      <span>{step.title}</span>
       {step.verdict && <span className="answer-verdict">{step.verdict}</span>}
     </button>;
   }
@@ -125,7 +124,7 @@ export function HarnessComparison() {
     return <section className="concept-lane" aria-label={label}>
       <h3>{label}</h3>
       <div className="sequence-row">
-        <div className="sequence-strip" style={{gridTemplateColumns:steps.map(step=>step.tone==='reason-segment'?'minmax(64px,1fr)':step.tone==='prompt-segment'?'54px':'44px').join(' ')}}>{steps.map(step=>block(step,label,harness))}</div>
+        <div className="sequence-strip" style={{gridTemplateColumns:steps.map(step=>step.tone==='reason-segment'?'minmax(108px,1fr)':step.input?'88px':'64px').join(' ')}}>{steps.map(step=>block(step,label,harness))}</div>
         <ArrowRight size={22} className="sequence-output-arrow" aria-hidden="true" />
         {block({id:harness?'harness-answer':'null-answer',title:'Answer',tone:`answer-segment ${correct?'answer-correct':'answer-incorrect'}`,verdict:correct?'Correct':'Incorrect',text:reply.text},label,harness)}
       </div>
@@ -145,11 +144,11 @@ export function HarnessComparison() {
           <button className="example-close" type="button" title="Close example" aria-label="Close example" onClick={close}><X size={18} /></button>
         </div>
         <div className={`example-content ${selected.input?'has-image':''}`}>
-          {selected.input && <ImageView src={example.input.src} alt="Original webpage image" />}
+          {selected.input && <ImageView src={example.input.src} alt="Original image of a person operating a pipe valve" />}
           <div className="example-text">
             {selected.input && <><p>{example.question}</p><ul className="example-options">{Object.entries(example.options).map(([letter,value])=><li key={letter}><strong>{letter}</strong> {value}</li>)}</ul></>}
             {selected.text && <TraceText>{selected.text}</TraceText>}
-            {selected.commentary && <TraceText>{selected.commentary}</TraceText>}
+            {selected.passages?.map((text,i)=><TraceText key={i}>{text}</TraceText>)}
             {selected.picture && <ImageView src={selected.picture.src} alt={selected.picture.label} reconstructed={selected.picture.reconstructed} />}
           </div>
         </div>

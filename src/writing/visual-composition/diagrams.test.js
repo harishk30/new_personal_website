@@ -2,10 +2,11 @@ import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { EncoderDiagram, HarnessComparison } from './diagrams';
 import traces from '../improving-vlms/trace-examples.json';
+import { reasoningMarkdown } from '../improving-vlms/trace-format';
 
 jest.mock('react-markdown', () => ({ children }) => <div>{children}</div>);
 
-const example = traces.find(trace => trace.idx === 23);
+const example = traces.find(trace => trace.idx === 175);
 let container;
 let root;
 
@@ -27,15 +28,19 @@ test('keeps reasoning and crop images in source order without command-only steps
   const lane = container.querySelectorAll('.concept-lane')[1];
   const steps = [...lane.querySelectorAll('.sequence-strip button')];
   expect(steps.map(step => step.getAttribute('title').split(': ').at(-1))).toEqual([
-    'Image', 'Question', 'Reasoning 1', 'Reasoning 2', 'Inspect text',
-    'Reasoning 3', 'Inspect sidebar', 'Reasoning 4', 'Reasoning 5',
+    'Original image and question', 'Reasoning 1', 'Inspect left pipe',
+    'Inspect middle pipe', 'Inspect right pipe', 'Reasoning 2',
   ]);
 
   const reasoning = example.events.filter(event => event.role === 'assistant' && event.reasoning);
+  const expectedGroups = [
+    reasoning.slice(0,3).flatMap(event=>[event.reasoning,...(event.text?[event.text]:[])]),
+    [reasoning[3].reasoning],
+  ];
   [...lane.querySelectorAll('.reason-segment')].forEach((button, index) => {
     act(() => button.click());
-    const expected = reasoning[index].reasoning.replace(/<tool_call>[\s\S]*?<\/tool_call>/g, '').trim();
-    expect(container.querySelector('.saved-model-text').textContent).toBe(expected);
+    expect([...container.querySelectorAll('.saved-model-text')].map(node=>node.textContent))
+      .toEqual(expectedGroups[index].map(reasoningMarkdown));
   });
 
   const images = example.events.flatMap(event => event.images);
@@ -46,6 +51,19 @@ test('keeps reasoning and crop images in source order without command-only steps
     expect(panel.querySelector('.image-open').getAttribute('aria-label')).toContain('reconstructed');
     expect(panel.querySelector('.example-text').textContent).toBe('');
   });
+});
+
+test('the chosen harness trace completes without tool errors or final-answer recovery', () => {
+  expect(example.events.some(event=>event.role==='user')).toBe(false);
+  for(const event of example.events) {
+    expect(event.reasoning).not.toMatch(/<tool_call>|<function=/);
+    if(event.role==='tool' && event.text) {
+      expect(event.text).toContain('Process exited with code 0');
+      expect(event.text).not.toMatch(/Traceback|Error:/);
+    }
+  }
+  expect(example.events.flatMap(event=>event.calls).filter(call=>call.name==='view_image')).toHaveLength(3);
+  expect(example.events.flatMap(event=>event.images)).toHaveLength(3);
 });
 
 test('all panels exclude tool code, stdout, and reminders while retaining final replies', () => {
