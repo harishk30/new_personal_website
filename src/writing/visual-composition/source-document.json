@@ -1,0 +1,625 @@
+{
+  "documentId": "1HqP4nLDMz-PcZbxPhZgdVJgVZOjKsOAr9IqzIRUVE9k",
+  "tab": "New Article",
+  "tabId": "t.te5tt51hld0w",
+  "revision": "AHj4eMS0BDSF53nPCW7z8Q6IZ9CFMiEbzTSOdK1Hb9fkHwtoGbRJk1PkHs9glIXr8oaJNO7brdl2obAxV5xLPYKBKcOYPimbMx10kb-Li8A",
+  "paragraphs": [
+    {
+      "elements": [
+        {
+          "startIndex": 1,
+          "endIndex": 49,
+          "textRun": {
+            "content": "Visual Harnesses Are Compositional Generalizers\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "headingId": "h.wmhmkqii4y2w",
+        "namedStyleType": "TITLE",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 49,
+          "endIndex": 88,
+          "textRun": {
+            "content": "Rethinking How We Scale and Train VLMs\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 88,
+          "endIndex": 89,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 89,
+          "endIndex": 487,
+          "textRun": {
+            "content": "Reading labels, recognizing objects, and isolating tasks can be straightforward for a Vision Language Model (VLM), yet composing these capabilities together can be difficult. This raises the question: does the underlying VLM lack the inherent capabilities necessary to solve those questions, or does it just not have a way to decompose those complex questions into solvable, in-distribution tasks?\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 487,
+          "endIndex": 488,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 488,
+          "endIndex": 520,
+          "textRun": {
+            "content": "A similar question was posed in ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 520,
+          "endIndex": 544,
+          "textRun": {
+            "content": "Alex Zhang’s article on ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 544,
+          "endIndex": 572,
+          "textRun": {
+            "content": "compositional generalization",
+            "textStyle": {
+              "underline": true,
+              "foregroundColor": {
+                "color": {
+                  "rgbColor": {
+                    "red": 0.06666667,
+                    "green": 0.33333334,
+                    "blue": 0.8
+                  }
+                }
+              },
+              "link": {
+                "url": "https://alexzhang13.github.io/blog/2026/harness/"
+              }
+            }
+          }
+        },
+        {
+          "startIndex": 572,
+          "endIndex": 770,
+          "textRun": {
+            "content": ". There, he looked at the textual domain, finding that a well-designed harness allows a model to generalize across complex tasks. This is because a harness allows a model to go from a complex state ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 770,
+          "endIndex": 772,
+          "textRun": {
+            "content": "s ",
+            "textStyle": {
+              "bold": true
+            }
+          }
+        },
+        {
+          "startIndex": 772,
+          "endIndex": 797,
+          "textRun": {
+            "content": "to a set of observations ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 797,
+          "endIndex": 799,
+          "textRun": {
+            "content": "o ",
+            "textStyle": {
+              "bold": true
+            }
+          }
+        },
+        {
+          "startIndex": 799,
+          "endIndex": 853,
+          "textRun": {
+            "content": "that are in-distribution for the LLM in the harness. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 853,
+          "endIndex": 854,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 854,
+          "endIndex": 1050,
+          "textRun": {
+            "content": "In the visual domain, the harness matters just as much. The harness can not just break apart the question posed to the model, but also the image itself, cropping and rescaling particular regions.\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1050,
+          "endIndex": 1051,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1051,
+          "endIndex": 1090,
+          "textRun": {
+            "content": "Why is decomposition useful in vision?\n",
+            "textStyle": {
+              "bold": true
+            }
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1090,
+          "endIndex": 1091,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1091,
+          "endIndex": 1092,
+          "inlineObjectElement": {
+            "inlineObjectId": "kix.abxcmli6i6c",
+            "textStyle": {
+              "bold": true
+            }
+          }
+        },
+        {
+          "startIndex": 1092,
+          "endIndex": 1094,
+          "textRun": {
+            "content": " \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1094,
+          "endIndex": 1095,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1095,
+          "endIndex": 1179,
+          "textRun": {
+            "content": "(Generate a version of this diagram which has a LLM and these inputs to the left). \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1179,
+          "endIndex": 1180,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1180,
+          "endIndex": 1235,
+          "textRun": {
+            "content": "VLMs typically encode images through what’s known as a ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 1235,
+          "endIndex": 1249,
+          "textRun": {
+            "content": "vision encoder",
+            "textStyle": {
+              "bold": true
+            }
+          }
+        },
+        {
+          "startIndex": 1249,
+          "endIndex": 1495,
+          "textRun": {
+            "content": ", which projects image inputs into the textual latent space (or a shared embedding space), such that they can be interpreted along with text. This has been remarkably useful to bridge the inherent knowledge of LLMs with multimodal capabilities. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1495,
+          "endIndex": 1496,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1496,
+          "endIndex": 1638,
+          "textRun": {
+            "content": "However, this representation is lossy with respect to the original image. It has been shown that passing an image through a vision encoder can",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 1638,
+          "endIndex": 1684,
+          "textRun": {
+            "content": " remove distinctions necessary to solve a task",
+            "textStyle": {
+              "underline": true,
+              "foregroundColor": {
+                "color": {
+                  "rgbColor": {
+                    "red": 0.06666667,
+                    "green": 0.33333334,
+                    "blue": 0.8
+                  }
+                }
+              },
+              "link": {
+                "url": "https://arxiv.org/html/2401.06209v2"
+              }
+            }
+          }
+        },
+        {
+          "startIndex": 1684,
+          "endIndex": 1730,
+          "textRun": {
+            "content": ". Even if this information survives encoding, ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 1730,
+          "endIndex": 1818,
+          "textRun": {
+            "content": "it isn’t guaranteed that the LLM can translate this representation into the right answer",
+            "textStyle": {
+              "underline": true,
+              "foregroundColor": {
+                "color": {
+                  "rgbColor": {
+                    "red": 0.06666667,
+                    "green": 0.33333334,
+                    "blue": 0.8
+                  }
+                }
+              },
+              "link": {
+                "url": "https://arxiv.org/html/2407.06581v6"
+              }
+            }
+          }
+        },
+        {
+          "startIndex": 1818,
+          "endIndex": 1821,
+          "textRun": {
+            "content": "! \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1821,
+          "endIndex": 1822,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1822,
+          "endIndex": 1823,
+          "inlineObjectElement": {
+            "inlineObjectId": "kix.tpmsq37gadx0",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 1823,
+          "endIndex": 1824,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 1824,
+          "endIndex": 2361,
+          "textRun": {
+            "content": "(rework these diagrams similar to the experiments we ran, have “No Harness” be similar to OOD with just the image prompt (with an image thumbnail there), task prompt, and then answer, and “Harness” be similar to this, but we have a big image bar initially and we show that it’s decomposed. let’s also select a real example from luna harness v no harness experiments and have some way that we can actually see this comparison here (choose a good example where the composition can be seen and have some hovering way we can see this here))\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2361,
+          "endIndex": 2362,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2362,
+          "endIndex": 2618,
+          "textRun": {
+            "content": "A visual harness can help address both bottlenecks. Cropping and zooming can give the vision encoder a second chance to represent relevant information, and targeted inspections/measurements can break down the problem into solvable, in-distribution tasks. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2618,
+          "endIndex": 2619,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2619,
+          "endIndex": 2933,
+          "textRun": {
+            "content": "This motivates well-executed compositions, where operations like crops can give the vision encoder a second chance to represent relevant information. Additionally, a problem can be broken down into solvable, in-distribution tasks. The challenge here is learning how to reliably decompose a problem in such a way. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2933,
+          "endIndex": 2934,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 2934,
+          "endIndex": 2959,
+          "textRun": {
+            "content": "When does a harness help?",
+            "textStyle": {
+              "bold": true
+            }
+          }
+        },
+        {
+          "startIndex": 2959,
+          "endIndex": 2960,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {
+              "bold": true
+            }
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    }
+  ]
+}
