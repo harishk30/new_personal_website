@@ -13,26 +13,25 @@
     "successes": 0,
     "total": 8,
     "answer": "D",
-    "summary": "The one-turn response reverses the relationship between the two regions, judging the bottom corners to be more rounded.",
     "text": "Explanation: The bottom corners appear slightly more rounded than the top corners.\nAnswer: D"
   },
   "harness": {
     "successes": 6,
     "total": 8,
     "answer": "C",
-    "summary": "After viewing both regions, the model correctly identifies that the bottom corners are less rounded than the top corners.",
+    "crop_output": "Chunk ID: febe51\nWall time: 0.0000 seconds\nProcess exited with code 0\nOriginal token count: 3\nOutput:\n(315, 500)\n",
     "text": "Explanation: The top corners are noticeably rounded, while the bottom corners are much squarer and less rounded.\nAnswer: C",
     "steps": [
       {
         "title": "Inspect top corners",
-        "summary": "A Python call creates and enlarges both strips by 3x. The model first views the top strip, where both rounded corners are visible.",
+        "crop_box": [0, 0, 315, 25],
         "command": "python3 - <<'EOF'\nfrom PIL import Image\nim=Image.open('input_image')\nprint(im.size)\nim.crop((0,0,315,25)).resize((945,75)).save('/tmp/top.png')\nim.crop((0,465,315,500)).resize((945,105)).save('/tmp/bottom.png')\nEOF",
         "image": "/writing/visual-composition/luna/crop_top.png",
         "view_call": "view_image({\"path\":\"/tmp/top.png\"})"
       },
       {
         "title": "Inspect bottom corners",
-        "summary": "The model then views the bottom strip from the same Python call. Both bottom corners are nearly square, unlike the rounded top corners.",
+        "crop_box": [0, 465, 315, 500],
         "command": "view_image({\"path\":\"/tmp/bottom.png\"})",
         "image": "/writing/visual-composition/luna/crop_bottom.png"
       }
@@ -49,6 +48,6 @@
     "null_rewards": [0,0,0,0,0,0,0,0],
     "harness_rewards": [0,1,0,1,1,1,1,1],
     "selected_rollout_index": 1,
-    "note": "Images are the original saved tool outputs, not recreated crops. Summaries are editorial; response text and commands are verbatim. Both crops were generated together, then viewed sequentially. No intermediate reasoning prose was present. This is an illustrative example, not a compute-matched causal test."
+    "note": "Images are the original saved tool outputs, not recreated crops. Response text and commands are verbatim. Both crops were generated together, then viewed sequentially. No intermediate reasoning prose was present. This is an illustrative example, not a compute-matched causal test."
   }
 }
