@@ -18,45 +18,39 @@
 .composition-page .assisted-strip { grid-template-columns: 86px 88px 130px 140px minmax(0,1fr); }
 .composition-page .sequence-segment { display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; height: 60px; padding: 6px; border: 0; border-bottom: 2px solid var(--diagram-wire); border-radius: 0; color: var(--ink); cursor: pointer; font-size: 13px; line-height: 1.35; text-align: center; transition: background-color .15s; }
 .composition-page .sequence-segment > svg { flex: none; }
+.composition-page .sequence-strip .sequence-segment:first-child { border-radius: 4px 0 0 4px; }
+.composition-page .sequence-strip .sequence-segment:last-child { border-radius: 0 4px 4px 0; }
 .composition-page .image-segment { background: var(--diagram-sea-wash); border-color: var(--diagram-sea); }
 .composition-page .prompt-segment { background: color-mix(in srgb,var(--diagram-sea-wash) 52%,var(--paper)); border-color: var(--diagram-sea); }
 .composition-page .reason-segment { background: var(--diagram-ink-wash); border-bottom-style: dashed; }
 .composition-page .inspection-segment { background: var(--diagram-copper-wash); border-color: var(--diagram-copper); }
 .composition-page .inspection-segment + .inspection-segment { border-left: 1px solid color-mix(in srgb,var(--diagram-copper) 35%,transparent); }
-.composition-page .answer-segment { background: transparent; border-color: var(--ink); height: 38px; font-weight: 600; }
+.composition-page .answer-segment { position: relative; background: transparent; border-color: transparent; height: 38px; font-weight: 600; }
+.composition-page .answer-segment::after { content: ''; position: absolute; inset: auto 6px 0; height: 5px; border-bottom: 2px solid var(--ink); border-radius: 50%; transform: rotate(-2deg); pointer-events: none; }
 .composition-page .region-icon { width: 25px; height: 40px; color: var(--diagram-sea); }
 .composition-page .inspection-segment .region-icon { color: var(--diagram-copper); }
+.composition-page .inspection-segment .region-icon { transform: rotate(-2deg); }
+.composition-page .inspection-segment + .inspection-segment .region-icon { transform: rotate(2deg); }
 .composition-page .crop-highlight { fill: var(--diagram-copper); stroke: var(--diagram-copper); stroke-width: 9px; }
 .composition-page .sequence-output-arrow { justify-self: center; color: var(--ink); pointer-events: none; }
 .composition-page .sequence-segment:hover { box-shadow: inset 0 -2px 0 var(--ink); }
 .composition-page .sequence-segment[aria-expanded='true'] { box-shadow: inset 0 -3px 0 var(--ink); }
 .composition-page .sequence-segment:focus-visible { outline: 2px solid var(--ink); outline-offset: -4px; }
-.composition-page .example-disclosure { border-block: 1px solid var(--line); margin-top: 22px; padding: 18px 0; }
-.composition-page .example-heading { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
-.composition-page .example-heading > div { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; font-size: 14px; }
-.composition-page .example-heading span { color: var(--muted); font-size: 12px; }
+.composition-page .example-disclosure { border-top: 1px solid var(--line); margin-top: 22px; padding: 10px 0 0; }
+.composition-page .example-heading { display: flex; justify-content: flex-end; margin-bottom: 8px; }
 .composition-page .example-close { display: flex; align-items: center; justify-content: center; flex: none; width: 30px; height: 30px; border: 0; background: transparent; color: var(--muted); cursor: pointer; }
 .composition-page .example-content.has-image { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 24px; align-items: start; }
 .composition-page .example-text { font-size: 14px; line-height: 1.7; min-width: 0; }
-.composition-page .example-text h4 { margin: 0 0 8px; font-size: 14px; font-weight: 600; }
 .composition-page .example-text p { margin: 0 0 12px; }
-.composition-page .trace-availability { color: var(--muted); }
-.composition-page .trace-call { font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; padding: 10px 0; margin: 0 0 18px; border-bottom: 1px solid var(--line); }
-.composition-page .example-text .composition-image { margin: 16px 0; }
+.composition-page .saved-sequence { display: grid; gap: 18px; }
 .composition-page .example-options { list-style: none; padding: 0; margin: 12px 0; font-size: 12px; }
 .composition-page .example-options li { margin-bottom: 6px; }
 .composition-page .example-options strong { margin-right: 4px; color: var(--muted); }
 .composition-page .example-text blockquote { white-space: pre-line; border-left: 2px solid var(--line); padding-left: 14px; margin: 12px 0; }
-.composition-page .example-reference { font-size: 12px; color: var(--muted); }
-.composition-page .example-note { margin: 20px 0 0; font-size: 12px; line-height: 1.6; color: var(--muted); }
 .composition-page .composition-image { min-width: 0; }
 .composition-page .image-open { display: grid; width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
 .composition-page .image-open > img { display: block; width: 100%; max-height: 300px; object-fit: contain; }
 .composition-page .image-open-icon { justify-self: end; margin-top: 6px; box-sizing: content-box; padding: 5px; color: var(--ink); }
-.composition-page .step-evidence summary { display: flex; align-items: center; gap: 7px; color: var(--accent); cursor: pointer; font-size: 12px; list-style: none; }
-.composition-page .step-evidence summary::-webkit-details-marker { display: none; }
-.composition-page .step-evidence[open] summary svg { transform: rotate(180deg); }
-.composition-page .step-evidence pre { font-size: 11px; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--line); padding: 12px; max-height: 250px; overflow: auto; }
 .composition-page .composition-image-dialog { border: 1px solid var(--line); padding: 42px 18px 18px; border-radius: 2px; width: min(1080px,calc(100% - 28px)); max-width: none; max-height: 92dvh; background: var(--paper); color: var(--ink); }
 .composition-page .composition-image-dialog::backdrop { background: rgba(0,0,0,.7); }
 .composition-page .composition-image-dialog > img { display: block; max-width: 100%; max-height: calc(92dvh - 76px); width: auto; margin: auto; object-fit: contain; }

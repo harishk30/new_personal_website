@@ -1,5 +1,5 @@
 import { useId, useRef, useState } from 'react';
-import { ArrowRight, Maximize2, X, ChevronDown } from 'lucide-react';
+import { ArrowRight, Maximize2, X } from 'lucide-react';
 import example from './luna-example.json';
 
 function Caption({ number, children }) {
@@ -12,13 +12,13 @@ export function EncoderDiagram() {
     <div className="illustration-scroll" tabIndex={0} role="group" aria-label="Horizontal vision-language model diagram">
       <svg className="encoder-illustration" width="720" height="236" viewBox="0 0 720 236" role="img" aria-labelledby={`${marker}-title ${marker}-desc`}>
         <title id={`${marker}-title`}>Image and question flow into a language model</title>
-        <desc id={`${marker}-desc`}>Left to right: the image passes through a vision encoder and projector to become image tokens. The question becomes text tokens. Both token streams enter the language model, which produces an answer.</desc>
+        <desc id={`${marker}-desc`}>Left to right: the image passes through a vision encoder and projector to become image tokens. The question becomes text tokens. Image tokens are stacked above text tokens in one vertical column before the language model, which produces an answer.</desc>
         <defs><marker id={marker} markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6" fill="var(--diagram-wire)" /></marker></defs>
         <g fill="none" stroke="var(--diagram-wire)" strokeWidth="1" markerEnd={`url(#${marker})`}>
           <path d="M75 76 H105" /><path d="M207 76 H235" />
-          <path d="M96 191 H326" /><path d="M425 76 C459 76 443 125 476 125" /><path d="M425 191 C459 191 443 143 476 143" /><path d="M604 134 H649" />
+          <path d="M310 76 H342" /><path d="M96 191 H267 C301 191 305 145 342 145" /><path d="M427 112 C451 112 448 134 476 134" /><path d="M604 134 Q627 130 649 134" />
         </g>
-        <image href={example.original_image} x="8" y="29" width="56" height="89" />
+        <image href={example.original_image} x="8" y="29" width="56" height="89" transform="rotate(-2 36 74)" />
         <text x="36" y="146" className="stage-label">Image</text>
         <g className="encoder-layers" stroke="var(--diagram-sea)" strokeWidth="1">
           <path d="M128 30 L190 42 V118 L128 106 Z" fill="var(--diagram-sea-wash)" />
@@ -31,11 +31,12 @@ export function EncoderDiagram() {
           {[0,1,2,3,4].map(i=><path key={i} d={`M247 ${42+i*17} C275 ${42+i*17} 283 ${58+i*9} 310 ${58+i*9}`} opacity={.35+i*.15} />)}
         </g>
         <text x="275" y="146" className="stage-label">Projector</text>
-        <text x="375" y="30" className="token-label">Image tokens</text>
-        {[0,1,2,3,4].map(i=><rect key={`image-${i}`} x={333+i*18} y="51" width="12" height="50" fill="var(--diagram-sea)" opacity={.45+i*.12} />)}
+        <text x="382" y="35" className="token-label">Image tokens</text>
+        <g className="image-token-stack">{[0,1,2,3,4].map(i=><rect key={`image-${i}`} x={357+(i%2)*2} y={52+i*11} width="50" height="8" rx="2" transform={`rotate(${i%2===0?-1:1} 382 ${56+i*11})`} fill="var(--diagram-sea)" opacity={.5+i*.12} />)}</g>
         <text x="46" y="196" className="stage-label">Question</text>
-        <text x="375" y="163" className="token-label">Text tokens</text>
-        {[0,1,2,3,4].map(i=><rect key={`text-${i}`} x={333+i*18} y="177" width="12" height="28" fill="var(--diagram-copper)" opacity={.45+i*.12} />)}
+        <text x="382" y="195" className="token-label">Text tokens</text>
+        <g className="text-token-stack">{[0,1,2,3,4].map(i=><rect key={`text-${i}`} x={357+(i%2)*2} y={117+i*11} width="50" height="8" rx="2" transform={`rotate(${i%2===0?1:-1} 382 ${121+i*11})`} fill="var(--diagram-copper)" opacity={.5+i*.12} />)}</g>
+        <path d="M419 51 Q425 51 425 57 V163 Q425 170 419 170" fill="none" stroke="var(--diagram-wire)" />
         <path d="M501 94 H489 V174 H501 M581 94 H593 V174 H581" fill="none" stroke="var(--diagram-wire)" strokeWidth="1" />
         <text x="541" y="125" className="language-label"><tspan x="541">Language</tspan><tspan x="541" dy="23">model</tspan></text>
         <text x="687" y="139" className="stage-label">Answer</text>
@@ -63,6 +64,17 @@ function ImageView({ src, alt }) {
       <button className="image-close" type="button" title="Close image" aria-label="Close image" onClick={() => dialog.current.close()}><X size={21} /></button>
       <img src={src} alt={alt} />
     </dialog>
+  </div>;
+}
+
+function SavedSequence({ harness }) {
+  const arm = harness ? example.harness : example.null;
+  return <div className="saved-sequence">
+    {harness && arm.steps.map(step=><div key={step.image}>
+      <ImageView src={step.image} alt={step.title} />
+      {step.text && <blockquote>{step.text}</blockquote>}
+    </div>)}
+    <blockquote>{arm.text}</blockquote>
   </div>;
 }
 
@@ -112,24 +124,18 @@ export function HarnessComparison() {
     <Caption number={2}>A harness can turn a single global question into a sequence of local inspections, then combine their evidence into an answer.</Caption>
     <div id={panelId} hidden={!selected} className="example-disclosure" role="region" aria-label="Luna example" onKeyDown={e=>{if(e.key==='Escape' && !e.target.closest('dialog')){e.stopPropagation();close();}}}>
       {selected && <>
-        <div className="example-heading"><div><strong>Luna example</strong><span>{selected.harness?'With a harness':'No harness'} · {example.effort} reasoning · {(selected.harness?example.harness:example.null).successes}/{(selected.harness?example.harness:example.null).total} correct</span></div>
+        <div className="example-heading">
           <button className="example-close" type="button" title="Close example" aria-label="Close example" onClick={close}><X size={18} /></button>
         </div>
         <div className={`example-content ${selected.input?'has-image':''}`}>
           {selected.input && <ImageView src={selected.image} alt="Original chat-window image" />}
           <div className="example-text">
-            <h4>{selected.detailTitle || (selected.text?'Final reply':selected.title)}</h4>
             {selected.input && <><p>{example.question}</p><ul className="example-options">{Object.entries(example.options).map(([letter,value])=><li key={letter}><strong>{letter}</strong> {value}</li>)}</ul></>}
-            {selected.reasoning && <p className="trace-availability">No intermediate reasoning text was saved for this trace.</p>}
-            {selected.text && <><blockquote>{selected.text}</blockquote><span className="example-reference">Reference answer: {example.answer}</span></>}
-            {selected.command && <>
-              {selected.view_call && <details className="step-evidence"><summary><ChevronDown size={13} aria-hidden="true" />Create both crops · saved Python command</summary><pre><code>{selected.command}</code></pre><span className="example-reference">Tool output</span><pre><code>{example.harness.crop_output}</code></pre></details>}
-              <pre className="trace-call"><code>{selected.view_call || selected.command}</code></pre>
-              <ImageView src={selected.image} alt={selected.detailTitle} />
-            </>}
+            {selected.reasoning && <SavedSequence harness={selected.harness} />}
+            {selected.text && <blockquote>{selected.text}</blockquote>}
+            {selected.command && <ImageView src={selected.image} alt={selected.detailTitle} />}
           </div>
         </div>
-        <p className="example-note">Verbatim replies, saved tool arguments, and returned images. Both crops were created in one call, then viewed separately. One selected rollout per condition; counts summarize eight attempts. Four model calls with the harness, one without; not compute-matched.</p>
       </>}
     </div>
   </figure>;
