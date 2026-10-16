@@ -148,7 +148,9 @@ export function HarnessComparison() {
           <div className="example-text">
             {selected.input && <><p>{example.question}</p><ul className="example-options">{Object.entries(example.options).map(([letter,value])=><li key={letter}><strong>{letter}</strong> {value}</li>)}</ul></>}
             {selected.text && <TraceText>{selected.text}</TraceText>}
-            {selected.passages?.map((text,i)=><TraceText key={i}>{text}</TraceText>)}
+            {selected.passages && <div key={selected.id} className="reasoning-scroll" tabIndex={0} role="region" aria-label={selected.detail}>
+              {selected.passages.map((text,i)=><TraceText key={i}>{text}</TraceText>)}
+            </div>}
             {selected.picture && <ImageView src={selected.picture.src} alt={selected.picture.label} reconstructed={selected.picture.reconstructed} />}
           </div>
         </div>
