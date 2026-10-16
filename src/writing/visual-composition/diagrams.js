@@ -1,5 +1,5 @@
 import { useId, useRef, useState } from 'react';
-import { ArrowRight, Crop, ImageOff, Maximize2, X } from 'lucide-react';
+import { ArrowRight, Maximize2, X } from 'lucide-react';
 import Markdown from 'react-markdown';
 import traces from '../improving-vlms/trace-examples.json';
 import { reasoningMarkdown } from '../improving-vlms/trace-format';
@@ -20,7 +20,7 @@ export function EncoderDiagram() {
         <defs><marker id={marker} markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6" fill="var(--diagram-wire)" /></marker></defs>
         <g fill="none" stroke="var(--diagram-wire)" strokeWidth="1" markerEnd={`url(#${marker})`}>
           <path d="M75 76 H105" /><path d="M207 76 H235" />
-          <path d="M322 76 H342" /><path d="M96 191 H267 C301 191 305 145 342 145" /><path d="M427 112 C451 112 448 134 476 134" /><path d="M604 134 H649" />
+          <path d="M322 76 H342" /><path d="M96 191 H267 C301 191 305 145 342 145" /><path d="M427 112 H476" /><path d="M604 112 H649" />
         </g>
         <image href={example.input.src} x="0" y="56" width="72" height="40" />
         <text x="36" y="146" className="stage-label">Image</text>
@@ -41,9 +41,9 @@ export function EncoderDiagram() {
         <text x="382" y="195" className="token-label">Text tokens</text>
         <g className="text-token-stack">{[0,1,2,3,4].map(i=><rect key={`text-${i}`} x="357" y={117+i*11} width="50" height="8" rx="2" fill="var(--diagram-copper)" opacity={.5+i*.12} />)}</g>
         <path d="M419 51 Q425 51 425 57 V163 Q425 170 419 170" fill="none" stroke="var(--diagram-wire)" />
-        <path d="M501 94 H489 V174 H501 M581 94 H593 V174 H581" fill="none" stroke="var(--diagram-wire)" strokeWidth="1" />
-        <text x="541" y="125" className="language-label"><tspan x="541">Language</tspan><tspan x="541" dy="23">model</tspan></text>
-        <text x="687" y="139" className="stage-label">Answer</text>
+        <path d="M501 72 H489 V152 H501 M581 72 H593 V152 H581" fill="none" stroke="var(--diagram-wire)" strokeWidth="1" />
+        <text x="541" y="103" className="language-label"><tspan x="541">Language</tspan><tspan x="541" dy="23">model</tspan></text>
+        <text x="687" y="117" className="stage-label">Answer</text>
       </svg>
     </div>
     <Caption number={1}>Image and text inputs become token representations that the language model processes together.</Caption>
@@ -76,17 +76,6 @@ function TraceText({ children }) {
   return <div className="saved-model-text"><Markdown components={{ img: () => null }}>{reasoningMarkdown(children)}</Markdown></div>;
 }
 
-function ToolResult({ step }) {
-  return <div className="saved-tool">
-    {step.attempted && <p className="tool-status">Not executed; no tool result was recorded.</p>}
-    {step.results?.map(event=><div key={event.node}>
-      {event.text && <pre className="tool-output">{event.text.split('\nOutput:\n').at(-1)}</pre>}
-      {event.images.map(picture=><ImageView key={picture.src} src={picture.src} alt={picture.label} reconstructed={picture.reconstructed} />)}
-    </div>)}
-    <details className="tool-command"><summary>Tool call</summary>{step.commentary && <TraceText>{step.commentary}</TraceText>}<pre><code>{step.command}</code></pre></details>
-  </div>;
-}
-
 function sequence(events, prefix) {
   let reasoningCount = 0;
   const steps = [
@@ -95,24 +84,19 @@ function sequence(events, prefix) {
   ];
   events.forEach((event,index)=>{
     if(event.role!=='assistant') return;
-    // Textual tool attempts are not executed calls. Keep them separate without inventing results.
+    // Display saved prose and image results only; retain the complete trace in the source data.
     (event.reasoning || '').split(/(<tool_call>[\s\S]*?<\/tool_call>)/g).forEach((part,i)=>{
-      if(!part.trim()) return;
-      const attempted=part.startsWith('<tool_call>');
-      steps.push({ id:`${prefix}-${event.node}-${i}`,title:attempted?'Attempt':'Reasoning',
-        detail:attempted?'Unexecuted image-view attempt':`Reasoning ${++reasoningCount}`,
-        tone:attempted?'inspection-segment':'reason-segment',attempted,
-        ...(attempted?{command:part}:{text:part}) });
+      if(!part.trim() || part.startsWith('<tool_call>')) return;
+      steps.push({ id:`${prefix}-${event.node}-${i}`,title:'Reasoning',
+        detail:`Reasoning ${++reasoningCount}`,tone:'reason-segment',text:part,
+        commentary:event.calls.length?event.text:undefined });
     });
     const next = events.findIndex((item,i)=>i>index && item.role!=='tool');
     const results=events.slice(index+1,next<0?undefined:next).filter(item=>item.role==='tool');
-    event.calls.forEach((call,i)=>{
-      const picture=results.flatMap(item=>item.images)[0];
-      const crop=call.name==='exec_command';
-      steps.push({ id:`${prefix}-${event.node}-tool-${i}`,title:crop?'Crop':picture?.box[0]===0?'Left':'Right',
-        detail:call.name,tone:'inspection-segment',crop_box:picture?.box,
-        command:`${call.name}\n${call.arguments.cmd || JSON.stringify(call.arguments,null,2)}`,
-        commentary:event.text,results });
+    results.flatMap(item=>item.images).forEach((picture,i)=>{
+      steps.push({ id:`${prefix}-${event.node}-image-${i}`,title:picture.box[0]===0?'Left':'Right',
+        detail:picture.box[0]===0?'Inspect text':'Inspect sidebar',
+        tone:'inspection-segment',crop_box:picture.box,picture });
     });
   });
   return steps;
@@ -130,7 +114,6 @@ export function HarnessComparison() {
       aria-label={`${label}: ${step.detail || step.title}${step.verdict?`. ${step.verdict}`:''}. Show Qwen example`} aria-expanded={selected?.id===step.id} aria-controls={panelId}
       onClick={e=>{lastTrigger.current=e.currentTarget;setSelected(selected?.id===step.id?null:{...step,harness});}}>
       {(step.tone==='image-segment' || step.crop_box) && <RegionIcon crop={step.crop_box} />}
-      {step.command && !step.crop_box && (step.attempted?<ImageOff size={18} aria-hidden="true" />:<Crop size={18} aria-hidden="true" />)}
       {step.tone!=='image-segment' && <span>{step.title}</span>}
       {step.verdict && <span className="answer-verdict">{step.verdict}</span>}
     </button>;
@@ -165,8 +148,9 @@ export function HarnessComparison() {
           {selected.input && <ImageView src={example.input.src} alt="Original webpage image" />}
           <div className="example-text">
             {selected.input && <><p>{example.question}</p><ul className="example-options">{Object.entries(example.options).map(([letter,value])=><li key={letter}><strong>{letter}</strong> {value}</li>)}</ul></>}
-            {selected.command && <ToolResult key={selected.id} step={selected} />}
             {selected.text && <TraceText>{selected.text}</TraceText>}
+            {selected.commentary && <TraceText>{selected.commentary}</TraceText>}
+            {selected.picture && <ImageView src={selected.picture.src} alt={selected.picture.label} reconstructed={selected.picture.reconstructed} />}
           </div>
         </div>
       </>}
