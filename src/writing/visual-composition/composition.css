@@ -3,6 +3,8 @@
 .composition-page .composition-subtitle { color: var(--muted); font-size: 20px; line-height: 1.5; margin: 16px 0 0; }
 .composition-page #introduction { scroll-margin-top: 28px; }
 .composition-page .article-header h1 { max-width: 720px; }
+@font-face { font-family: 'Visual Composition Math'; src: url('./fonts/math-italic.woff2') format('woff2'); font-style: italic; font-weight: 400; font-display: swap; }
+.composition-page .inline-math { font-family: 'Visual Composition Math', serif; font-style: italic; font-size: 1.1em; font-weight: 400; }
 .composition-page .composition-figure { max-width: 720px; width: 100%; margin: 36px auto 40px; }
 .composition-page .illustration-scroll { max-width: 100%; overflow-x: auto; padding: 4px 0 10px; scrollbar-width: thin; scrollbar-color: var(--soft) transparent; }
 .composition-page .encoder-illustration { display: block; width: 720px; height: 236px; max-width: none; }

@@ -15,8 +15,13 @@ function Inline({ paragraph }) {
     const run = element.textRun;
     if (!run) return null;
     let text = run.content.replace(/\n$/, '');
-    if (run.textStyle?.bold) text = <strong>{text}</strong>;
-    if (run.textStyle?.italic) text = <em>{text}</em>;
+    const variable = /^([SO])(\s*)$/.exec(text);
+    if (variable) {
+      text = <><var className="inline-math">{variable[1]}</var>{variable[2]}</>;
+    } else {
+      if (run.textStyle?.bold) text = <strong>{text}</strong>;
+      if (run.textStyle?.italic) text = <em>{text}</em>;
+    }
     const href = run.textStyle?.link?.url;
     if (href && /^https?:\/\//.test(href)) text = <a href={href}>{text}</a>;
     return <span key={i}>{text}</span>;
