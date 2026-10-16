@@ -1,6 +1,10 @@
 import { useId, useRef, useState } from 'react';
 import { ArrowRight, Maximize2, X } from 'lucide-react';
-import example from './luna-example.json';
+import Markdown from 'react-markdown';
+import traces from '../improving-vlms/trace-examples.json';
+import { reasoningMarkdown } from '../improving-vlms/trace-format';
+
+const example = traces.find(trace => trace.idx === 23);
 
 function Caption({ number, children }) {
   return <figcaption><span className="figure-number">Figure {number}</span><span>{children}</span></figcaption>;
@@ -16,9 +20,9 @@ export function EncoderDiagram() {
         <defs><marker id={marker} markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6" fill="var(--diagram-wire)" /></marker></defs>
         <g fill="none" stroke="var(--diagram-wire)" strokeWidth="1" markerEnd={`url(#${marker})`}>
           <path d="M75 76 H105" /><path d="M207 76 H235" />
-          <path d="M310 76 H342" /><path d="M96 191 H267 C301 191 305 145 342 145" /><path d="M427 112 C451 112 448 134 476 134" /><path d="M604 134 Q627 130 649 134" />
+          <path d="M322 76 H342" /><path d="M96 191 H267 C301 191 305 145 342 145" /><path d="M427 112 C451 112 448 134 476 134" /><path d="M604 134 H649" />
         </g>
-        <image href={example.original_image} x="8" y="29" width="56" height="89" transform="rotate(-2 36 74)" />
+        <image href={example.input.src} x="0" y="56" width="72" height="40" />
         <text x="36" y="146" className="stage-label">Image</text>
         <g className="encoder-layers" stroke="var(--diagram-sea)" strokeWidth="1">
           <path d="M128 30 L190 42 V118 L128 106 Z" fill="var(--diagram-sea-wash)" />
@@ -32,10 +36,10 @@ export function EncoderDiagram() {
         </g>
         <text x="275" y="146" className="stage-label">Projector</text>
         <text x="382" y="35" className="token-label">Image tokens</text>
-        <g className="image-token-stack">{[0,1,2,3,4].map(i=><rect key={`image-${i}`} x={357+(i%2)*2} y={52+i*11} width="50" height="8" rx="2" transform={`rotate(${i%2===0?-1:1} 382 ${56+i*11})`} fill="var(--diagram-sea)" opacity={.5+i*.12} />)}</g>
+        <g className="image-token-stack">{[0,1,2,3,4].map(i=><rect key={`image-${i}`} x="357" y={52+i*11} width="50" height="8" rx="2" fill="var(--diagram-sea)" opacity={.5+i*.12} />)}</g>
         <text x="46" y="196" className="stage-label">Question</text>
         <text x="382" y="195" className="token-label">Text tokens</text>
-        <g className="text-token-stack">{[0,1,2,3,4].map(i=><rect key={`text-${i}`} x={357+(i%2)*2} y={117+i*11} width="50" height="8" rx="2" transform={`rotate(${i%2===0?1:-1} 382 ${121+i*11})`} fill="var(--diagram-copper)" opacity={.5+i*.12} />)}</g>
+        <g className="text-token-stack">{[0,1,2,3,4].map(i=><rect key={`text-${i}`} x="357" y={117+i*11} width="50" height="8" rx="2" fill="var(--diagram-copper)" opacity={.5+i*.12} />)}</g>
         <path d="M419 51 Q425 51 425 57 V163 Q425 170 419 170" fill="none" stroke="var(--diagram-wire)" />
         <path d="M501 94 H489 V174 H501 M581 94 H593 V174 H581" fill="none" stroke="var(--diagram-wire)" strokeWidth="1" />
         <text x="541" y="125" className="language-label"><tspan x="541">Language</tspan><tspan x="541" dy="23">model</tspan></text>
@@ -47,17 +51,18 @@ export function EncoderDiagram() {
 }
 
 function RegionIcon({ crop }) {
-  return <svg className="region-icon" viewBox="-6 -6 327 512" aria-hidden="true">
-    <image href={example.original_image} width="315" height="500" opacity={crop?'.16':'.55'} />
-    <rect width="315" height="500" fill="none" stroke="currentColor" strokeOpacity=".4" strokeWidth="8" />
+  const { width, height, src } = example.input;
+  return <svg className="region-icon" viewBox={`-6 -6 ${width+12} ${height+12}`} aria-hidden="true">
+    <image href={src} width={width} height={height} opacity={crop?'.16':'.55'} />
+    <rect width={width} height={height} fill="none" stroke="currentColor" strokeOpacity=".4" strokeWidth="1" vectorEffect="non-scaling-stroke" />
     {crop && <rect className="crop-highlight" x={crop[0]} y={crop[1]} width={crop[2]-crop[0]} height={crop[3]-crop[1]} />}
   </svg>;
 }
 
-function ImageView({ src, alt }) {
+function ImageView({ src, alt, reconstructed = false }) {
   const dialog = useRef(null);
   return <div className="composition-image">
-    <button className="image-open" type="button" title="Enlarge image" aria-label={`Enlarge: ${alt}`} onClick={() => dialog.current.showModal()}>
+    <button className="image-open" type="button" title={reconstructed?'Enlarge crop reconstructed from the recorded command':'Enlarge image'} aria-label={`Enlarge: ${alt}${reconstructed?' (reconstructed from the recorded crop command)':''}`} onClick={() => dialog.current.showModal()}>
       <img src={src} alt={alt} loading="lazy" /><Maximize2 size={15} className="image-open-icon" aria-hidden="true" />
     </button>
     <dialog ref={dialog} className="composition-image-dialog" aria-label={alt} onClick={e => { if (e.target === dialog.current) dialog.current.close(); }}>
@@ -67,28 +72,38 @@ function ImageView({ src, alt }) {
   </div>;
 }
 
-function SavedSequence({ harness }) {
-  const arm = harness ? example.harness : example.null;
+function TraceText({ children }) {
+  return <div className="saved-model-text"><Markdown components={{ img: () => null }}>{reasoningMarkdown(children)}</Markdown></div>;
+}
+
+function SavedSequence({ events }) {
   return <div className="saved-sequence">
-    {harness && arm.steps.map(step=><div key={step.image}>
-      <ImageView src={step.image} alt={step.title} />
-      {step.text && <blockquote>{step.text}</blockquote>}
+    {events.map(event=><div key={event.node} className="saved-event">
+      {event.role==='assistant' && event.reasoning && <TraceText>{event.reasoning}</TraceText>}
+      {event.role==='assistant' && event.text && <TraceText>{event.text}</TraceText>}
+      {event.images.map(picture=><ImageView key={picture.src} src={picture.src} alt={picture.label} reconstructed={picture.reconstructed} />)}
     </div>)}
-    <blockquote>{arm.text}</blockquote>
   </div>;
 }
 
-const commonInput = { image:example.original_image, input:true };
+const visibleEvents = events => events.filter(event => event.role==='assistant' || event.images.length);
+const harnessEvents = visibleEvents(example.events);
+const nullEvents = visibleEvents(example.withoutHarness.events);
+const inspections = example.events.flatMap((event,index) => event.images.map(picture=>{
+  const nextImage = example.events.findIndex((next,i)=>i>index && next.images.length);
+  return { picture, events:visibleEvents(example.events.slice(index,nextImage<0?undefined:nextImage)) };
+}));
+const commonInput = { image:example.input.src, input:true };
 const noHarness = [
   { ...commonInput, id:'null-image',title:'Image',tone:'image-segment' },
   { ...commonInput, id:'null-question',title:'Question',tone:'prompt-segment' },
-  { id:'null-reason',title:'Reasoning',tone:'reason-segment',reasoning:true },
+  { id:'null-reason',title:'Reasoning',tone:'reason-segment',events:nullEvents },
 ];
 const withHarness = [
   { ...commonInput, id:'harness-image',title:'Image',tone:'image-segment' },
   { ...commonInput, id:'harness-question',title:'Question',tone:'prompt-segment' },
-  ...example.harness.steps.map((step,i)=>({ ...step,id:`crop-${i}`,title:i===0?'Inspect top':'Inspect bottom',detailTitle:step.title,tone:'inspection-segment' })),
-  { id:'combine',title:'Combine evidence',tone:'reason-segment',reasoning:true },
+  ...inspections.map(({picture,events},i)=>({ id:`crop-${i}`,title:i===0?'Inspect left':'Inspect right',crop_box:picture.box,events,tone:'inspection-segment' })),
+  { id:'combine',title:'Combine evidence',tone:'reason-segment',events:harnessEvents },
 ];
 
 export function HarnessComparison() {
@@ -97,20 +112,21 @@ export function HarnessComparison() {
   const lastTrigger = useRef(null);
   function close() { setSelected(null);lastTrigger.current?.focus(); }
   function block(step,label,harness) {
-    return <button key={step.id} type="button" className={`sequence-segment ${step.tone}`} title={`Show Luna example: ${step.title}`}
-      aria-label={`${label}: ${step.title}. Show Luna example`} aria-expanded={selected?.id===step.id} aria-controls={panelId}
+    return <button key={step.id} type="button" className={`sequence-segment ${step.tone}`} title={`Show Qwen 3.6 27B example: ${step.title}`}
+      aria-label={`${label}: ${step.title}. Show Qwen example`} aria-expanded={selected?.id===step.id} aria-controls={panelId}
       onClick={e=>{lastTrigger.current=e.currentTarget;setSelected(selected?.id===step.id?null:{...step,harness});}}>
       {(step.tone==='image-segment' || step.crop_box) && <RegionIcon crop={step.crop_box} />}<span>{step.title}</span>
     </button>;
   }
   function lane(label, steps, harness) {
-    const arm=harness?example.harness:example.null;
+    const events=harness?harnessEvents:nullEvents;
+    const reply=events.filter(event=>event.role==='assistant' && !event.calls.length && event.text).at(-1);
     return <section className="concept-lane" aria-label={label}>
       <h3>{label}</h3>
       <div className="sequence-row">
         <div className={`sequence-strip ${harness?'assisted-strip':'direct-strip'}`}>{steps.map(step=>block(step,label,harness))}</div>
         <ArrowRight size={22} className="sequence-output-arrow" aria-hidden="true" />
-        {block({id:harness?'harness-answer':'null-answer',title:'Answer',tone:'answer-segment',text:arm.text},label,harness)}
+        {block({id:harness?'harness-answer':'null-answer',title:'Answer',tone:'answer-segment',text:reply.text},label,harness)}
       </div>
     </section>;
   }
@@ -122,18 +138,17 @@ export function HarnessComparison() {
       </div>
     </div>
     <Caption number={2}>A harness can turn a single global question into a sequence of local inspections, then combine their evidence into an answer.</Caption>
-    <div id={panelId} hidden={!selected} className="example-disclosure" role="region" aria-label="Luna example" onKeyDown={e=>{if(e.key==='Escape' && !e.target.closest('dialog')){e.stopPropagation();close();}}}>
+    <div id={panelId} hidden={!selected} className="example-disclosure" role="region" aria-label="Qwen 3.6 27B example" onKeyDown={e=>{if(e.key==='Escape' && !e.target.closest('dialog')){e.stopPropagation();close();}}}>
       {selected && <>
         <div className="example-heading">
           <button className="example-close" type="button" title="Close example" aria-label="Close example" onClick={close}><X size={18} /></button>
         </div>
         <div className={`example-content ${selected.input?'has-image':''}`}>
-          {selected.input && <ImageView src={selected.image} alt="Original chat-window image" />}
+          {selected.input && <ImageView src={selected.image} alt="Original webpage image" />}
           <div className="example-text">
             {selected.input && <><p>{example.question}</p><ul className="example-options">{Object.entries(example.options).map(([letter,value])=><li key={letter}><strong>{letter}</strong> {value}</li>)}</ul></>}
-            {selected.reasoning && <SavedSequence harness={selected.harness} />}
-            {selected.text && <blockquote>{selected.text}</blockquote>}
-            {selected.command && <ImageView src={selected.image} alt={selected.detailTitle} />}
+            {selected.events && <SavedSequence events={selected.events} />}
+            {selected.text && <TraceText>{selected.text}</TraceText>}
           </div>
         </div>
       </>}

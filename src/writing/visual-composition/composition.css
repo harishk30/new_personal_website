@@ -25,12 +25,9 @@
 .composition-page .reason-segment { background: var(--diagram-ink-wash); border-bottom-style: dashed; }
 .composition-page .inspection-segment { background: var(--diagram-copper-wash); border-color: var(--diagram-copper); }
 .composition-page .inspection-segment + .inspection-segment { border-left: 1px solid color-mix(in srgb,var(--diagram-copper) 35%,transparent); }
-.composition-page .answer-segment { position: relative; background: transparent; border-color: transparent; height: 38px; font-weight: 600; }
-.composition-page .answer-segment::after { content: ''; position: absolute; inset: auto 6px 0; height: 5px; border-bottom: 2px solid var(--ink); border-radius: 50%; transform: rotate(-2deg); pointer-events: none; }
-.composition-page .region-icon { width: 25px; height: 40px; color: var(--diagram-sea); }
+.composition-page .answer-segment { background: transparent; border-color: var(--ink); height: 38px; font-weight: 600; }
+.composition-page .region-icon { width: 30px; height: 24px; color: var(--diagram-sea); }
 .composition-page .inspection-segment .region-icon { color: var(--diagram-copper); }
-.composition-page .inspection-segment .region-icon { transform: rotate(-2deg); }
-.composition-page .inspection-segment + .inspection-segment .region-icon { transform: rotate(2deg); }
 .composition-page .crop-highlight { fill: var(--diagram-copper); stroke: var(--diagram-copper); stroke-width: 9px; }
 .composition-page .sequence-output-arrow { justify-self: center; color: var(--ink); pointer-events: none; }
 .composition-page .sequence-segment:hover { box-shadow: inset 0 -2px 0 var(--ink); }
@@ -43,6 +40,11 @@
 .composition-page .example-text { font-size: 14px; line-height: 1.7; min-width: 0; }
 .composition-page .example-text p { margin: 0 0 12px; }
 .composition-page .saved-sequence { display: grid; gap: 18px; }
+.composition-page .saved-event:empty { display: none; }
+.composition-page .saved-model-text + .saved-model-text { margin-top: 18px; }
+.composition-page .saved-model-text pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; line-height: 1.6; }
+.composition-page .saved-model-text ul, .composition-page .saved-model-text ol { padding-left: 22px; }
+.composition-page .saved-model-text li { margin-bottom: 6px; }
 .composition-page .example-options { list-style: none; padding: 0; margin: 12px 0; font-size: 12px; }
 .composition-page .example-options li { margin-bottom: 6px; }
 .composition-page .example-options strong { margin-right: 4px; color: var(--muted); }
