@@ -12,6 +12,8 @@
 .composition-page .stage-label { fill: var(--ink); font-weight: 500; }
 .composition-page .encoder-illustration .language-label { fill: var(--ink); font-size: 18px; font-weight: 500; }
 .composition-page .encoder-illustration .token-label { fill: var(--muted); font-size: 12px; }
+.composition-page .image-token-stack rect { fill: color-mix(in srgb, var(--diagram-sea) 80%, black); }
+.composition-page .text-token-stack rect { fill: color-mix(in srgb, var(--diagram-copper) 80%, black); }
 .composition-page .concept-comparison { display: grid; width: 720px; gap: 24px; padding: 4px 0; }
 .composition-page .concept-lane h3 { position: sticky; left: 0; width: max-content; font-size: 14px; font-weight: 600; line-height: 1.4; margin: 0 0 10px; }
 .composition-page .sequence-row { display: grid; grid-template-columns: minmax(0,1fr) 28px 84px; align-items: center; }
