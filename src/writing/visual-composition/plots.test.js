@@ -1,5 +1,65 @@
 import data from './chart-data.json';
 import { rescueConsistency } from './rescue-consistency';
+import luna from './luna-example.json';
+import source from './source-document.json';
+import qwenExamples from './qwen-examples.json';
+
+test('Qwen examples come from the plotted harness run and retain matched baseline counts', () => {
+  expect(qwenExamples.map(e => e.idx)).toEqual([193, 187, 16]);
+  for (const example of qwenExamples) {
+    expect(example.provenance.harness.run_root).toContain('qwen36-27b_codex_execution_only_first100_pass8_20261008');
+    for (const [arm, count] of [['harness', example.harnessSuccesses], ['baseline', example.nullSuccesses]]) {
+      const evidence = example.provenance[arm];
+      expect(evidence.rewards).toHaveLength(8);
+      expect(evidence.rewards.reduce((a, b) => a + b, 0)).toBe(count);
+      expect(evidence.reward).toBe(arm === 'harness' ? 1 : 0);
+    }
+    for (const image of [example.input, ...example.events.flatMap(e => e.images)]) {
+      expect(image.src).toMatch(/^\/writing\/visual-composition\/qwen\//);
+      expect(image.reconstructed).toBe(false);
+    }
+  }
+});
+
+test('Luna effort examples preserve measured counts and the extra error-free xhigh trace', () => {
+  expect(luna.variants.map(v => v.key)).toEqual(['none', 'low', 'medium', 'high', 'xhigh', 'xhigh-crops']);
+  for (const [i, variant] of luna.variants.entries()) {
+    const p = luna.provenance.traces[i];
+    expect(p.rewards).toHaveLength(8);
+    expect(variant.successes).toBe(p.rewards.reduce((a, b) => a + b, 0));
+    expect(variant.correct).toBe(Boolean(p.rewards[p.rollout_index]));
+    expect(variant.events.filter(e => e.role === 'assistant')).toHaveLength(p.model_calls);
+  }
+  const clean = luna.variants.find(v => v.key === 'xhigh-crops');
+  expect(clean.correct).toBe(true);
+  expect(clean.events.flatMap(e => e.images).length).toBeGreaterThan(0);
+  for (const event of clean.events.filter(e => e.role === 'tool' && e.text)) {
+    expect(event.text).toContain('Process exited with code 0');
+    expect(event.text).not.toMatch(/Traceback|No such file/);
+  }
+});
+
+test('article source retains category bullets and the requested introduction wording', () => {
+  const categories = source.paragraphs.filter(p => p.bullet && data.categories.some(c => p.elements[0].textRun?.content === c.label));
+  expect(categories).toHaveLength(4);
+  expect(categories.every(p => p.elements[0].textRun.textStyle.bold)).toBe(true);
+  const text = source.paragraphs.flatMap(p => p.elements.map(e => e.textRun?.content || '')).join('');
+  expect(text).toContain('This is because a harness enables a model to go from a complex state');
+});
+
+test('every category and model has bounded intervals for both metrics', () => {
+  expect(data.categories.reduce((n, c) => n + c.problems, 0)).toBe(2000);
+  for (const category of data.categories) {
+    expect(category.values).toHaveLength(4);
+    for (const row of category.values) for (const key of ['pass1', 'pass8']) {
+      const error = row[key + 'Error'];
+      expect(error).toHaveLength(2);
+      expect(error.every(e => Number.isFinite(e) && e > 0)).toBe(true);
+      expect(row[key] - error[0]).toBeGreaterThanOrEqual(0);
+      expect(row[key] + error[1]).toBeLessThanOrEqual(100);
+    }
+  }
+});
 
 test('rescue threshold curves include zeros in denominators and are non-increasing', () => {
   const curves = rescueConsistency(data.rescued);
@@ -39,7 +99,7 @@ test('Luna difference series and intervals preserve the source point estimates',
   for (const r of data.efforts) {
     expect(r.delta1).toBeCloseTo(r.codexPass1 - r.nullPass1, 10);
     expect(r.delta8).toBeCloseTo(r.codexPass8 - r.nullPass8, 10);
-    for (const k of ['nullPass1', 'nullPass8', 'codexPass1', 'codexPass8']) {
+    for (const k of ['nullPass1', 'nullPass8', 'codexPass1', 'codexPass8', 'delta1', 'delta8']) {
       expect(r[k + 'Error'].every(e => e > 0)).toBe(true);
     }
   }

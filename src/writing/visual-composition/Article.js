@@ -55,6 +55,12 @@ export default function Article() {
     ['(tool-use rate', LunaBehaviorPlot], ['(Luna trace example', LunaExample],
   ];
   let skippingCue = false;
+  let listItems = [];
+  function flushList() {
+    if (!listItems.length) return;
+    blocks.push(<ul className="category-list" key={`list-${blocks.length}`}>{listItems}</ul>);
+    listItems = [];
+  }
   for (const [i, paragraph] of source.paragraphs.entries()) {
     if (i < 2) continue;
     const text = textOf(paragraph);
@@ -64,6 +70,11 @@ export default function Article() {
       if (text.endsWith(')')) skippingCue = false;
       continue;
     }
+    if (paragraph.bullet) {
+      listItems.push(<li key={i}><Inline paragraph={paragraph} /></li>);
+      continue;
+    }
+    flushList();
     const replacement = figures.find(([prefix]) => text.startsWith(prefix));
     if (replacement) {
       const Component = replacement[1];
@@ -83,6 +94,7 @@ export default function Article() {
       blocks.push(<p key={i}><Inline paragraph={paragraph} /></p>);
     }
   }
+  flushList();
   return <div className="worldbench-page composition-page">
     <a className="skip-link" href="#article">Skip to article</a>
     <header className="page-topbar">

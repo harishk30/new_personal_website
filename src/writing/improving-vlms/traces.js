@@ -29,7 +29,7 @@ function TraceImage({ picture }) {
     </Dialog>
   </figure>;
 }
-function Trajectory({ events, correct, compact = false }) {
+function Trajectory({ events, correct, compact = false, showTools = false }) {
     const groups = [];
     for (const event of events) {
         if (event.role === 'user')
@@ -48,28 +48,39 @@ function Trajectory({ events, correct, compact = false }) {
       <div className="trace-step-content">
       {event.reasoning && (compact && event.reasoning.length < 600 ? <TraceText text={event.reasoning}/> : <Fold label="Reasoning"><TraceText text={event.reasoning}/></Fold>)}
       {event.text && <TraceText text={event.text}/>}
-      {!compact && event.calls.map((call, i) => <Fold key={i} label={call.name === 'exec_command' ? 'Python / terminal' : 'View image'}>
-        <pre className="trace-code">{typeof call.arguments.cmd === 'string' ? commandText(call.arguments.cmd) : JSON.stringify(call.arguments, null, 2)}</pre>
-      </Fold>)}
-      {!compact && results.filter(r => r.text).map(result => <Fold key={result.node} label="Output"><pre className="trace-code">{terminalText(result.text)}</pre></Fold>)}
+      {(!compact || showTools) && event.calls.map((call, i) => {
+        const text = typeof call.arguments.cmd === 'string' ? commandText(call.arguments.cmd) : JSON.stringify(call.arguments, null, 2);
+        const code = <pre className="trace-code">{text}</pre>;
+        const label = call.name === 'exec_command' ? 'Python / terminal' : 'View image';
+        return compact && text.length < 600 ? <div key={i}><div className="trace-tool-label">{label}</div>{code}</div> : <Fold key={i} label={label}>{code}</Fold>;
+      })}
+      {(!compact || showTools) && results.filter(r => r.text).map(result => {
+        const text = terminalText(result.text);
+        if (!text.trim()) return null;
+        const output = <pre className="trace-code">{text}</pre>;
+        return compact && text.length < 600 ? <div key={result.node}><div className="trace-tool-label">Tool output</div>{output}</div> : <Fold key={result.node} label="Output">{output}</Fold>;
+      })}
       {images.length > 0 && <div className={`trace-crops ${images.length > 1 ? 'multiple' : ''}`}>{images.map(p => <TraceImage key={p.src} picture={p}/>)}</div>}
       </div>
     </li>;
         })}</ol>;
 }
 export function Trace({ example, compact = false }) {
+    const variants = example.variants || [
+        { key: 'without', label: 'Without harness', successes: example.nullSuccesses, events: example.withoutHarness.events, correct: false },
+        { key: 'with', label: 'With harness', successes: example.harnessSuccesses, events: example.events, correct: true },
+    ];
+    const defaultVariant = variants.some(v => v.key === example.defaultVariant) ? example.defaultVariant : example.variants ? variants[0].key : 'with';
     return <>
     <h3 className="trace-question">{example.question}</h3>
     <TraceImage picture={example.input}/>
     <ul className="trace-options">{Object.entries(example.options).map(([key, value]) => <li key={key}><strong>{key}.</strong> {value}</li>)}</ul>
     <div className="trace-reference">Correct answer: {example.answer} · {example.options[example.answer]}</div>
-    <Tabs defaultValue="with" className="trace-comparison">
-      <TabsList variant="line" className="trace-mode-tabs" aria-label="Compare harness responses">
-        <TabsTrigger value="without">Without harness <span>{example.nullSuccesses}/8</span></TabsTrigger>
-        <TabsTrigger value="with">With harness <span>{example.harnessSuccesses}/8</span></TabsTrigger>
+    <Tabs defaultValue={defaultVariant} className="trace-comparison">
+      <TabsList variant="line" className="trace-mode-tabs" aria-label={example.variants ? 'Compare reasoning efforts' : 'Compare harness responses'}>
+        {variants.map(v => <TabsTrigger key={v.key} value={v.key}>{v.label} <span>{v.successes}/8</span></TabsTrigger>)}
       </TabsList>
-      <TabsContent value="without"><Trajectory events={example.withoutHarness.events} correct={false} compact={compact}/></TabsContent>
-      <TabsContent value="with"><Trajectory events={example.events} correct compact={compact}/></TabsContent>
+      {variants.map(v => <TabsContent key={v.key} value={v.key}><Trajectory events={v.events} correct={v.correct} compact={compact} showTools={v.showTools}/></TabsContent>)}
     </Tabs>
   </>;
 }

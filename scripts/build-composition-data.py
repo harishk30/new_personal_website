@@ -4,6 +4,7 @@ import csv
 import hashlib
 import json
 from pathlib import Path
+import numpy as np
 
 
 def counts(rows):
@@ -17,10 +18,34 @@ def metrics(values):
             "pass8": sum(v > 0 for v in values) / len(values) * 100}
 
 
+def bootstrap_error(values, mean):
+    values = np.asarray(values, dtype=float)
+    assert abs(float(values.mean()) * 100 - mean) < 1e-8
+    rng = np.random.default_rng(20261011)
+    means = np.concatenate([values[rng.integers(len(values), size=(100, len(values)))].mean(1)
+                            for _ in range(20)])
+    low, high = np.quantile(means, [.025, .975]) * 100
+    return [mean - float(low), float(high) - mean]
+
+
+def category_intervals(categories, baseline, classifications):
+    annotations = [json.loads(line) for line in classifications.read_text().splitlines()]
+    assert len(annotations) == 2000 and {r['idx'] for r in annotations} == set(range(2000))
+    for category in categories:
+        ids = sorted(r['idx'] for r in annotations if r['primary_category'] == category['id'])
+        assert len(ids) == category['problems']
+        for row in category['values']:
+            successes = np.asarray(counts(baseline[row['model']]))[ids]
+            for key, values in [('pass1', successes / 8), ('pass8', (successes > 0).astype(float))]:
+                row[key + 'Error'] = bootstrap_error(values, row[key])
+    return categories
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("analysis", type=Path)
     parser.add_argument("luna_run", type=Path)
+    parser.add_argument("--classifications", type=Path, required=True)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     path = args.analysis / "plot_data.json"
@@ -92,6 +117,8 @@ def main():
         row.update(delta1=row["codexPass1"] - row["nullPass1"], delta8=row["codexPass8"] - row["nullPass8"])
         efforts.append(row)
         n, h = matched["null", effort], matched["codex", effort]
+        row['delta1Error'] = bootstrap_error((np.asarray(h) - np.asarray(n)) / 8, row['delta1'])
+        row['delta8Error'] = bootstrap_error((np.asarray(h) > 0).astype(float) - (np.asarray(n) > 0), row['delta8'])
         previously_zero = [b for a, b in zip(n, h) if a == 0]
         rescued.append({"effort": effort, "total": len(previously_zero),
                         "gained": sum(v > 0 for v in previously_zero),
@@ -105,8 +132,9 @@ def main():
                               "questions": 2000, "rollouts_per_question": 8,
                               "harness": "execution-prompt Codex-based harness; not the historical full-prompt run",
                               "luna_pairing": "explicit task_ids from each saved shard summary",
-                              "confidence": "95% question-bootstrap intervals from the saved analysis"},
-              "overall": overall, "categories": old["categories"], "qwen": qwen,
+                              "confidence": "95% question-bootstrap intervals; overall/arm intervals imported from saved analysis, category and paired-difference intervals generated from saved outcomes",
+                              "generated_intervals": {"seed": 20261011, "resamples": 2000, "method": "percentile", "unit": "question, preserving all eight attempts", "classifications_sha256": hashlib.sha256(args.classifications.read_bytes()).hexdigest()}},
+              "overall": overall, "categories": category_intervals(old["categories"], data["null"], args.classifications), "qwen": qwen,
               "efforts": efforts, "rescued": rescued, "behavior": behavior}
     destination = root / "src/writing/visual-composition/chart-data.json"
     destination.write_text(json.dumps(output, indent=2) + "\n")

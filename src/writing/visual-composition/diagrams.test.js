@@ -1,12 +1,12 @@
 import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { EncoderDiagram, HarnessComparison } from './diagrams';
-import traces from '../improving-vlms/trace-examples.json';
+import traces from './qwen-examples.json';
 import { reasoningMarkdown } from '../improving-vlms/trace-format';
 
 jest.mock('react-markdown', () => ({ children }) => <div>{children}</div>);
 
-const example = traces.find(trace => trace.idx === 175);
+const example = traces[0];
 let container;
 let root;
 
@@ -27,16 +27,17 @@ test('keeps reasoning and crop images in source order without command-only steps
   act(() => root.render(<HarnessComparison />));
   const lane = container.querySelectorAll('.concept-lane')[1];
   const steps = [...lane.querySelectorAll('.sequence-strip button')];
-  expect(steps.map(step => step.getAttribute('title').split(': ').at(-1))).toEqual([
-    'Original image and question', 'Reasoning 1', 'Inspect left pipe',
-    'Inspect middle pipe', 'Inspect right pipe', 'Reasoning 2',
-  ]);
-
-  const reasoning = example.events.filter(event => event.role === 'assistant' && event.reasoning);
-  const expectedGroups = [
-    reasoning.slice(0,3).flatMap(event=>[event.reasoning,...(event.text?[event.text]:[])]),
-    [reasoning[3].reasoning],
-  ];
+  expect(steps[0].getAttribute('title')).toContain('Original image and question');
+  const expectedGroups = [];
+  let group = null;
+  for (const event of example.events) {
+    if (event.role === 'assistant' && event.reasoning) {
+      if (!group) { group = []; expectedGroups.push(group); }
+      group.push(event.reasoning);
+      if (event.calls.length && event.text) group.push(event.text);
+    }
+    if (event.images.length) group = null;
+  }
   [...lane.querySelectorAll('.reason-segment')].forEach((button, index) => {
     act(() => button.click());
     expect([...container.querySelectorAll('.saved-model-text')].map(node=>node.textContent))
@@ -48,7 +49,7 @@ test('keeps reasoning and crop images in source order without command-only steps
     act(() => button.click());
     const panel = container.querySelector('.example-disclosure');
     expect(panel.querySelector('.image-open img').getAttribute('src')).toBe(images[index].src);
-    expect(panel.querySelector('.image-open').getAttribute('aria-label')).toContain('reconstructed');
+    expect(panel.querySelector('.image-open').getAttribute('aria-label')).toContain(images[index].label);
     expect(panel.querySelector('.example-text').textContent).toBe('');
   });
 });
@@ -62,8 +63,8 @@ test('the chosen harness trace completes without tool errors or final-answer rec
       expect(event.text).not.toMatch(/Traceback|Error:/);
     }
   }
-  expect(example.events.flatMap(event=>event.calls).filter(call=>call.name==='view_image')).toHaveLength(3);
-  expect(example.events.flatMap(event=>event.images)).toHaveLength(3);
+  expect(example.events.flatMap(event=>event.calls).filter(call=>call.name==='view_image')).toHaveLength(2);
+  expect(example.events.flatMap(event=>event.images)).toHaveLength(2);
 });
 
 test('all panels exclude tool code, stdout, and reminders while retaining final replies', () => {

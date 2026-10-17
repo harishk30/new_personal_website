@@ -1,5 +1,5 @@
 import { Bar, BarChart, CartesianGrid, ErrorBar, LabelList, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
-import { ChartContainer } from '../improving-vlms/ui';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '../improving-vlms/ui';
 import data from './chart-data.json';
 import { rescueConsistency } from './rescue-consistency';
 
@@ -10,13 +10,13 @@ const number = n => Number(n).toLocaleString('en-US', { maximumFractionDigits: 2
 const metricSeries = [{ key: 'pass1', label: 'Pass@1' }, { key: 'pass8', label: 'Pass@8' }];
 const setups = [{ key: 'null', label: 'No harness' }, { key: 'codex', label: 'With harness' }];
 
-function Legend({ series, palette = colors }) {
-  return <ul className="chart-legend">{series.map((s, i) => <li key={s.key}><svg width="26" height="12" viewBox="0 0 26 12" aria-hidden="true"><path d="M0 6 H26" stroke={palette[i]} strokeWidth="2" strokeDasharray={i % 2 ? '4 3' : undefined} />{i % 2 ? <rect x="10" y="3" width="6" height="6" fill={palette[i]} /> : <circle cx="13" cy="6" r="3" fill={palette[i]} />}</svg>{s.label}</li>)}</ul>;
+function Legend({ series, palette = colors, bars = false }) {
+  return <ul className="chart-legend">{series.map((s, i) => <li key={s.key}><svg width="26" height="12" viewBox="0 0 26 12" aria-hidden="true">{bars ? <rect x="4" y="1" width="18" height="10" fill={i % 2 ? 'var(--paper)' : palette[i]} stroke={palette[i]} strokeWidth="1.5" /> : <><path d="M0 6 H26" stroke={palette[i]} strokeWidth="2" strokeDasharray={i % 2 ? '4 3' : undefined} />{i % 2 ? <rect x="10" y="3" width="6" height="6" fill={palette[i]} /> : <circle cx="13" cy="6" r="3" fill={palette[i]} />}</>}</svg>{s.label}</li>)}</ul>;
 }
 
-function DataTable({ rows, x, series, label, format }) {
+function DataTable({ rows, x, series, label, format, intervals = false }) {
   return <table className="sr-only"><caption>{label} by {x.label}</caption><thead><tr><th scope="col">{x.label}</th>{series.map(s => <th scope="col" key={s.key}>{s.label}</th>)}</tr></thead>
-      <tbody>{rows.map((r, i) => <tr key={i}><th scope="row">{r[x.key]}</th>{series.map(s => <td key={s.key}>{format(r[s.key])}</td>)}</tr>)}</tbody></table>;
+      <tbody>{rows.map((r, i) => <tr key={i}><th scope="row">{r[x.key]}</th>{series.map(s => <td key={s.key}>{format(r[s.key])}{intervals && r[s.key + 'Error'] && ` (95% interval: ${format(r[s.key] - r[s.key + 'Error'][0])} to ${format(r[s.key] + r[s.key + 'Error'][1])})`}</td>)}</tr>)}</tbody></table>;
 }
 
 function Plot({ rows, x, series, label, format = percentage, domain = ['auto', 'auto'], bars = false, palette = colors, zero = false, intervals = false, valueLabels = false }) {
@@ -31,7 +31,7 @@ function Plot({ rows, x, series, label, format = percentage, domain = ['auto', '
         <XAxis dataKey={x.key} type={numeric ? 'number' : 'category'} domain={numeric ? ['auto', 'auto'] : undefined} padding={numeric ? undefined : { left: bars ? 0 : 20, right: bars ? 0 : 20 }} interval={numeric ? undefined : 0} tickLine={false} axisLine={{ stroke: 'var(--line)' }} tickMargin={10} height={36} tickFormatter={numeric ? number : undefined} />
         <YAxis domain={domain} width={52} tickLine={false} axisLine={false} tickFormatter={format === percentage ? v => `${v}%` : format} tickCount={5} />
         {zero && <ReferenceLine y={0} stroke="var(--muted)" strokeDasharray="3 4" />}
-        {series.map((s, i) => <Mark key={s.key} dataKey={s.key} type="linear" stroke={palette[i]} fill={palette[i]} strokeWidth={bars ? 0 : 2.5} strokeDasharray={!bars && i % 2 ? '5 4' : undefined} dot={bars ? undefined : i % 2 ? ({ cx, cy }) => <rect x={cx - 3.5} y={cy - 3.5} width={7} height={7} fill={palette[i]} /> : { r: 4, strokeWidth: 0 }} activeDot={false} activeBar={false} maxBarSize={52} isAnimationActive={false}>
+        {series.map((s, i) => <Mark key={s.key} dataKey={s.key} type="linear" stroke={palette[i]} fill={bars && i % 2 ? 'var(--paper)' : palette[i]} strokeWidth={bars ? (i % 2 ? 1.5 : 0) : 2.5} strokeDasharray={!bars && i % 2 ? '5 4' : undefined} dot={bars ? undefined : i % 2 ? ({ cx, cy }) => <rect x={cx - 3.5} y={cy - 3.5} width={7} height={7} fill={palette[i]} /> : { r: 4, strokeWidth: 0 }} activeDot={false} activeBar={false} maxBarSize={52} isAnimationActive={false}>
           {intervals && rows.every(r => r[s.key + 'Error']) && <ErrorBar dataKey={s.key + 'Error'} direction="y" width={4} stroke={palette[i]} strokeWidth={1.2} />}
           {valueLabels && <LabelList dataKey={s.key} position="top" offset={9} formatter={format} fill={palette[i]} fontSize={12} />}
           {numeric && <LabelList dataKey="effort" content={({ x: px, y: py, value }) => <text x={px} y={Number(py) + (value === 'low' ? 20 : -13)} textAnchor="middle" fill={palette[i]} fontSize={12}>{value}</text>} />}
@@ -39,7 +39,7 @@ function Plot({ rows, x, series, label, format = percentage, domain = ['auto', '
       </Canvas>
     </ChartContainer>
     <div className="x-axis-heading">{x.label}</div>
-    <DataTable rows={rows} x={x} series={series} label={label} format={format} />
+    <DataTable rows={rows} x={x} series={series} label={label} format={format} intervals={intervals} />
   </>;
 }
 
@@ -57,18 +57,18 @@ export function ScalingPlot() {
 }
 
 export function CategoryPlot() {
-  return <Figure n={4} caption="Pass@1 and Pass@8 by assigned primary skill category. Each panel uses the same vertical scale. Categories are model-assisted annotations, not causal diagnoses.">
+  return <Figure n={4} caption="Pass@1 and Pass@8 by assigned primary skill category. Error bars show 95% question-bootstrap intervals within each category, keeping all eight attempts per question together. Each panel uses the same vertical scale. Categories are model-assisted annotations, not causal diagnoses.">
     <Legend series={metricSeries} palette={metricColors} />
     <div className="research-grid">{data.categories.map(c => <section className="chart-panel" key={c.id}>
       <h3>{c.label}</h3><p className="panel-note">{c.problems} questions</p>
-      <Plot rows={c.values} x={{ key: 'model', label: 'Model size' }} series={metricSeries} label="Pass rate" domain={[35, 90]} palette={metricColors} />
+      <Plot rows={c.values} x={{ key: 'model', label: 'Model size' }} series={metricSeries} label="Pass rate" domain={[35, 90]} palette={metricColors} intervals />
     </section>)}</div>
   </Figure>;
 }
 
 export function QwenHarnessPlot() {
   return <Figure n={5} caption="Matched one-turn and execution-prompt Codex-based harness evaluations, with 2,000 questions and eight attempts per question for each model. Histograms show repeated success; gained and lost counts are observed transitions to and from 0/8, not proof of an absolute capability boundary.">
-    <Legend series={setups} />
+    <Legend series={setups} bars />
     <div className="research-grid">{data.qwen.map(q => <section className="chart-panel" key={q.model}>
       <h3>Qwen {q.model === '27B' ? '3.6 27B' : '3.5 397B'}</h3>
       <Plot rows={q.metrics} x={{ key: 'metric', label: 'Evaluation metric' }} series={setups} label="Pass rate" domain={[0, 100]} bars valueLabels />
@@ -79,14 +79,14 @@ export function QwenHarnessPlot() {
 }
 
 export function LunaEffortPlot() {
-  return <Figure n={6} caption="Luna with and without the harness across five reasoning efforts, on the same 2,000 questions with eight attempts each. Bars show 95% question-bootstrap intervals. The harness improves both metrics at medium effort and above; low effort is an exception to the gain.">
+  return <Figure n={6} caption="Luna with and without the harness across five reasoning efforts, on the same 2,000 questions with eight attempts each. Error bars show 95% question-bootstrap intervals; gain intervals resample paired question-level differences. Observed scores are higher with the harness at medium effort and above; low effort is an exception to the gain.">
     <Legend series={setups} />
     <div className="research-grid">{[1, 8].map(k => <section className="chart-panel" key={k}>
       <h3>Pass@{k}</h3><Plot rows={data.efforts} x={{ key: 'effort', label: 'Reasoning effort' }} series={[{ key: `nullPass${k}`, label: 'No harness' }, { key: `codexPass${k}`, label: 'With harness' }]} label="Pass rate" domain={k === 1 ? [40, 70] : [60, 90]} intervals />
     </section>)}</div>
     <section className="supplemental-plot" aria-label="Harness gain">
       <Legend series={metricSeries} palette={metricColors} />
-      <Plot rows={data.efforts} x={{ key: 'effort', label: 'Reasoning effort' }} series={[{ key: 'delta1', label: 'Pass@1' }, { key: 'delta8', label: 'Pass@8' }]} label="Harness minus no harness (percentage points)" format={v => `${v > 0 ? '+' : ''}${number(v)}`} domain={[-4, 8]} palette={metricColors} zero />
+      <Plot rows={data.efforts} x={{ key: 'effort', label: 'Reasoning effort' }} series={[{ key: 'delta1', label: 'Pass@1' }, { key: 'delta8', label: 'Pass@8' }]} label="Harness minus no harness (percentage points)" format={v => `${v > 0 ? '+' : ''}${number(v)}`} domain={[-6, 10]} palette={metricColors} zero intervals />
     </section>
   </Figure>;
 }
@@ -111,26 +111,24 @@ function EffortMark({ cx, cy, style }) {
 export function LunaRescuePlot() {
   const rows = rescueConsistency(data.rescued);
   return <Figure n={7} caption="Among questions answered incorrectly in all eight no-harness attempts, each curve shows the share reaching at least the indicated number of harness successes. Zero-success cases stay in the denominator. These are observed eight-attempt outcomes, not estimated future success probabilities; gains and losses can also reflect finite sampling.">
-    <p className="cohort-note">Each effort uses its own baseline 0/8 question set, not the same cases across efforts.</p>
+    <h3 className="rescue-heading">Previously 0/8 questions: success after harness use</h3>
+    <p className="cohort-note" id="rescue-cohort-note">Each effort uses its own baseline 0/8 question set, not the same cases across efforts.</p>
     <ul className="chart-legend rescue-legend">{data.rescued.map((r, i) => <li key={r.effort}>
       <svg width="32" height="14" viewBox="0 0 32 14" aria-hidden="true"><path d="M0 7 H32" stroke={effortStyles[i].color} strokeWidth="2" strokeDasharray={effortStyles[i].dash} /><EffortMark cx={16} cy={7} style={effortStyles[i]} /></svg>
       <span>{r.effort}<span className="cohort-size">n = {r.total}</span></span>
     </li>)}</ul>
     <div className="y-axis-heading">Share of baseline 0/8 questions meeting threshold</div>
     <ChartContainer className="research-chart rescue-chart" aria-label="Luna rescue consistency across five reasoning efforts">
-      <LineChart data={rows} accessibilityLayer={false} margin={{ top: 16, right: 18, bottom: 8, left: 0 }}>
+      <LineChart data={rows} accessibilityLayer aria-label="Previously 0/8 questions: success after harness use" aria-describedby="rescue-cohort-note" margin={{ top: 16, right: 18, bottom: 8, left: 0 }}>
         <CartesianGrid vertical={false} stroke="var(--line)" />
         <XAxis dataKey="threshold" interval={0} padding={{ left: 20, right: 20 }} tickLine={false} tickMargin={10} axisLine={{ stroke: 'var(--line)' }} />
         <YAxis domain={[0, 50]} ticks={[0,10,20,30,40,50]} tickFormatter={v => `${v}%`} width={52} axisLine={false} tickLine={false} />
+        <ChartTooltip cursor={{ stroke: 'var(--muted)', strokeDasharray: '3 4', strokeWidth: 1 }} isAnimationActive={false} content={props => <div role="status" aria-live="polite" aria-atomic="true"><ChartTooltipContent {...props} className="chart-tooltip" labelFormatter={v => `At least ${v} successful ${Number(v) === 1 ? 'attempt' : 'attempts'} out of 8`} formatter={(v, name) => <div className="rescue-tooltip-row"><span>{name} effort</span><strong>{percentage(v)}</strong></div>} /></div>} />
         {data.rescued.map((r, i) => <Line key={r.effort} dataKey={r.effort} type="linear" stroke={effortStyles[i].color} strokeDasharray={effortStyles[i].dash} strokeWidth={2.2} activeDot={false} isAnimationActive={false} dot={props => <EffortMark cx={props.cx} cy={props.cy} style={effortStyles[i]} />} />)}
       </LineChart>
     </ChartContainer>
     <div className="x-axis-heading">Minimum successful harness attempts (out of 8)</div>
     <div className="threshold-guide"><span>1: solved at least once</span><span>8: successful in all 8 runs</span></div>
-    <div className="rescue-table-wrap"><table className="rescue-summary"><caption className="sr-only">Luna rescue outcomes by effort</caption>
-      <thead><tr><th scope="col">Effort</th><th scope="col">Still 0/8</th><th scope="col">At least 1/8</th><th scope="col">All 8/8</th></tr></thead>
-      <tbody>{data.rescued.map(r => <tr key={r.effort}><th scope="row">{r.effort}</th><td>{percentage(r.values[0].count/r.total*100)}</td><td>{percentage(r.gained/r.total*100)}</td><td>{percentage(r.values[8].count/r.total*100)}</td></tr>)}</tbody>
-    </table></div>
     <DataTable rows={rows} x={{ key: 'threshold', label: 'Minimum successful harness attempts' }} series={data.rescued.map(r => ({ key: r.effort, label: `${r.effort} (n=${r.total})` }))} label="Share of baseline 0/8 questions" format={percentage} />
   </Figure>;
 }

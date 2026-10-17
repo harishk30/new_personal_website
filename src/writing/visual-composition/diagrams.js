@@ -1,10 +1,10 @@
 import { useId, useRef, useState } from 'react';
 import { ArrowRight, Maximize2, X } from 'lucide-react';
 import Markdown from 'react-markdown';
-import traces from '../improving-vlms/trace-examples.json';
+import traces from './qwen-examples.json';
 import { reasoningMarkdown } from '../improving-vlms/trace-format';
 
-const example = traces.find(trace => trace.idx === 175);
+const example = traces[0];
 
 function Caption({ number, children }) {
   return <figcaption><span className="figure-number">Figure {number}</span><span>{children}</span></figcaption>;
@@ -144,7 +144,7 @@ export function HarnessComparison() {
           <button className="example-close" type="button" title="Close example" aria-label="Close example" onClick={close}><X size={18} /></button>
         </div>
         <div className={`example-content ${selected.input?'has-image':''}`}>
-          {selected.input && <ImageView src={example.input.src} alt="Original image of a person operating a pipe valve" />}
+          {selected.input && <ImageView src={example.input.src} alt={example.input.label} />}
           <div className="example-text">
             {selected.input && <><p>{example.question}</p><ul className="example-options">{Object.entries(example.options).map(([letter,value])=><li key={letter}><strong>{letter}</strong> {value}</li>)}</ul></>}
             {selected.text && <TraceText>{selected.text}</TraceText>}
