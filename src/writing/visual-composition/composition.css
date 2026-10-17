@@ -98,9 +98,10 @@
 .composition-page .answer-status { font-size: 13px; font-weight: 600; margin-top: 18px; }
 .composition-page .cohort-note { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0 0 20px; }
 .composition-page .rescue-legend { gap: 12px 24px; }
-.composition-page .cohort-size { display: block; font-size: 12px; color: var(--muted); }
+.composition-page .cohort-size { display: block; font-size: 13px; color: var(--muted); }
 .composition-page .rescue-chart { height: 340px; }
-.composition-page .threshold-guide { display: flex; justify-content: space-between; gap: 24px; font-size: 12px; color: var(--muted); margin: 4px 18px 22px 52px; }
+.composition-page .threshold-guide { display: flex; justify-content: space-between; gap: 24px; font-size: 13px; color: var(--ink); margin: 4px 18px 22px 52px; }
+.composition-page #figure-7 figcaption { font-size: 13px; }
 .composition-page .threshold-guide span:last-child { text-align: right; }
 .composition-page .rescue-summary { width: 100%; max-width: 660px; margin: 16px auto 20px; font-size: 13px; font-variant-numeric: tabular-nums; border-collapse: collapse; }
 .composition-page .rescue-summary th, .composition-page .rescue-summary td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--line); }

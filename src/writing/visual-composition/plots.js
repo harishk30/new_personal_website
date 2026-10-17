@@ -126,7 +126,7 @@ export function LunaRescuePlot() {
       </LineChart>
     </ChartContainer>
     <div className="x-axis-heading">Minimum successful harness attempts (out of 8)</div>
-    <div className="threshold-guide"><span>1: solved at least once</span><span>8: solved every time</span></div>
+    <div className="threshold-guide"><span>1: solved at least once</span><span>8: successful in all 8 runs</span></div>
     <div className="rescue-table-wrap"><table className="rescue-summary"><caption className="sr-only">Luna rescue outcomes by effort</caption>
       <thead><tr><th scope="col">Effort</th><th scope="col">Still 0/8</th><th scope="col">At least 1/8</th><th scope="col">All 8/8</th></tr></thead>
       <tbody>{data.rescued.map(r => <tr key={r.effort}><th scope="row">{r.effort}</th><td>{percentage(r.values[0].count/r.total*100)}</td><td>{percentage(r.gained/r.total*100)}</td><td>{percentage(r.values[8].count/r.total*100)}</td></tr>)}</tbody>
