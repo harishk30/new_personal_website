@@ -5,7 +5,7 @@ import source from './source-document.json';
 import qwenExamples from './qwen-examples.json';
 
 test('Qwen examples come from the plotted harness run and retain matched baseline counts', () => {
-  expect(qwenExamples.map(e => e.idx)).toEqual([193, 187, 16]);
+  expect(qwenExamples.map(e => e.idx)).toEqual([1809, 1625]);
   for (const example of qwenExamples) {
     expect(example.provenance.harness.run_root).toContain('qwen36-27b_codex_execution_only_first100_pass8_20261008');
     for (const [arm, count] of [['harness', example.harnessSuccesses], ['baseline', example.nullSuccesses]]) {
@@ -21,21 +21,24 @@ test('Qwen examples come from the plotted harness run and retain matched baselin
   }
 });
 
-test('Luna effort examples preserve measured counts and the extra error-free xhigh trace', () => {
-  expect(luna.variants.map(v => v.key)).toEqual(['none', 'low', 'medium', 'high', 'xhigh', 'xhigh-crops']);
+test('Luna shows exactly one error-free trace per effort with verified aggregate counts', () => {
+  expect(luna.variants.map(v => v.key)).toEqual(['none', 'low', 'medium', 'high', 'xhigh']);
+  expect(luna.provenance.question_id).toBe(53);
   for (const [i, variant] of luna.variants.entries()) {
     const p = luna.provenance.traces[i];
     expect(p.rewards).toHaveLength(8);
     expect(variant.successes).toBe(p.rewards.reduce((a, b) => a + b, 0));
     expect(variant.correct).toBe(Boolean(p.rewards[p.rollout_index]));
     expect(variant.events.filter(e => e.role === 'assistant')).toHaveLength(p.model_calls);
+    for (const event of variant.events.filter(e => e.role === 'tool' && e.text)) {
+      expect(event.text).toContain('Process exited with code 0');
+      expect(event.text).not.toMatch(/Traceback|No such file|Error:/);
+    }
   }
-  const clean = luna.variants.find(v => v.key === 'xhigh-crops');
-  expect(clean.correct).toBe(true);
-  expect(clean.events.flatMap(e => e.images).length).toBeGreaterThan(0);
-  for (const event of clean.events.filter(e => e.role === 'tool' && e.text)) {
-    expect(event.text).toContain('Process exited with code 0');
-    expect(event.text).not.toMatch(/Traceback|No such file/);
+  for (const effort of ['medium', 'high', 'xhigh']) {
+    const variant = luna.variants.find(v => v.key === effort);
+    expect(variant.correct).toBe(true);
+    expect(variant.events.flatMap(e => e.images).length).toBeGreaterThan(0);
   }
 });
 

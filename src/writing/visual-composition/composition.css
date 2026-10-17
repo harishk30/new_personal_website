@@ -65,7 +65,9 @@
 .composition-page .image-open-icon { justify-self: end; margin-top: 6px; box-sizing: content-box; padding: 5px; color: var(--ink); }
 .composition-page .composition-image-dialog { border: 1px solid var(--line); padding: 42px 18px 18px; border-radius: 2px; width: min(1080px,calc(100% - 28px)); max-width: none; max-height: 92dvh; background: var(--paper); color: var(--ink); }
 .composition-page .composition-image-dialog::backdrop { background: rgba(0,0,0,.7); }
-.composition-page .composition-image-dialog > img { display: block; max-width: 100%; max-height: calc(92dvh - 76px); width: auto; margin: auto; object-fit: contain; }
+.composition-page .composition-zoom-scroll { overflow: auto; max-height: calc(92dvh - 76px); }
+.composition-page .composition-zoom-scroll > img { display: block; max-width: none; max-height: none; width: auto; margin: 0; }
+.composition-page .composition-zoom-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .composition-page .image-close { position: absolute; right: 8px; top: 6px; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0; border: 0; color: var(--ink); background: transparent; cursor: pointer; }
 @media(max-width:620px) {
   .composition-page .composition-subtitle { font-size: 18px; }
@@ -96,6 +98,16 @@
 .composition-page [role='tab']:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .composition-page .luna-example-widget > .panel-note { font-size: 14px; color: var(--muted); margin: 0 0 20px; }
 .composition-page .luna-example-widget .trace-fold-content { max-height: 360px; overflow-y: auto; }
+.composition-page .trace-tools-toggle { display: flex; align-items: center; gap: 8px; width: fit-content; min-height: 40px; margin: -6px 0 14px; color: var(--muted); font-size: 14px; cursor: pointer; }
+.composition-page .trace-tools-toggle input { accent-color: var(--accent); width: 16px; height: 16px; }
+.composition-page .trace-enlarge { opacity: 1; }
+.worldbench-dialog-scope .trace-native-image-dialog .figure-scroll img { max-width: none; max-height: none; width: auto; height: auto; margin: 0; }
+.worldbench-dialog-scope .trace-native-image-dialog .figure-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.composition-page .writing-notes { max-width: 720px; margin: 36px auto 48px; }
+.composition-page .writing-notes-label { color: var(--muted); font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+.composition-page .writing-notes ul { padding-left: 23px; list-style: disc; }
+.composition-page .writing-notes li { padding-left: 7px; margin-block: 16px; }
+.composition-page .writing-notes li::marker { color: var(--accent); }
 .composition-page .trace-tool-label { color: var(--muted); font-size: 13px; margin-top: 12px; }
 .composition-page .trace-tool-label + .trace-code { margin-top: 4px; }
 .composition-page .cohort-note { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0 0 20px; }
@@ -110,6 +122,7 @@
 .composition-page .rescue-tooltip-row { display: flex; justify-content: space-between; gap: 24px; font-variant-numeric: tabular-nums; }
 .composition-page .rescue-chart svg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 @media(max-width:760px) {
+  .composition-page .luna-example-widget .trace-mode-tabs { row-gap: 2px; column-gap: 20px; }
   .composition-page .research-grid { grid-template-columns: minmax(0,1fr); gap: 28px; }
   .composition-page .research-chart { height: 280px; }
   .composition-page .rescue-chart { height: 320px; }

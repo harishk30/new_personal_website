@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import Markdown from 'react-markdown';
 import { ChevronDown, Maximize2 } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui';
@@ -15,16 +16,16 @@ function Fold({ label, children }) {
 function TraceText({ text }) {
     return <div className="trace-prose"><Markdown components={{ img: () => null }}>{reasoningMarkdown(text)}</Markdown></div>;
 }
-function TraceImage({ picture }) {
+function TraceImage({ picture, nativeSize = false }) {
     return <figure className={`trace-image ${picture.reconstructed ? 'crop-image' : 'input-image'}`}>
     <Dialog>
       <DialogTrigger className="trace-image-trigger" aria-label={`Enlarge ${picture.label}`} title={picture.reconstructed ? 'Reconstructed from the recorded crop command' : undefined}>
         <img src={picture.src} alt={picture.label} width={picture.width} height={picture.height} loading="lazy"/>
         <Maximize2 className="trace-enlarge" size={16} aria-hidden="true"/>
       </DialogTrigger>
-      <DialogContent className="figure-dialog trace-image-dialog" aria-describedby={undefined}>
+      <DialogContent className={`figure-dialog trace-image-dialog${nativeSize ? ' trace-native-image-dialog' : ''}`} aria-describedby={undefined}>
         <DialogTitle className="sr-only">{picture.label}</DialogTitle>
-        <div className="figure-scroll"><img src={picture.src} width={picture.width} height={picture.height} alt={picture.label}/></div>
+        <div className="figure-scroll" tabIndex={nativeSize ? 0 : undefined} role={nativeSize ? 'region' : undefined} aria-label={nativeSize ? 'Full-resolution image, scroll to inspect' : undefined}><img src={picture.src} width={picture.width} height={picture.height} alt={picture.label}/></div>
       </DialogContent>
     </Dialog>
   </figure>;
@@ -42,12 +43,15 @@ function Trajectory({ events, correct, compact = false, showTools = false }) {
     return <ol className="trace-timeline">{groups.map(({ event, results }) => {
             const final = event.role === 'assistant' && event.calls.length === 0 && /Answer:\s*[A-D]/.test(event.text);
             const images = results.flatMap(r => r.images);
+            const failures = results.filter(r => /Process exited with code [1-9]|Traceback|Error:|No such file/.test(r.text));
+            if (compact && !showTools && !event.reasoning && !event.text && !images.length && !failures.length) return null;
             const label = `Turn ${event.turn}${final ? ' · Answer' : ''}`;
             return <li key={event.node} className="trace-step">
       <div className="trace-step-label">{label}{final && <span className={`trace-verdict ${correct ? 'correct' : 'incorrect'}`}>{correct ? 'Correct' : 'Incorrect'}</span>}</div>
       <div className="trace-step-content">
       {event.reasoning && (compact && event.reasoning.length < 600 ? <TraceText text={event.reasoning}/> : <Fold label="Reasoning"><TraceText text={event.reasoning}/></Fold>)}
       {event.text && <TraceText text={event.text}/>}
+      {compact && !showTools && failures.map(result => <div key={result.node}><div className="trace-tool-label">Tool error</div><pre className="trace-code">{terminalText(result.text)}</pre></div>)}
       {(!compact || showTools) && event.calls.map((call, i) => {
         const text = typeof call.arguments.cmd === 'string' ? commandText(call.arguments.cmd) : JSON.stringify(call.arguments, null, 2);
         const code = <pre className="trace-code">{text}</pre>;
@@ -60,12 +64,13 @@ function Trajectory({ events, correct, compact = false, showTools = false }) {
         const output = <pre className="trace-code">{text}</pre>;
         return compact && text.length < 600 ? <div key={result.node}><div className="trace-tool-label">Tool output</div>{output}</div> : <Fold key={result.node} label="Output">{output}</Fold>;
       })}
-      {images.length > 0 && <div className={`trace-crops ${images.length > 1 ? 'multiple' : ''}`}>{images.map(p => <TraceImage key={p.src} picture={p}/>)}</div>}
+      {images.length > 0 && <div className={`trace-crops ${images.length > 1 ? 'multiple' : ''}`}>{images.map(p => <TraceImage key={p.src} picture={p} nativeSize={compact}/>)}</div>}
       </div>
     </li>;
         })}</ol>;
 }
-export function Trace({ example, compact = false }) {
+export function Trace({ example, compact = false, toolDetailsToggle = false }) {
+    const [showToolDetails, setShowToolDetails] = useState(false);
     const variants = example.variants || [
         { key: 'without', label: 'Without harness', successes: example.nullSuccesses, events: example.withoutHarness.events, correct: false },
         { key: 'with', label: 'With harness', successes: example.harnessSuccesses, events: example.events, correct: true },
@@ -73,14 +78,15 @@ export function Trace({ example, compact = false }) {
     const defaultVariant = variants.some(v => v.key === example.defaultVariant) ? example.defaultVariant : example.variants ? variants[0].key : 'with';
     return <>
     <h3 className="trace-question">{example.question}</h3>
-    <TraceImage picture={example.input}/>
+    <TraceImage picture={example.input} nativeSize={compact}/>
     <ul className="trace-options">{Object.entries(example.options).map(([key, value]) => <li key={key}><strong>{key}.</strong> {value}</li>)}</ul>
     <div className="trace-reference">Correct answer: {example.answer} · {example.options[example.answer]}</div>
+    {toolDetailsToggle && <label className="trace-tools-toggle"><input type="checkbox" checked={showToolDetails} onChange={e => setShowToolDetails(e.target.checked)} />Show commands</label>}
     <Tabs defaultValue={defaultVariant} className="trace-comparison">
       <TabsList variant="line" className="trace-mode-tabs" aria-label={example.variants ? 'Compare reasoning efforts' : 'Compare harness responses'}>
         {variants.map(v => <TabsTrigger key={v.key} value={v.key}>{v.label} <span>{v.successes}/8</span></TabsTrigger>)}
       </TabsList>
-      {variants.map(v => <TabsContent key={v.key} value={v.key}><Trajectory events={v.events} correct={v.correct} compact={compact} showTools={v.showTools}/></TabsContent>)}
+      {variants.map(v => <TabsContent key={v.key} value={v.key}><Trajectory events={v.events} correct={v.correct} compact={compact} showTools={toolDetailsToggle ? showToolDetails : v.showTools}/></TabsContent>)}
     </Tabs>
   </>;
 }

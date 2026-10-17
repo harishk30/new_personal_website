@@ -67,7 +67,7 @@ export function ImageView({ src, alt, reconstructed = false }) {
     </button>
     <dialog ref={dialog} className="composition-image-dialog" aria-label={alt} onClick={e => { if (e.target === dialog.current) dialog.current.close(); }}>
       <button className="image-close" type="button" title="Close image" aria-label="Close image" onClick={() => dialog.current.close()}><X size={21} /></button>
-      <img src={src} alt={alt} />
+      <div className="composition-zoom-scroll" tabIndex={0} role="region" aria-label="Full-resolution image, scroll to inspect"><img src={src} alt={alt} /></div>
     </dialog>
   </div>;
 }
@@ -137,7 +137,7 @@ export function HarnessComparison() {
         {lane('With a harness',withHarness,true)}
       </div>
     </div>
-    <Caption number={2}>A harness can turn a single global question into a sequence of local inspections, then combine their evidence into an answer. (Click a segment to view the trajectory.)</Caption>
+    <Caption number={2}>This selected successful inspection reveals the chart's staggered labels, allowing the model to compare their positions and answer correctly. Across eight attempts: {example.nullSuccesses}/8 without the harness, {example.harnessSuccesses}/8 with it. (Click a segment to view the trajectory.)</Caption>
     <div id={panelId} hidden={!selected} className="example-disclosure" role="region" aria-label="Qwen 3.6 27B example">
       {selected && <>
         <div className="example-heading">

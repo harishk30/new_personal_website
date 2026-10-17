@@ -3,8 +3,13 @@ import { createRoot } from 'react-dom/client';
 import { EncoderDiagram, HarnessComparison } from './diagrams';
 import traces from './qwen-examples.json';
 import { reasoningMarkdown } from '../improving-vlms/trace-format';
+import { Trace } from '../improving-vlms/traces';
 
 jest.mock('react-markdown', () => ({ children }) => <div>{children}</div>);
+jest.mock('../improving-vlms/ui', () => {
+  const Group = ({ children }) => <div>{children}</div>;
+  return Object.fromEntries(['Tabs', 'TabsList', 'TabsTrigger', 'TabsContent', 'Collapsible', 'CollapsibleTrigger', 'CollapsibleContent', 'Dialog', 'DialogTrigger', 'DialogContent', 'DialogTitle'].map(name => [name, Group]));
+});
 
 const example = traces[0];
 let container;
@@ -63,8 +68,8 @@ test('the chosen harness trace completes without tool errors or final-answer rec
       expect(event.text).not.toMatch(/Traceback|Error:/);
     }
   }
-  expect(example.events.flatMap(event=>event.calls).filter(call=>call.name==='view_image')).toHaveLength(2);
-  expect(example.events.flatMap(event=>event.images)).toHaveLength(2);
+  expect(example.events.flatMap(event=>event.calls).filter(call=>call.name==='view_image')).toHaveLength(1);
+  expect(example.events.flatMap(event=>event.images)).toHaveLength(1);
 });
 
 test('all panels exclude tool code, stdout, and reminders while retaining final replies', () => {
@@ -89,4 +94,24 @@ test('centers the language model and answer on the combined token connector', ()
   expect(container.querySelector('path[d="M427 112 H476"]')).not.toBeNull();
   expect(container.querySelector('path[d="M604 112 H649"]')).not.toBeNull();
   expect(container.querySelector('path[d="M501 72 H489 V152 H501 M581 72 H593 V152 H581"]')).not.toBeNull();
+});
+
+test('optional commands preserve reasoning, image events, and execution failures', () => {
+  const testExample = {
+    question: 'Which side?', options: { A: 'Left', B: 'Right' }, answer: 'A',
+    input: { src: '/input.png', label: 'Original', width: 10, height: 10 },
+    variants: [{ key: 'high', label: 'high', successes: 2, correct: true, events: [
+      { node: 1, role: 'assistant', turn: 1, reasoning: 'Inspect the left region.', text: '', calls: [{ name: 'exec_command', arguments: { cmd: 'python inspect.py' } }], images: [] },
+      { node: 2, role: 'tool', turn: 1, reasoning: '', text: 'Process exited with code 1\nOutput:\nError: missing file', calls: [], images: [] },
+      { node: 3, role: 'assistant', turn: 2, reasoning: '', text: 'Answer: A', calls: [], images: [] },
+    ] }],
+  };
+  act(() => root.render(<Trace example={testExample} compact toolDetailsToggle />));
+  expect(container.textContent).toContain('Inspect the left region.');
+  expect(container.textContent).toContain('Error: missing file');
+  expect(container.textContent).not.toContain('python inspect.py');
+  act(() => container.querySelector('input[type="checkbox"]').click());
+  expect(container.textContent).toContain('python inspect.py');
+  expect(container.textContent).toContain('Error: missing file');
+  expect(container.querySelector('.trace-verdict').textContent).toBe('Correct');
 });

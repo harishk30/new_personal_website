@@ -1,9 +1,9 @@
-"""Extract three saved Qwen examples, without inference or executing trace code.
+"""Extract two saved Qwen examples, without inference or executing trace code.
 
 Run with uv run --no-project --with pillow python
  scripts/build-qwen-composition-examples.py [--check].
 Only two current-run shards are streamed (at most 200 lines / 1 GiB each).
-The unchanged 36 GiB baseline is read at 24 verified record offsets, not scanned.
+The unchanged 36 GiB baseline is read at 16 verified record offsets, not scanned.
 All inputs are validated before any output is written. --check performs the
 same extraction and checks existing output bytes without writing anything.
 """
@@ -18,7 +18,7 @@ import json
 import re
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageChops
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -28,62 +28,36 @@ RUN = EVALS / 'qwen36-27b_codex_execution_only_first100_pass8_20261008'
 BASELINE = EVALS / 'qwen36_27b_pass8_null_thinking_official_20260819_repaired_missing5_20260820/traces.jsonl'
 SCORES = SKYRL / 'analysis/worldbench/derived_scores/worldbench_27b_task_scores.tsv'
 PLOT = SKYRL / 'plots/worldbench_compositional_20261011/plot_data.json'
-OLD = REPO / 'src/writing/improving-vlms/trace-examples.json'
 OUTPUT = REPO / 'src/writing/visual-composition/qwen-examples.json'
 ASSETS = REPO / 'public/writing/visual-composition/qwen'
 PREFIX = '/writing/visual-composition/qwen/'
 SELECTION = {
-    193: ('a80ba9761e634a7d85302a91c549ff85', 5, 'Dish counting',
-          '340af067d5244f228536ea3cba368c58', 0),
-    187: ('67386249934245b9b6857406d0e85950', 5, 'Door number',
-          '06f99a8de81f4d03907e9738e3e838c2', 0),
-    16: ('7d8d9ad2a76041e7bc504d387d514128', 0, 'Window corners',
-         'd75b860bebbb45099375284363bb07ba', 1),
+    1809: ('6566a690e8cf4cbc8a7a7bf219866913', 7, 'Chart labels',
+           '0a6898c3d3c54b7697dced982e501202', 0),
+    1625: ('9cd2b92b8cce474aaa8b4def48e5fe53', 6, 'Text spacing',
+           'a8b4c80af42242dc80157943c0c12ce5', 0),
 }
 # One-based source lines and zero-based byte offsets from a bounded inventory.
 # Each seek is validated against task ID, rollout count, rewards, and selected ID.
 BASELINE_INDEX = {
-    193: [(1519, 1979382530), (1520, 1996884094), (1522, 2016714356),
-          (1523, 2034214366), (1524, 2051713907), (1525, 2069212532),
-          (1528, 2105538784), (1531, 2128700212)],
-    187: [(1471, 1746318937), (1472, 1746810328), (1473, 1747299619),
-          (1474, 1747789471), (1477, 1767458518), (1478, 1767957440),
-          (1479, 1768448864), (1482, 1772136544)],
-    16: [(102, 103573136), (106, 104354146), (107, 104492158),
-         (113, 106670987), (114, 106817170), (121, 112659610),
-         (122, 112809411), (134, 124468667)],
+    1809: [(14471, 36370686622), (14472, 36370895008), (14478, 36375070277),
+           (14490, 36388862411), (14498, 36407689749), (14523, 36433443287),
+           (14597, 36500857314), (14605, 36504647305)],
+    1625: [(12978, 33864397237), (12979, 33864702908), (12981, 33865492106),
+           (12983, 33866220699), (12989, 33891660410), (13010, 33967191473),
+           (13053, 34018574481), (13108, 34059548623)],
 }
 # These are annotations of literal saved commands, never recreated crops.
 # node: (label, box, command node, exact command fragment proving the box).
 CROPS = {
-    193: {
-        9: ('Lighthouse and mast', [4449, 1191, 6039, 2185], 6,
-            ['x1 = int(w * 0.7)', 'y1 = int(h * 0.3)',
-             'x2 = int(w * 0.95)', 'y2 = int(h * 0.55)']),
-        13: ('Mast close-up', [5000, 1400, 5600, 2000], 10,
-             ['x1 = 5000', 'y1 = 1400', 'x2 = 5600', 'y2 = 2000']),
+    1809: {
+        5: ('Chart labels', [0, 385, 708, 453], 2,
+            ['crop_y = int(height * 0.85)',
+             'cropped_img = img.crop((0, crop_y, width, height))']),
     },
-    187: {
-        5: ('Upper-left facade', [0, 0, 512, 341], 2,
-            ['crop1 = img.crop((0, 0, w//2, h//2))']),
-        7: ('Door region', [300, 400, 400, 500], 2,
-            ['box2 = (300, 400, 400, 500)', 'crop2 = img.crop(box2)']),
-        11: ('Facade detail', [400, 300, 500, 400], 8,
-             ['box = (400, 300, 500, 400)', 'crop3 = img.crop(box)']),
-        13: ('Door top', [300, 350, 400, 450], 8,
-             ['box4 = (300, 350, 400, 450)', 'crop4 = img.crop(box4)']),
-        17: ('Numbers above door', [300, 300, 400, 360], 14,
-             ['box = (300, 300, 400, 360)', 'crop5 = img.crop(box)']),
-    },
-    16: {
-        5: ('Top-left corner', [0, 0, 150, 150], 2,
-            ['tl = img.crop((0, 0, 150, 150))']),
-        7: ('Top-right corner', [165, 0, 315, 150], 2,
-            ['tr = img.crop((w-150, 0, w, 150))']),
-        9: ('Bottom-left corner', [0, 350, 150, 500], 2,
-            ['bl = img.crop((0, h-150, 150, h))']),
-        11: ('Bottom-right corner', [165, 350, 315, 500], 2,
-             ['br = img.crop((w-150, h-150, w, h))']),
+    1625: {
+        5: ('Paystub header', [0, 0, 550, 43], 2,
+            ['top_crop = img.crop((0, 0, w, int(h * 0.1)))']),
     },
 }
 
@@ -126,7 +100,7 @@ def record_info(trace, raw, path, line, offset, index, position=0):
 def current_records():
     records = {idx: [] for idx in SELECTION}
     selected, reads = {}, []
-    for shard, ids in [('task_0175_0199', (193, 187)), ('task_0000_0024', (16,))]:
+    for shard, ids in [('task_1800_1824', (1809,)), ('task_1625_1649', (1625,))]:
         path = RUN / 'shards' / shard / 'eval_output/traces.jsonl'
         offset = 0
         with path.open('rb') as stream:
@@ -261,12 +235,7 @@ def extract(trace, idx, harness, pending):
         require(any(e['calls'] for e in events), 'Selected harness trace does not use tools')
     else:
         require(turn == 1 and not any(e['calls'] for e in events), 'Baseline is not one-turn null')
-    require([r['node'] for r in reminders] == ([18] if harness and idx == 187 else []),
-            'Unexpected final-answer reminder')
-    if reminders:
-        require(message_text(reminders[0]['message']) ==
-                'Do not call tools or continue analysis. Using the existing context, respond now with exactly one line: Answer: <letter>',
-                'Reminder content changed')
+    require(not reminders, 'Selected example must not need a final-answer reminder')
     final = events[-1]
     answer = re.search(r'Answer:\s*([A-D])\b', final['text'])
     require(final['role'] == 'assistant' and not final['calls'] and answer is not None, 'Missing final answer')
@@ -286,7 +255,6 @@ def main():
             scores.setdefault(int(idx), []).append(float(value))
     current, selected, reads = current_records()
     baseline, null_selected = baseline_records()
-    old187 = next(e for e in json.loads(OLD.read_text()) if e['idx'] == 187)
     pending, examples = {}, []
     for idx, (trace_id, selected_index, label, null_id, null_index) in SELECTION.items():
         trace, null = selected[idx], null_selected[idx]
@@ -307,9 +275,13 @@ def main():
         input_image = image_asset(original[0][2], f'{idx}-original', 'Original task image', pending)
         events, reminders, turns = extract(trace, idx, True, pending)
         null_events, _, null_turns = extract(null, idx, False, pending)
-        if idx == 187:
-            require(old187['withoutHarness'] == {'id': null_id, 'turns': null_turns, 'events': null_events},
-                    'Existing 187 baseline differs from original saved trace')
+        with Image.open(io.BytesIO(pending[Path(input_image['src']).name])) as original_image:
+            for event in events:
+                for picture in event['images']:
+                    with Image.open(io.BytesIO(pending[Path(picture['src']).name])) as crop_image:
+                        expected = original_image.convert('RGB').crop(picture['box'])
+                        require(ImageChops.difference(expected, crop_image.convert('RGB')).getbbox() is None,
+                                'Saved crop pixels do not match the original task image and recorded box')
         # The harness may present a resized original while tools read full resolution.
         presented = list(image_parts([n['message'] for n in trace['nodes'] if n['message']['role'] == 'user']))
         require(len(presented) == 1, 'Unexpected harness input image count')
@@ -325,8 +297,7 @@ def main():
                                        for e in events for p in e['images']],
             'events_sha256': sha(canonical(events)), 'model_calls': turns,
             'omitted_user_reminders': reminders,
-            'reminder_note': ('Final-answer reminder at node 18 omitted from displayed events; all assistant/tool events retained.'
-                              if reminders else 'No final-answer reminder.'),
+            'reminder_note': 'No final-answer reminder.',
             'presented_input': presented_asset,
             'input_note': 'Original task image displayed; presented_input records actual initial model image bytes. Crops use original pixels.',
             'model': trace['agent']['config']['model'],
@@ -339,7 +310,6 @@ def main():
             'selected_event_indices': [e['node'] for e in null_events],
             'events_sha256': sha(canonical(null_events)), 'model_calls': null_turns,
             'status': 'Unchanged original null baseline used by current Figure 5; not a new evaluation.',
-            'existing_187_withoutHarness_verified': idx == 187,
             'sampling': null['agent']['config']['sampling'],
         }
         example = {k: task[k] for k in ('idx', 'question', 'options', 'answer')}
@@ -354,11 +324,9 @@ def main():
             'source_hash_format': 'record_sha256 hashes exact JSONL bytes including newline; trace/events hashes use sorted compact ASCII JSON.',
             'selection': 'Successful error-free tool-using harness trace paired with a failed same-question null trace; not seed-paired.',
             'display_policy': 'All assistant/tool messages in original order; exact reasoning_content strings; no provider metadata or summaries added.',
-            'image_policy': 'Original embedded bytes only; saved tool code never executed; no images reconstructed or re-encoded.',
-            'replacement': 'Authorized replacement of historical question 175 trace fe18398f0f5c49798d4ebbab8b91d7e9 (absent from current run) and question 23 (no error-free successful tool trace). Primary example is 193.',
+            'image_policy': 'Original embedded bytes only; saved tool code never executed; no images reconstructed or re-encoded. Every saved crop is pixel-identical to its box in the decoded original.',
+            'replacement': 'Current-run chart labels and measured text spacing replace lighthouse/dish counting, occluded door digits, subtle window corners, and blurry whiteboard marks after source and visual review. Primary example is 1809. Only two examples retained because their visual evidence is clear.',
         }
-        if idx == 187:
-            example['provenance']['baseline']['existing_article_data'] = file_info(OLD, True)
         examples.append(example)
     serialized = (json.dumps(examples, indent=2, ensure_ascii=True) + '\n').encode()
     if args.check:
@@ -368,11 +336,27 @@ def main():
             require((ASSETS / name).read_bytes() == payload, f'Asset mismatch: {name}')
     else:
         require(not ASSETS.is_symlink() and not OUTPUT.is_symlink(), 'Output must not be a symlink')
+        previous = json.loads(OUTPUT.read_text()) if OUTPUT.exists() else []
+        def asset_names(value):
+            if isinstance(value, dict):
+                for key, item in value.items():
+                    if key == 'src' and isinstance(item, str) and item.startswith(PREFIX):
+                        yield Path(item).name
+                    else:
+                        yield from asset_names(item)
+            elif isinstance(value, list):
+                for item in value:
+                    yield from asset_names(item)
         ASSETS.mkdir(parents=True, exist_ok=True)
         for name, payload in pending.items():
             path = ASSETS / name
             require(not path.is_symlink(), 'Asset must not be a symlink')
             path.write_bytes(payload)
+        # Only remove assets explicitly registered by the replaced example manifest.
+        for name in set(asset_names(previous)) - set(pending):
+            path = ASSETS / name
+            require(not path.is_symlink(), 'Stale asset must not be a symlink')
+            path.unlink(missing_ok=True)
         OUTPUT.write_bytes(serialized)
     print(('Verified' if args.check else 'Wrote'), OUTPUT)
     print(f'{len(pending)} original-byte assets; {sum(map(len, pending.values())):,} asset bytes')

@@ -5,13 +5,13 @@ import { rescueConsistency } from './rescue-consistency';
 
 const colors = ['var(--plot-blue)', 'var(--plot-coral)'];
 const metricColors = ['var(--plot-blue)', 'var(--plot-green)'];
-const percentage = n => `${Number(n).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`;
+const percentage = n => `${Number(Number(n).toFixed(8)).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`;
 const number = n => Number(n).toLocaleString('en-US', { maximumFractionDigits: 2 });
 const metricSeries = [{ key: 'pass1', label: 'Pass@1' }, { key: 'pass8', label: 'Pass@8' }];
 const setups = [{ key: 'null', label: 'No harness' }, { key: 'codex', label: 'With harness' }];
 
 function Legend({ series, palette = colors, bars = false }) {
-  return <ul className="chart-legend">{series.map((s, i) => <li key={s.key}><svg width="26" height="12" viewBox="0 0 26 12" aria-hidden="true">{bars ? <rect x="4" y="1" width="18" height="10" fill={i % 2 ? 'var(--paper)' : palette[i]} stroke={palette[i]} strokeWidth="1.5" /> : <><path d="M0 6 H26" stroke={palette[i]} strokeWidth="2" strokeDasharray={i % 2 ? '4 3' : undefined} />{i % 2 ? <rect x="10" y="3" width="6" height="6" fill={palette[i]} /> : <circle cx="13" cy="6" r="3" fill={palette[i]} />}</>}</svg>{s.label}</li>)}</ul>;
+  return <ul className="chart-legend">{series.map((s, i) => <li key={s.key}><svg width="26" height="12" viewBox="0 0 26 12" aria-hidden="true">{bars ? <rect x="4" y="1" width="18" height="10" fill={palette[i]} /> : <><path d="M0 6 H26" stroke={palette[i]} strokeWidth="2" strokeDasharray={i % 2 ? '4 3' : undefined} />{i % 2 ? <rect x="10" y="3" width="6" height="6" fill={palette[i]} /> : <circle cx="13" cy="6" r="3" fill={palette[i]} />}</>}</svg>{s.label}</li>)}</ul>;
 }
 
 function DataTable({ rows, x, series, label, format, intervals = false }) {
@@ -31,7 +31,7 @@ function Plot({ rows, x, series, label, format = percentage, domain = ['auto', '
         <XAxis dataKey={x.key} type={numeric ? 'number' : 'category'} domain={numeric ? ['auto', 'auto'] : undefined} padding={numeric ? undefined : { left: bars ? 0 : 20, right: bars ? 0 : 20 }} interval={numeric ? undefined : 0} tickLine={false} axisLine={{ stroke: 'var(--line)' }} tickMargin={10} height={36} tickFormatter={numeric ? number : undefined} />
         <YAxis domain={domain} width={52} tickLine={false} axisLine={false} tickFormatter={format === percentage ? v => `${v}%` : format} tickCount={5} />
         {zero && <ReferenceLine y={0} stroke="var(--muted)" strokeDasharray="3 4" />}
-        {series.map((s, i) => <Mark key={s.key} dataKey={s.key} type="linear" stroke={palette[i]} fill={bars && i % 2 ? 'var(--paper)' : palette[i]} strokeWidth={bars ? (i % 2 ? 1.5 : 0) : 2.5} strokeDasharray={!bars && i % 2 ? '5 4' : undefined} dot={bars ? undefined : i % 2 ? ({ cx, cy }) => <rect x={cx - 3.5} y={cy - 3.5} width={7} height={7} fill={palette[i]} /> : { r: 4, strokeWidth: 0 }} activeDot={false} activeBar={false} maxBarSize={52} isAnimationActive={false}>
+        {series.map((s, i) => <Mark key={s.key} dataKey={s.key} type="linear" stroke={palette[i]} fill={palette[i]} strokeWidth={bars ? 0 : 2.5} strokeDasharray={!bars && i % 2 ? '5 4' : undefined} dot={bars ? undefined : i % 2 ? ({ cx, cy }) => <rect x={cx - 3.5} y={cy - 3.5} width={7} height={7} fill={palette[i]} /> : { r: 4, strokeWidth: 0 }} activeDot={false} activeBar={false} maxBarSize={52} isAnimationActive={false}>
           {intervals && rows.every(r => r[s.key + 'Error']) && <ErrorBar dataKey={s.key + 'Error'} direction="y" width={4} stroke={palette[i]} strokeWidth={1.2} />}
           {valueLabels && <LabelList dataKey={s.key} position="top" offset={9} formatter={format} fill={palette[i]} fontSize={12} />}
           {numeric && <LabelList dataKey="effort" content={({ x: px, y: py, value }) => <text x={px} y={Number(py) + (value === 'low' ? 20 : -13)} textAnchor="middle" fill={palette[i]} fontSize={12}>{value}</text>} />}
