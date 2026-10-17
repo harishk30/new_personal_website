@@ -1,0 +1,702 @@
+{
+  "provenance": {
+    "generated": "2026-10-12T03:47:20.559240+00:00",
+    "source_sha256": "d65e39c2f303bbf1fb05bf89f30a08f296b47cfca4df5e8b1d158ca2d4e9add4",
+    "questions": 2000,
+    "rollouts_per_question": 8,
+    "harness": "execution-prompt Codex-based harness; not the historical full-prompt run",
+    "luna_pairing": "explicit task_ids from each saved shard summary",
+    "confidence": "95% question-bootstrap intervals from the saved analysis"
+  },
+  "overall": [
+    {
+      "model": "4B",
+      "pass1": 46.7375,
+      "pass8": 79.45,
+      "pass1Error": [
+        1.7193749999999923,
+        1.6437499999999972
+      ],
+      "pass8Error": [
+        1.8000000000000114,
+        1.7012499999999875
+      ]
+    },
+    {
+      "model": "9B",
+      "pass1": 49.21875,
+      "pass8": 78.2,
+      "pass1Error": [
+        1.7003125000000026,
+        1.7064062499999935
+      ],
+      "pass8Error": [
+        1.8500000000000085,
+        1.801249999999996
+      ]
+    },
+    {
+      "model": "27B",
+      "pass1": 55.25,
+      "pass8": 80.10000000000001,
+      "pass1Error": [
+        1.8062499999999986,
+        1.7754687499999946
+      ],
+      "pass8Error": [
+        1.7500000000000142,
+        1.8499999999999943
+      ]
+    },
+    {
+      "model": "397B",
+      "pass1": 59.06875,
+      "pass8": 77.35,
+      "pass1Error": [
+        1.9251562500000006,
+        1.75
+      ],
+      "pass8Error": [
+        1.9012499999999903,
+        1.801249999999996
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "id": "perception_and_extraction",
+      "label": "Perception and extraction",
+      "problems": 735,
+      "values": [
+        {
+          "model": "4B",
+          "pass1": 47.31292517006803,
+          "pass8": 79.45578231292517,
+          "passed": 584
+        },
+        {
+          "model": "9B",
+          "pass1": 51.59863945578231,
+          "pass8": 80.1360544217687,
+          "passed": 589
+        },
+        {
+          "model": "27B",
+          "pass1": 57.61904761904761,
+          "pass8": 80.40816326530611,
+          "passed": 591
+        },
+        {
+          "model": "397B",
+          "pass1": 59.54081632653061,
+          "pass8": 78.50340136054422,
+          "passed": 577
+        }
+      ]
+    },
+    {
+      "id": "relational_understanding",
+      "label": "Relational understanding",
+      "problems": 761,
+      "values": [
+        {
+          "model": "4B",
+          "pass1": 43.42969776609724,
+          "pass8": 79.23784494086728,
+          "passed": 603
+        },
+        {
+          "model": "9B",
+          "pass1": 43.51182654402103,
+          "pass8": 73.98160315374507,
+          "passed": 563
+        },
+        {
+          "model": "27B",
+          "pass1": 50.44349540078844,
+          "pass8": 78.18659658344284,
+          "passed": 595
+        },
+        {
+          "model": "397B",
+          "pass1": 54.91130091984231,
+          "pass8": 75.42706964520369,
+          "passed": 574
+        }
+      ]
+    },
+    {
+      "id": "logical_and_quantitative_reasoning",
+      "label": "Logical and quantitative reasoning",
+      "problems": 317,
+      "values": [
+        {
+          "model": "4B",
+          "pass1": 50.03943217665615,
+          "pass8": 78.54889589905363,
+          "passed": 249
+        },
+        {
+          "model": "9B",
+          "pass1": 54.337539432176655,
+          "pass8": 80.12618296529969,
+          "passed": 254
+        },
+        {
+          "model": "27B",
+          "pass1": 58.753943217665615,
+          "pass8": 82.64984227129337,
+          "passed": 262
+        },
+        {
+          "model": "397B",
+          "pass1": 64.90536277602523,
+          "pass8": 79.49526813880126,
+          "passed": 252
+        }
+      ]
+    },
+    {
+      "id": "knowledge_and_semantics",
+      "label": "Knowledge and semantics",
+      "problems": 187,
+      "values": [
+        {
+          "model": "4B",
+          "pass1": 52.33957219251337,
+          "pass8": 81.81818181818183,
+          "passed": 153
+        },
+        {
+          "model": "9B",
+          "pass1": 54.41176470588235,
+          "pass8": 84.49197860962568,
+          "passed": 158
+        },
+        {
+          "model": "27B",
+          "pass1": 59.55882352941176,
+          "pass8": 82.35294117647058,
+          "passed": 154
+        },
+        {
+          "model": "397B",
+          "pass1": 64.2379679144385,
+          "pass8": 77.00534759358288,
+          "passed": 144
+        }
+      ]
+    }
+  ],
+  "qwen": [
+    {
+      "model": "27B",
+      "metrics": [
+        {
+          "metric": "Pass@1",
+          "null": 55.25,
+          "codex": 53.75625000000001
+        },
+        {
+          "metric": "Pass@8",
+          "null": 80.10000000000001,
+          "codex": 82.75
+        }
+      ],
+      "histogram": [
+        {
+          "successes": 0,
+          "null": 398,
+          "codex": 345
+        },
+        {
+          "successes": 1,
+          "null": 164,
+          "codex": 194
+        },
+        {
+          "successes": 2,
+          "null": 142,
+          "codex": 186
+        },
+        {
+          "successes": 3,
+          "null": 141,
+          "codex": 143
+        },
+        {
+          "successes": 4,
+          "null": 113,
+          "codex": 137
+        },
+        {
+          "successes": 5,
+          "null": 123,
+          "codex": 149
+        },
+        {
+          "successes": 6,
+          "null": 133,
+          "codex": 137
+        },
+        {
+          "successes": 7,
+          "null": 184,
+          "codex": 181
+        },
+        {
+          "successes": 8,
+          "null": 602,
+          "codex": 528
+        }
+      ],
+      "gained": 146,
+      "lost": 93
+    },
+    {
+      "model": "397B",
+      "metrics": [
+        {
+          "metric": "Pass@1",
+          "null": 59.06875,
+          "codex": 58.099999999999994
+        },
+        {
+          "metric": "Pass@8",
+          "null": 77.35,
+          "codex": 82.65
+        }
+      ],
+      "histogram": [
+        {
+          "successes": 0,
+          "null": 453,
+          "codex": 347
+        },
+        {
+          "successes": 1,
+          "null": 124,
+          "codex": 175
+        },
+        {
+          "successes": 2,
+          "null": 98,
+          "codex": 128
+        },
+        {
+          "successes": 3,
+          "null": 99,
+          "codex": 120
+        },
+        {
+          "successes": 4,
+          "null": 79,
+          "codex": 132
+        },
+        {
+          "successes": 5,
+          "null": 91,
+          "codex": 119
+        },
+        {
+          "successes": 6,
+          "null": 127,
+          "codex": 121
+        },
+        {
+          "successes": 7,
+          "null": 131,
+          "codex": 208
+        },
+        {
+          "successes": 8,
+          "null": 798,
+          "codex": 650
+        }
+      ],
+      "gained": 188,
+      "lost": 82
+    }
+  ],
+  "efforts": [
+    {
+      "effort": "none",
+      "nullPass1": 44.2125,
+      "nullPass1Error": [
+        1.9253124999999969,
+        1.8126562500000034
+      ],
+      "nullPass8": 67.2,
+      "nullPass8Error": [
+        2.200000000000003,
+        1.9500000000000028
+      ],
+      "codexPass1": 45.2,
+      "codexPass1Error": [
+        1.906250000000007,
+        1.7942187499999989
+      ],
+      "codexPass8": 70.35,
+      "codexPass8Error": [
+        2.0999999999999943,
+        1.9512500000000017
+      ],
+      "delta1": 0.9875000000000043,
+      "delta8": 3.1499999999999915
+    },
+    {
+      "effort": "low",
+      "nullPass1": 49.39375,
+      "nullPass1Error": [
+        1.8189062499999977,
+        1.7626562499999991
+      ],
+      "nullPass8": 73.9,
+      "nullPass8Error": [
+        2.000000000000014,
+        1.8999999999999915
+      ],
+      "codexPass1": 46.675,
+      "codexPass1Error": [
+        1.8937499999999972,
+        1.7749999999999986
+      ],
+      "codexPass8": 71.7,
+      "codexPass8Error": [
+        2.000000000000014,
+        2.0
+      ],
+      "delta1": -2.71875,
+      "delta8": -2.200000000000003
+    },
+    {
+      "effort": "medium",
+      "nullPass1": 55.95625,
+      "nullPass1Error": [
+        1.8629687500000074,
+        1.675312500000004
+      ],
+      "nullPass8": 75.85,
+      "nullPass8Error": [
+        1.8499999999999943,
+        1.7500000000000142
+      ],
+      "codexPass1": 61.224999999999994,
+      "codexPass1Error": [
+        1.7874999999999943,
+        1.694375000000008
+      ],
+      "codexPass8": 81.85,
+      "codexPass8Error": [
+        1.6512499999999903,
+        1.7000000000000028
+      ],
+      "delta1": 5.268749999999997,
+      "delta8": 6.0
+    },
+    {
+      "effort": "high",
+      "nullPass1": 56.3875,
+      "nullPass1Error": [
+        1.8876562500000063,
+        1.7565625000000011
+      ],
+      "nullPass8": 75.8,
+      "nullPass8Error": [
+        1.9512499999999875,
+        1.8499999999999943
+      ],
+      "codexPass1": 61.9125,
+      "codexPass1Error": [
+        1.787656250000012,
+        1.7007812499999986
+      ],
+      "codexPass8": 82.1,
+      "codexPass8Error": [
+        1.6499999999999915,
+        1.7000000000000028
+      ],
+      "delta1": 5.524999999999999,
+      "delta8": 6.299999999999997
+    },
+    {
+      "effort": "xhigh",
+      "nullPass1": 57.06250000000001,
+      "nullPass1Error": [
+        1.8312500000000114,
+        1.7689062499999864
+      ],
+      "nullPass8": 75.4,
+      "nullPass8Error": [
+        1.9000000000000057,
+        1.7999999999999972
+      ],
+      "codexPass1": 63.449999999999996,
+      "codexPass1Error": [
+        1.7814062499999963,
+        1.662812499999994
+      ],
+      "codexPass8": 82.35,
+      "codexPass8Error": [
+        1.7499999999999858,
+        1.6012500000000074
+      ],
+      "delta1": 6.387499999999989,
+      "delta8": 6.949999999999989
+    }
+  ],
+  "rescued": [
+    {
+      "effort": "none",
+      "total": 656,
+      "gained": 195,
+      "lost": 132,
+      "values": [
+        {
+          "successes": 0,
+          "count": 461
+        },
+        {
+          "successes": 1,
+          "count": 95
+        },
+        {
+          "successes": 2,
+          "count": 43
+        },
+        {
+          "successes": 3,
+          "count": 16
+        },
+        {
+          "successes": 4,
+          "count": 16
+        },
+        {
+          "successes": 5,
+          "count": 8
+        },
+        {
+          "successes": 6,
+          "count": 4
+        },
+        {
+          "successes": 7,
+          "count": 6
+        },
+        {
+          "successes": 8,
+          "count": 7
+        }
+      ]
+    },
+    {
+      "effort": "low",
+      "total": 522,
+      "gained": 153,
+      "lost": 197,
+      "values": [
+        {
+          "successes": 0,
+          "count": 369
+        },
+        {
+          "successes": 1,
+          "count": 50
+        },
+        {
+          "successes": 2,
+          "count": 35
+        },
+        {
+          "successes": 3,
+          "count": 26
+        },
+        {
+          "successes": 4,
+          "count": 12
+        },
+        {
+          "successes": 5,
+          "count": 13
+        },
+        {
+          "successes": 6,
+          "count": 7
+        },
+        {
+          "successes": 7,
+          "count": 5
+        },
+        {
+          "successes": 8,
+          "count": 5
+        }
+      ]
+    },
+    {
+      "effort": "medium",
+      "total": 483,
+      "gained": 193,
+      "lost": 73,
+      "values": [
+        {
+          "successes": 0,
+          "count": 290
+        },
+        {
+          "successes": 1,
+          "count": 61
+        },
+        {
+          "successes": 2,
+          "count": 39
+        },
+        {
+          "successes": 3,
+          "count": 24
+        },
+        {
+          "successes": 4,
+          "count": 22
+        },
+        {
+          "successes": 5,
+          "count": 9
+        },
+        {
+          "successes": 6,
+          "count": 9
+        },
+        {
+          "successes": 7,
+          "count": 13
+        },
+        {
+          "successes": 8,
+          "count": 16
+        }
+      ]
+    },
+    {
+      "effort": "high",
+      "total": 484,
+      "gained": 202,
+      "lost": 76,
+      "values": [
+        {
+          "successes": 0,
+          "count": 282
+        },
+        {
+          "successes": 1,
+          "count": 80
+        },
+        {
+          "successes": 2,
+          "count": 21
+        },
+        {
+          "successes": 3,
+          "count": 23
+        },
+        {
+          "successes": 4,
+          "count": 25
+        },
+        {
+          "successes": 5,
+          "count": 10
+        },
+        {
+          "successes": 6,
+          "count": 14
+        },
+        {
+          "successes": 7,
+          "count": 17
+        },
+        {
+          "successes": 8,
+          "count": 12
+        }
+      ]
+    },
+    {
+      "effort": "xhigh",
+      "total": 492,
+      "gained": 211,
+      "lost": 72,
+      "values": [
+        {
+          "successes": 0,
+          "count": 281
+        },
+        {
+          "successes": 1,
+          "count": 74
+        },
+        {
+          "successes": 2,
+          "count": 33
+        },
+        {
+          "successes": 3,
+          "count": 27
+        },
+        {
+          "successes": 4,
+          "count": 23
+        },
+        {
+          "successes": 5,
+          "count": 10
+        },
+        {
+          "successes": 6,
+          "count": 10
+        },
+        {
+          "successes": 7,
+          "count": 13
+        },
+        {
+          "successes": 8,
+          "count": 21
+        }
+      ]
+    }
+  ],
+  "behavior": [
+    {
+      "effort": "none",
+      "output": 44.6325625,
+      "toolRate": 6.4375,
+      "modelCalls": 1.183125
+    },
+    {
+      "effort": "low",
+      "output": 89.957875,
+      "toolRate": 6.64375,
+      "modelCalls": 1.2116875
+    },
+    {
+      "effort": "medium",
+      "output": 596.392875,
+      "toolRate": 41.99375,
+      "modelCalls": 2.612375
+    },
+    {
+      "effort": "high",
+      "output": 839.6685625,
+      "toolRate": 47.75,
+      "modelCalls": 3.02175
+    },
+    {
+      "effort": "xhigh",
+      "output": 1124.0779375,
+      "toolRate": 52.7875,
+      "modelCalls": 3.44775
+    }
+  ]
+}

@@ -59,7 +59,7 @@ function RegionIcon({ crop }) {
   </svg>;
 }
 
-function ImageView({ src, alt, reconstructed = false }) {
+export function ImageView({ src, alt, reconstructed = false }) {
   const dialog = useRef(null);
   return <div className="composition-image">
     <button className="image-open" type="button" title={reconstructed?'Enlarge crop reconstructed from the recorded command':'Enlarge image'} aria-label={`Enlarge: ${alt}${reconstructed?' (reconstructed from the recorded crop command)':''}`} onClick={() => dialog.current.showModal()}>

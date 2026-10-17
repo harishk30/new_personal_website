@@ -71,3 +71,36 @@
   .composition-page .composition-subtitle { font-size: 18px; }
   .composition-page .example-content.has-image { grid-template-columns: minmax(0,1fr); gap: 20px; }
 }
+
+.composition-page .research-figure { max-width: 1060px; }
+.composition-page .research-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 30px; }
+.composition-page .research-grid > section { min-width: 0; }
+.composition-page .research-figure h3 { font-size: 17px; line-height: 1.4; margin: 0 0 12px; }
+.composition-page .research-chart { width: 100%; height: 290px; min-width: 0; font-size: 12px; }
+.composition-page .research-chart .recharts-cartesian-axis-tick-value { fill: var(--muted); }
+.composition-page .research-figure .panel-note { color: var(--muted); font-size: 13px; margin: -6px 0 14px; }
+.composition-page .plot-data { font-size: 12px; margin: 8px 0 24px; color: var(--muted); }
+.composition-page .plot-data summary, .composition-page .supplemental-plot summary { cursor: pointer; width: fit-content; padding: 6px 0; }
+.composition-page .plot-table-scroll { overflow-x: auto; }
+.composition-page .plot-data table { width: 100%; border-collapse: collapse; margin-top: 10px; font-variant-numeric: tabular-nums; }
+.composition-page .plot-data caption { text-align: left; padding-bottom: 8px; }
+.composition-page .plot-data th, .composition-page .plot-data td { padding: 7px 10px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.composition-page .plot-data th:first-child { text-align: left; }
+.composition-page .transition-counts { font-size: 14px; color: var(--muted); margin: 12px 0 0; }
+.composition-page .transition-counts strong { color: var(--ink); }
+.composition-page .supplemental-plot { border-top: 1px solid var(--line); padding: 12px 0; font-size: 14px; }
+.composition-page .effort-select { display: flex; align-items: center; gap: 12px; font-size: 14px; margin-bottom: 20px; }
+.composition-page .effort-select select { background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 3px; padding: 7px 26px 7px 10px; font: inherit; }
+.composition-page .saved-example { border-top: 1px solid var(--line); padding: 16px 0; }
+.composition-page .saved-example > summary { cursor: pointer; font-weight: 500; font-size: 16px; }
+.composition-page .saved-example > summary span { color: var(--muted); font-weight: 400; margin-left: 16px; white-space: nowrap; }
+.composition-page .article-examples { max-width: 720px; margin: 30px auto; }
+.composition-page .saved-example .panel-note { font-size: 13px; color: var(--muted); margin: 16px 0; }
+.composition-page .saved-example .trace-fold-content { max-height: 360px; overflow-y: auto; }
+.composition-page .luna-trace h3 { font-size: 16px; margin: 24px 0 14px; }
+.composition-page .luna-crops { display: grid; gap: 16px; }
+.composition-page .verbatim-reply { white-space: pre-line; font-size: 14px; line-height: 1.7; border-left: 2px solid; padding: 12px 16px; margin: 18px 0; }
+@media(max-width:760px) {
+  .composition-page .research-grid { grid-template-columns: minmax(0,1fr); gap: 28px; }
+  .composition-page .research-chart { height: 280px; }
+}

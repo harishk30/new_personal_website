@@ -57,7 +57,7 @@ function Trajectory({ events, correct }) {
     </li>;
         })}</ol>;
 }
-function Trace({ example }) {
+export function Trace({ example }) {
     return <>
     <h3 className="trace-question">{example.question}</h3>
     <TraceImage picture={example.input}/>
