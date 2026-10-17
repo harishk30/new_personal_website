@@ -29,7 +29,7 @@ function TraceImage({ picture }) {
     </Dialog>
   </figure>;
 }
-function Trajectory({ events, correct }) {
+function Trajectory({ events, correct, compact = false }) {
     const groups = [];
     for (const event of events) {
         if (event.role === 'user')
@@ -46,18 +46,18 @@ function Trajectory({ events, correct }) {
             return <li key={event.node} className="trace-step">
       <div className="trace-step-label">{label}{final && <span className={`trace-verdict ${correct ? 'correct' : 'incorrect'}`}>{correct ? 'Correct' : 'Incorrect'}</span>}</div>
       <div className="trace-step-content">
-      {event.reasoning && <Fold label="Reasoning"><TraceText text={event.reasoning}/></Fold>}
+      {event.reasoning && (compact && event.reasoning.length < 600 ? <TraceText text={event.reasoning}/> : <Fold label="Reasoning"><TraceText text={event.reasoning}/></Fold>)}
       {event.text && <TraceText text={event.text}/>}
-      {event.calls.map((call, i) => <Fold key={i} label={call.name === 'exec_command' ? 'Python / terminal' : 'View image'}>
+      {!compact && event.calls.map((call, i) => <Fold key={i} label={call.name === 'exec_command' ? 'Python / terminal' : 'View image'}>
         <pre className="trace-code">{typeof call.arguments.cmd === 'string' ? commandText(call.arguments.cmd) : JSON.stringify(call.arguments, null, 2)}</pre>
       </Fold>)}
-      {results.filter(r => r.text).map(result => <Fold key={result.node} label="Output"><pre className="trace-code">{terminalText(result.text)}</pre></Fold>)}
+      {!compact && results.filter(r => r.text).map(result => <Fold key={result.node} label="Output"><pre className="trace-code">{terminalText(result.text)}</pre></Fold>)}
       {images.length > 0 && <div className={`trace-crops ${images.length > 1 ? 'multiple' : ''}`}>{images.map(p => <TraceImage key={p.src} picture={p}/>)}</div>}
       </div>
     </li>;
         })}</ol>;
 }
-export function Trace({ example }) {
+export function Trace({ example, compact = false }) {
     return <>
     <h3 className="trace-question">{example.question}</h3>
     <TraceImage picture={example.input}/>
@@ -68,8 +68,8 @@ export function Trace({ example }) {
         <TabsTrigger value="without">Without harness <span>{example.nullSuccesses}/8</span></TabsTrigger>
         <TabsTrigger value="with">With harness <span>{example.harnessSuccesses}/8</span></TabsTrigger>
       </TabsList>
-      <TabsContent value="without"><Trajectory events={example.withoutHarness.events} correct={false}/></TabsContent>
-      <TabsContent value="with"><Trajectory events={example.events} correct/></TabsContent>
+      <TabsContent value="without"><Trajectory events={example.withoutHarness.events} correct={false} compact={compact}/></TabsContent>
+      <TabsContent value="with"><Trajectory events={example.events} correct compact={compact}/></TabsContent>
     </Tabs>
   </>;
 }

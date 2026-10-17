@@ -1,4 +1,15 @@
 import data from './chart-data.json';
+import { rescueConsistency } from './rescue-consistency';
+
+test('rescue threshold curves include zeros in denominators and are non-increasing', () => {
+  const curves = rescueConsistency(data.rescued);
+  expect(curves.map(r => r.threshold)).toEqual([1,2,3,4,5,6,7,8]);
+  for (const r of data.rescued) {
+    expect(curves[0][r.effort]).toBeCloseTo(r.gained / r.total * 100, 10);
+    expect(curves[7][r.effort]).toBeCloseTo(r.values[8].count / r.total * 100, 10);
+    for (let i=1; i<curves.length; i++) expect(curves[i][r.effort]).toBeLessThanOrEqual(curves[i-1][r.effort]);
+  }
+});
 
 test('all Qwen histogram rows represent 2000 matched questions and reproduce the plotted metrics', () => {
   for (const q of data.qwen) {
