@@ -43,7 +43,7 @@ export function EncoderDiagram() {
         <path d="M419 51 Q425 51 425 57 V163 Q425 170 419 170" fill="none" stroke="var(--diagram-wire)" />
         <path d="M501 72 H489 V152 H501 M581 72 H593 V152 H581" fill="none" stroke="var(--diagram-wire)" strokeWidth="1" />
         <text x="541" y="106.5" className="language-label"><tspan x="541">Language</tspan><tspan x="541" dy="23">model</tspan></text>
-        <text x="687" y="117" className="stage-label">Answer</text>
+        <text x="687" y="118" className="stage-label answer-label">Answer</text>
       </svg>
     </div>
     <Caption number={1}>Image and text inputs become token representations that the language model processes together.</Caption>

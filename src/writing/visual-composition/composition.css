@@ -11,6 +11,7 @@
 .composition-page .encoder-illustration text { font-family: inherit; text-anchor: middle; font-size: 13px; }
 .composition-page .stage-label { fill: var(--ink); font-weight: 500; }
 .composition-page .encoder-illustration .language-label { fill: var(--ink); font-size: 18px; font-weight: 500; }
+.composition-page .encoder-illustration .answer-label { font-size: 16px; font-weight: 600; }
 .composition-page .encoder-illustration .token-label { fill: var(--muted); font-size: 12px; }
 .composition-page .image-token-stack rect { fill: color-mix(in srgb, var(--diagram-sea) 80%, black); }
 .composition-page .text-token-stack rect { fill: color-mix(in srgb, var(--diagram-copper) 80%, black); }
