@@ -34,17 +34,17 @@ OUTPUT = REPO / 'src/writing/visual-composition/qwen-examples.json'
 ASSETS = REPO / 'public/writing/visual-composition/qwen'
 PREFIX = '/writing/visual-composition/qwen/'
 SELECTION = {
-    1809: ('6566a690e8cf4cbc8a7a7bf219866913', 7, 'Chart labels',
-           '0a6898c3d3c54b7697dced982e501202', 0),
+    589: ('d4aadfd89daf43eba4f90027408894a1', 7, 'Train windows',
+          '15582a4751ec47abb2324e0e10b90e44', 1),
     795: ('70c90a0a664449feb12ed818188eb9dc', 1, 'Glove embroidery',
           'ebf124bab9fd4447ab51d22200cdd7cd', 0),
 }
 # One-based source lines and zero-based byte offsets from a bounded inventory.
 # Each seek is validated against task ID, rollout count, rewards, and selected ID.
 BASELINE_INDEX = {
-    1809: [(14471, 36370686622), (14472, 36370895008), (14478, 36375070277),
-           (14490, 36388862411), (14498, 36407689749), (14523, 36433443287),
-           (14597, 36500857314), (14605, 36504647305)],
+    589: [(4689, 14290751390), (4690, 14303312840), (4692, 14319709843),
+          (4694, 14332923859), (4696, 14349323849), (4697, 14361885571),
+          (4698, 14374449540), (4765, 14679766873)],
     795: [(6337, 17875651133), (6340, 17878052942), (6341, 17879845175),
           (6342, 17881650356), (6349, 17886492438), (6350, 17888327701),
           (6357, 17892679358), (6410, 18074713444)],
@@ -52,10 +52,13 @@ BASELINE_INDEX = {
 # These are annotations of literal saved commands, never recreated crops.
 # node: (label, box, command node, exact command fragment proving the box).
 CROPS = {
-    1809: {
-        5: ('Chart labels', [0, 385, 708, 453], 2,
-            ['crop_y = int(height * 0.85)',
-             'cropped_img = img.crop((0, crop_y, width, height))']),
+    589: {
+        7: ('Front carriage', [1500, 600, 3000, 1100], 4,
+            ['box = (1500, 600, 3000, 1100)', 'crop = img.crop(box)',
+             "crop.save('train_nose_crop.png')"]),
+        11: ('Window detail', [1500, 650, 1800, 850], 8,
+             ['box = (1500, 650, 1800, 850)', 'crop = img.crop(box)',
+              "crop.save('windows_zoom.png')"]),
     },
     795: {
         7: ('Glove cuff', [320, 1100, 560, 1500], 4,
@@ -104,7 +107,7 @@ def record_info(trace, raw, path, line, offset, index, position=0):
 def current_records():
     records = {idx: [] for idx in SELECTION}
     selected, reads = {}, []
-    for shard, ids in [('task_1800_1824', (1809,)), ('task_0775_0799', (795,))]:
+    for shard, ids in [('task_0575_0599', (589,)), ('task_0775_0799', (795,))]:
         path = RUN / 'shards' / shard / 'eval_output/traces.jsonl'
         offset = 0
         with path.open('rb') as stream:
@@ -337,7 +340,7 @@ def main():
             'selection': 'Successful error-free tool-using harness trace paired with a failed same-question null trace; not seed-paired.',
             'display_policy': 'All assistant/tool messages in original order; exact reasoning_content strings; no provider metadata or summaries added.',
             'image_policy': 'Original embedded bytes only; saved tool code never executed; no images reconstructed or re-encoded. Every saved crop is pixel-identical to its box in the original decoded with libjpeg-turbo for JPEG inputs. This is a decoder-specific pixel check, not a claim of equality across JPEG implementations.',
-            'replacement': 'Current-run chart labels and non-text glove embroidery replace text spacing, lighthouse/dish counting, occluded door digits, subtle window corners, and blurry whiteboard marks after source and visual review. Primary example is 1809. Both examples retain exact saved reasoning, including imperfect intermediate observations; neither is presented as a flawless trajectory.',
+            'replacement': 'Current-run train windows replace chart labels as primary example 589; glove embroidery remains second as example 795. Both examples retain exact saved reasoning, including imperfect intermediate observations; neither is presented as a flawless trajectory.',
         }
         examples.append(example)
     serialized = (json.dumps(examples, indent=2, ensure_ascii=True) + '\n').encode()

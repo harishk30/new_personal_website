@@ -5,7 +5,7 @@ import source from './source-document.json';
 import qwenExamples from './qwen-examples.json';
 
 test('Qwen examples come from the plotted harness run and retain matched baseline counts', () => {
-  expect(qwenExamples.map(e => e.idx)).toEqual([1809, 795]);
+  expect(qwenExamples.map(e => e.idx)).toEqual([589, 795]);
   for (const example of qwenExamples) {
     expect(example.provenance.harness.run_root).toContain('qwen36-27b_codex_execution_only_first100_pass8_20261008');
     for (const [arm, count] of [['harness', example.harnessSuccesses], ['baseline', example.nullSuccesses]]) {

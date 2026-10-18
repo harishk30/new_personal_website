@@ -68,8 +68,8 @@ test('the chosen harness trace completes without tool errors or final-answer rec
       expect(event.text).not.toMatch(/Traceback|Error:/);
     }
   }
-  expect(example.events.flatMap(event=>event.calls).filter(call=>call.name==='view_image')).toHaveLength(1);
-  expect(example.events.flatMap(event=>event.images)).toHaveLength(1);
+  expect(example.events.flatMap(event=>event.calls).filter(call=>call.name==='view_image')).toHaveLength(2);
+  expect(example.events.flatMap(event=>event.images)).toHaveLength(2);
 });
 
 test('all panels exclude tool code, stdout, and reminders while retaining final replies', () => {
