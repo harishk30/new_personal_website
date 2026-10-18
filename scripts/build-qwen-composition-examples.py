@@ -1,7 +1,9 @@
 """Extract two saved Qwen examples, without inference or executing trace code.
 
-Run with uv run --no-project --with pillow python
+Run with uv run --no-project --with 'pillow==12.3.0' python
  scripts/build-qwen-composition-examples.py [--check].
+JPEG pixel verification requires libjpeg-turbo (as provided by the Pillow
+wheel), matching the saved crop's decoding. Anaconda's JPEG 9 decoder differs.
 Only two current-run shards are streamed (at most 200 lines / 1 GiB each).
 The unchanged 36 GiB baseline is read at 16 verified record offsets, not scanned.
 All inputs are validated before any output is written. --check performs the
@@ -18,7 +20,7 @@ import json
 import re
 from pathlib import Path
 
-from PIL import Image, ImageChops
+from PIL import Image, ImageChops, features
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -34,8 +36,8 @@ PREFIX = '/writing/visual-composition/qwen/'
 SELECTION = {
     1809: ('6566a690e8cf4cbc8a7a7bf219866913', 7, 'Chart labels',
            '0a6898c3d3c54b7697dced982e501202', 0),
-    1625: ('9cd2b92b8cce474aaa8b4def48e5fe53', 6, 'Text spacing',
-           'a8b4c80af42242dc80157943c0c12ce5', 0),
+    795: ('70c90a0a664449feb12ed818188eb9dc', 1, 'Glove embroidery',
+          'ebf124bab9fd4447ab51d22200cdd7cd', 0),
 }
 # One-based source lines and zero-based byte offsets from a bounded inventory.
 # Each seek is validated against task ID, rollout count, rewards, and selected ID.
@@ -43,9 +45,9 @@ BASELINE_INDEX = {
     1809: [(14471, 36370686622), (14472, 36370895008), (14478, 36375070277),
            (14490, 36388862411), (14498, 36407689749), (14523, 36433443287),
            (14597, 36500857314), (14605, 36504647305)],
-    1625: [(12978, 33864397237), (12979, 33864702908), (12981, 33865492106),
-           (12983, 33866220699), (12989, 33891660410), (13010, 33967191473),
-           (13053, 34018574481), (13108, 34059548623)],
+    795: [(6337, 17875651133), (6340, 17878052942), (6341, 17879845175),
+          (6342, 17881650356), (6349, 17886492438), (6350, 17888327701),
+          (6357, 17892679358), (6410, 18074713444)],
 }
 # These are annotations of literal saved commands, never recreated crops.
 # node: (label, box, command node, exact command fragment proving the box).
@@ -55,9 +57,11 @@ CROPS = {
             ['crop_y = int(height * 0.85)',
              'cropped_img = img.crop((0, crop_y, width, height))']),
     },
-    1625: {
-        5: ('Paystub header', [0, 0, 550, 43], 2,
-            ['top_crop = img.crop((0, 0, w, int(h * 0.1)))']),
+    795: {
+        7: ('Glove cuff', [320, 1100, 560, 1500], 4,
+            ['x1, y1 = int(w * 0.2), int(h * 0.55)',
+             'x2, y2 = int(w * 0.35), int(h * 0.75)',
+             'box = (x1, y1, x2, y2)', 'crop = img.crop(box)']),
     },
 }
 
@@ -100,7 +104,7 @@ def record_info(trace, raw, path, line, offset, index, position=0):
 def current_records():
     records = {idx: [] for idx in SELECTION}
     selected, reads = {}, []
-    for shard, ids in [('task_1800_1824', (1809,)), ('task_1625_1649', (1625,))]:
+    for shard, ids in [('task_1800_1824', (1809,)), ('task_0775_0799', (795,))]:
         path = RUN / 'shards' / shard / 'eval_output/traces.jsonl'
         offset = 0
         with path.open('rb') as stream:
@@ -276,12 +280,20 @@ def main():
         events, reminders, turns = extract(trace, idx, True, pending)
         null_events, _, null_turns = extract(null, idx, False, pending)
         with Image.open(io.BytesIO(pending[Path(input_image['src']).name])) as original_image:
+            if original_image.format == 'JPEG':
+                require(features.check_feature('libjpeg_turbo'),
+                        f"JPEG pixel verification requires libjpeg-turbo; current JPEG decoder is "
+                        f"{features.version('jpg')}. Use uv run --no-project --with 'pillow==12.3.0' "
+                        "python scripts/build-qwen-composition-examples.py --check. "
+                        "JPEG 9 and libjpeg-turbo can decode identical source bytes differently.")
             for event in events:
                 for picture in event['images']:
                     with Image.open(io.BytesIO(pending[Path(picture['src']).name])) as crop_image:
                         expected = original_image.convert('RGB').crop(picture['box'])
                         require(ImageChops.difference(expected, crop_image.convert('RGB')).getbbox() is None,
-                                'Saved crop pixels do not match the original task image and recorded box')
+                                f"Question {idx}, node {event['node']}: saved crop pixels do not match "
+                                f"the original task image and recorded box; JPEG decoder "
+                                f"{features.version('jpg')}, libjpeg-turbo {features.version('libjpeg_turbo')}")
         # The harness may present a resized original while tools read full resolution.
         presented = list(image_parts([n['message'] for n in trace['nodes'] if n['message']['role'] == 'user']))
         require(len(presented) == 1, 'Unexpected harness input image count')
@@ -324,8 +336,8 @@ def main():
             'source_hash_format': 'record_sha256 hashes exact JSONL bytes including newline; trace/events hashes use sorted compact ASCII JSON.',
             'selection': 'Successful error-free tool-using harness trace paired with a failed same-question null trace; not seed-paired.',
             'display_policy': 'All assistant/tool messages in original order; exact reasoning_content strings; no provider metadata or summaries added.',
-            'image_policy': 'Original embedded bytes only; saved tool code never executed; no images reconstructed or re-encoded. Every saved crop is pixel-identical to its box in the decoded original.',
-            'replacement': 'Current-run chart labels and measured text spacing replace lighthouse/dish counting, occluded door digits, subtle window corners, and blurry whiteboard marks after source and visual review. Primary example is 1809. Only two examples retained because their visual evidence is clear.',
+            'image_policy': 'Original embedded bytes only; saved tool code never executed; no images reconstructed or re-encoded. Every saved crop is pixel-identical to its box in the original decoded with libjpeg-turbo for JPEG inputs. This is a decoder-specific pixel check, not a claim of equality across JPEG implementations.',
+            'replacement': 'Current-run chart labels and non-text glove embroidery replace text spacing, lighthouse/dish counting, occluded door digits, subtle window corners, and blurry whiteboard marks after source and visual review. Primary example is 1809. Both examples retain exact saved reasoning, including imperfect intermediate observations; neither is presented as a flawless trajectory.',
         }
         examples.append(example)
     serialized = (json.dumps(examples, indent=2, ensure_ascii=True) + '\n').encode()

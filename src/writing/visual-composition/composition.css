@@ -103,11 +103,6 @@
 .composition-page .trace-enlarge { opacity: 1; }
 .worldbench-dialog-scope .trace-native-image-dialog .figure-scroll img { max-width: none; max-height: none; width: auto; height: auto; margin: 0; }
 .worldbench-dialog-scope .trace-native-image-dialog .figure-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.composition-page .writing-notes { max-width: 720px; margin: 36px auto 48px; }
-.composition-page .writing-notes-label { color: var(--muted); font-size: 13px; font-weight: 600; margin-bottom: 12px; }
-.composition-page .writing-notes ul { padding-left: 23px; list-style: disc; }
-.composition-page .writing-notes li { padding-left: 7px; margin-block: 16px; }
-.composition-page .writing-notes li::marker { color: var(--accent); }
 .composition-page .trace-tool-label { color: var(--muted); font-size: 13px; margin-top: 12px; }
 .composition-page .trace-tool-label + .trace-code { margin-top: 4px; }
 .composition-page .cohort-note { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0 0 20px; }
