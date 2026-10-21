@@ -1,6 +1,19 @@
 .composition-page { --diagram-sea: #287c87; --diagram-copper: #ad5439; --diagram-sea-wash: #d2e8e7; --diagram-copper-wash: #f0ddd0; --diagram-wire: #859b9f; --diagram-ink-wash: #dde3e1; }
 :root[data-theme='dark'] .composition-page { --diagram-sea: #77c5cc; --diagram-copper: #efaa83; --diagram-sea-wash: #203f45; --diagram-copper-wash: #493329; --diagram-wire: #829da3; --diagram-ink-wash: #28353a; }
 .composition-page .composition-subtitle { color: var(--muted); font-size: 20px; line-height: 1.5; margin: 16px 0 0; }
+.composition-page .article-citation { max-width: 720px; margin-inline: auto; }
+.composition-page .citation-toolbar { display: flex; align-items: center; justify-content: space-between; min-height: 44px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+.composition-page .citation-toolbar button { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 2px; color: var(--ink); background: transparent; cursor: pointer; }
+.composition-page .citation-toolbar button:focus-visible, .composition-page .article-citation pre:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.composition-page .article-citation pre { margin: 0; padding: 20px; background: var(--trace-surface); border: 1px solid var(--line); border-radius: 2px; font-size: 13px; line-height: 1.8; white-space: pre-wrap; overflow-wrap: anywhere; }
+.composition-page .article-citation code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+.composition-page .citation-status { min-height: 24px; margin: 8px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.composition-page .article-references { max-width: 720px; margin: 0 auto; padding-left: 25px; font-size: 15px; line-height: 1.7; }
+.composition-page .article-references li { padding-left: 6px; margin-bottom: 26px; scroll-margin-top: 28px; overflow-wrap: anywhere; }
+.composition-page .article-references li::marker { color: var(--muted); font-variant-numeric: tabular-nums; }
+.composition-page .article-references a { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.composition-page .reference-authors, .composition-page .reference-publication { display: block; }
+.composition-page .reference-publication { color: var(--muted); font-size: 14px; }
 .composition-page #introduction { scroll-margin-top: 28px; }
 .composition-page .article-header h1 { max-width: 720px; }
 @font-face { font-family: 'Visual Composition Math'; src: url('./fonts/math-italic.woff2') format('woff2'); font-style: italic; font-weight: 400; font-display: swap; }

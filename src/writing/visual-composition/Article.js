@@ -5,6 +5,7 @@ import source from './source-document.json';
 import { EncoderDiagram, HarnessComparison } from './diagrams';
 import { ScalingPlot, CategoryPlot, QwenHarnessPlot, LunaEffortPlot, LunaRescuePlot, LunaBehaviorPlot } from './plots';
 import { QwenExamples, LunaExample } from './examples';
+import ArticleCitation from './citation';
 import '../improving-vlms/article.css';
 import './composition.css';
 
@@ -121,10 +122,12 @@ export default function Article() {
           <ol>
             <li><a href="#introduction">Introduction</a></li>
             {headings.map(([label, id]) => <li key={id}><a href={`#${id}`}>{label}</a></li>)}
+            <li><a href="#citation">Citation</a></li>
+            <li><a href="#references">References</a></li>
           </ol>
         </nav>
       </header>
-      <div id="introduction" className="article-body">{blocks}</div>
+      <div id="introduction" className="article-body">{blocks}<ArticleCitation /></div>
     </article></main>
     <footer className="site-footer"><span>&copy; 2026 Harish Krishnakumar</span><a href="#article">Back to top &uarr;</a></footer>
   </div>;
