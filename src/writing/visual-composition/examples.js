@@ -21,6 +21,6 @@ export function LunaExample() {
       <p className="panel-note">Same image and harness, five reasoning efforts. Tab counts show successes across all eight attempts.</p>
       <Trace example={luna} compact toolDetailsToggle />
     </div>
-    <figcaption><span className="figure-number">Figure 9</span><span>One rollout per effort on the same visual-alignment question. Higher-effort traces were selected for successful, error-free visual inspection; these are illustrative, not random or seed-paired. Tab counts report all eight attempts. Returned reasoning, commands, responses, and inspected images are preserved.</span></figcaption>
+    <figcaption><span className="figure-number">Figure 9</span><span>One rollout per effort on the same visual-alignment question.</span></figcaption>
   </figure>;
 }

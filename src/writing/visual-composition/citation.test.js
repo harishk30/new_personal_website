@@ -27,9 +27,11 @@ afterEach(() => {
 test('shows both authors and four deduplicated research references below the citation', () => {
   expect(container.querySelector('code').textContent).toBe(bibtex);
   expect(bibtex).toContain('Krishnakumar, Harish and Müller, Sebastian');
+  expect(bibtex).not.toContain('{VLMs}');
   expect(bibtex).toContain('https://www.harishkk.com/writing/visual-composition');
   expect(container.querySelectorAll('.article-references li')).toHaveLength(4);
   expect(new Set(references.map(r => r.url)).size).toBe(4);
+  expect([...container.querySelectorAll('.reference-publication')].map(e => e.textContent)).toEqual(['2026.', 'CVPR, 2024.', 'ACCV, 2024.', '2026.']);
   expect([...container.querySelectorAll('h2')].map(h => h.id)).toEqual(['citation', 'references']);
 });
 

@@ -137,7 +137,7 @@ export function HarnessComparison() {
         {lane('With a harness',withHarness,true)}
       </div>
     </div>
-    <Caption number={2}>The model locates the train's front carriage, then inspects a tighter crop to confirm the four-window count. This is one selected successful trajectory. Across eight attempts per condition: {example.nullSuccesses}/8 without the harness, {example.harnessSuccesses}/8 with the harness. (Click a segment to view the trajectory.)</Caption>
+    <Caption number={2}>The model crops and zooms into an image with a harness to successfully answer the question. (Click a segment to view the trajectory.)</Caption>
     <div id={panelId} hidden={!selected} className="example-disclosure" role="region" aria-label="Qwen 3.6 27B example">
       {selected && <>
         <div className="example-heading">

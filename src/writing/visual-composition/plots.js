@@ -50,14 +50,14 @@ function Figure({ n, caption, children }) {
 }
 
 export function ScalingPlot() {
-  return <Figure n={3} caption="One-turn Qwen results on 2,000 matched questions, with eight attempts per question. Bars show 95% question-bootstrap intervals. 27B is Qwen 3.6; the other models are Qwen 3.5. 397B has 17B active parameters. This is not a controlled parameter-count experiment.">
+  return <Figure n={3} caption="One-turn Qwen results on 2,000 matched questions, with eight attempts per question. Bars show 95% question-bootstrap intervals. 27B is Qwen 3.6; the other models are Qwen 3.5. 397B has 17B active parameters.">
     <Legend series={metricSeries} palette={metricColors} />
     <Plot rows={data.overall} x={{ key: 'model', label: 'Model size' }} series={metricSeries} label="Pass rate" domain={[40, 90]} palette={metricColors} intervals />
   </Figure>;
 }
 
 export function CategoryPlot() {
-  return <Figure n={4} caption="Pass@1 and Pass@8 by assigned primary skill category. Error bars show 95% question-bootstrap intervals within each category, keeping all eight attempts per question together. Each panel uses the same vertical scale. Categories are model-assisted annotations, not causal diagnoses.">
+  return <Figure n={4} caption="Pass@1 and Pass@8 by assigned primary skill category. Error bars show 95% question-bootstrap intervals within each category.">
     <Legend series={metricSeries} palette={metricColors} />
     <div className="research-grid">{data.categories.map(c => <section className="chart-panel" key={c.id}>
       <h3>{c.label}</h3><p className="panel-note">{c.problems} questions</p>
@@ -67,7 +67,7 @@ export function CategoryPlot() {
 }
 
 export function QwenHarnessPlot() {
-  return <Figure n={5} caption="Matched one-turn and execution-prompt Codex-based harness evaluations, with 2,000 questions and eight attempts per question for each model. Histograms show repeated success; gained and lost counts are observed transitions to and from 0/8, not proof of an absolute capability boundary.">
+  return <Figure n={5} caption="Matched one-turn and execution-prompt Codex-based harness evaluations, with 2,000 questions and eight attempts per question for each model.">
     <Legend series={setups} bars />
     <div className="research-grid">{data.qwen.map(q => <section className="chart-panel" key={q.model}>
       <h3>Qwen {q.model === '27B' ? '3.6 27B' : '3.5 397B'}</h3>
@@ -79,7 +79,7 @@ export function QwenHarnessPlot() {
 }
 
 export function LunaEffortPlot() {
-  return <Figure n={6} caption="Luna with and without the harness across five reasoning efforts, on the same 2,000 questions with eight attempts each. Error bars show 95% question-bootstrap intervals; gain intervals resample paired question-level differences. Observed scores are higher with the harness at medium effort and above; low effort is an exception to the gain.">
+  return <Figure n={6} caption="Luna with and without the harness across five reasoning efforts, on the same 2,000 questions with eight attempts each. Error bars show 95% question-bootstrap intervals.">
     <Legend series={setups} />
     <div className="research-grid">{[1, 8].map(k => <section className="chart-panel" key={k}>
       <h3>Pass@{k}</h3><Plot rows={data.efforts} x={{ key: 'effort', label: 'Reasoning effort' }} series={[{ key: `nullPass${k}`, label: 'No harness' }, { key: `codexPass${k}`, label: 'With harness' }]} label="Pass rate" domain={k === 1 ? [40, 70] : [60, 90]} intervals />
@@ -110,16 +110,15 @@ function EffortMark({ cx, cy, style }) {
 
 export function LunaRescuePlot() {
   const rows = rescueConsistency(data.rescued);
-  return <Figure n={7} caption="Among questions answered incorrectly in all eight no-harness attempts, each curve shows the share reaching at least the indicated number of harness successes. Zero-success cases stay in the denominator. These are observed eight-attempt outcomes, not estimated future success probabilities; gains and losses can also reflect finite sampling.">
+  return <Figure n={7} caption="Among questions answered incorrectly in all eight no-harness attempts, each curve shows the share reaching at least the indicated number of harness successes.">
     <h3 className="rescue-heading">Previously 0/8 questions: success after harness use</h3>
-    <p className="cohort-note" id="rescue-cohort-note">Each effort uses its own baseline 0/8 question set, not the same cases across efforts.</p>
     <ul className="chart-legend rescue-legend">{data.rescued.map((r, i) => <li key={r.effort}>
       <svg width="32" height="14" viewBox="0 0 32 14" aria-hidden="true"><path d="M0 7 H32" stroke={effortStyles[i].color} strokeWidth="2" strokeDasharray={effortStyles[i].dash} /><EffortMark cx={16} cy={7} style={effortStyles[i]} /></svg>
       <span>{r.effort}<span className="cohort-size">n = {r.total}</span></span>
     </li>)}</ul>
     <div className="y-axis-heading">Share of baseline 0/8 questions meeting threshold</div>
     <ChartContainer className="research-chart rescue-chart" aria-label="Luna rescue consistency across five reasoning efforts">
-      <LineChart data={rows} accessibilityLayer aria-label="Previously 0/8 questions: success after harness use" aria-describedby="rescue-cohort-note" margin={{ top: 16, right: 18, bottom: 8, left: 0 }}>
+      <LineChart data={rows} accessibilityLayer aria-label="Previously 0/8 questions: success after harness use" margin={{ top: 16, right: 18, bottom: 8, left: 0 }}>
         <CartesianGrid vertical={false} stroke="var(--line)" />
         <XAxis dataKey="threshold" interval={0} padding={{ left: 20, right: 20 }} tickLine={false} tickMargin={10} axisLine={{ stroke: 'var(--line)' }} />
         <YAxis domain={[0, 50]} ticks={[0,10,20,30,40,50]} tickFormatter={v => `${v}%`} width={52} axisLine={false} tickLine={false} />
@@ -134,7 +133,7 @@ export function LunaRescuePlot() {
 }
 
 export function LunaBehaviorPlot() {
-  return <Figure n={8} caption="Each point is one Luna harness effort setting over 16,000 rollouts. Output tokens include reasoning and sum model calls and captured retries. Tool-use rate is the fraction of rollouts with at least one tool call; model calls are not a count of crops or tool calls. These are associations, not a controlled effect of token budget.">
+  return <Figure n={8} caption="Each point is one Luna harness effort setting over 16,000 rollouts. Output tokens include reasoning and sum model calls and captured retries. Tool-use rate is the fraction of rollouts with at least one tool call.">
     <div className="research-grid">{[{ key: 'toolRate', label: 'Rollouts using tools', format: percentage, domain: [0, 65] }, { key: 'modelCalls', label: 'Model calls per rollout', format: number, domain: [0, 4] }].map(s => <section className="chart-panel" key={s.key}>
       <h3>{s.label}</h3><Plot rows={data.behavior} x={{ key: 'output', label: 'Mean output tokens per rollout', numeric: true }} series={[s]} label={s.key === 'toolRate' ? 'Tool-use rate' : 'Average model calls'} domain={s.domain} format={s.format} />
     </section>)}</div>

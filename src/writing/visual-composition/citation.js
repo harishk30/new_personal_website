@@ -3,7 +3,7 @@ import { Check, Copy } from 'lucide-react';
 
 export const bibtex = `@article{krishnakumar2026visualcomposition,
   title  = {Visual Harnesses Are Compositional Generalizers:
-            Rethinking How We Scale and Train {VLMs}},
+            Rethinking How We Scale and Train VLMs},
   author = {Krishnakumar, Harish and Müller, Sebastian},
   year   = {2026},
   month  = {October},
@@ -16,7 +16,6 @@ export const references = [
     authors: 'Alex Zhang and Omar Khattab',
     title: 'Language model harnesses are compositional generalizers',
     year: '2026',
-    publication: 'Blog post',
     url: 'https://alexzhang13.github.io/blog/2026/harness/',
   },
   {
@@ -24,7 +23,7 @@ export const references = [
     authors: 'Shengbang Tong, Zhuang Liu, Yuexiang Zhai, Yi Ma, Yann LeCun, and Saining Xie',
     title: 'Eyes Wide Shut? Exploring the Visual Shortcomings of Multimodal LLMs',
     year: '2024',
-    publication: 'arXiv:2401.06209v2',
+    conference: 'CVPR',
     url: 'https://arxiv.org/abs/2401.06209v2',
   },
   {
@@ -32,7 +31,7 @@ export const references = [
     authors: 'Pooyan Rahmanzadehgervi, Logan Bolton, Mohammad Reza Taesiri, and Anh Totti Nguyen',
     title: 'Vision language models are blind: Failing to translate detailed visual features into words',
     year: '2024',
-    publication: 'arXiv:2407.06581v6 (revised 2025)',
+    conference: 'ACCV',
     url: 'https://arxiv.org/abs/2407.06581v6',
   },
   {
@@ -40,7 +39,6 @@ export const references = [
     authors: 'Yida Yin, Harish Krishnakumar, Chung Peng Lee, Boya Zeng, Wenhao Chai, Shengbang Tong, Wenhu Chen, Hu Xu, Xingyu Fu, Gabriel Sarch, Aleksandra Korolova, and Zhuang Liu',
     title: 'WorldBench: A Challenging and Visually Diverse Multimodal Reasoning Benchmark',
     year: '2026',
-    publication: 'arXiv:2606.06538',
     url: 'https://arxiv.org/abs/2606.06538',
   },
 ];
@@ -78,7 +76,7 @@ export default function ArticleCitation() {
       {references.map(reference => <li key={reference.id} id={`ref-${reference.id}`}>
         <a href={reference.url}>{reference.title}</a>
         <span className="reference-authors">{reference.authors}.</span>
-        <span className="reference-publication">{reference.year}. {reference.publication}.</span>
+        <span className="reference-publication">{reference.conference ? `${reference.conference}, ` : ''}{reference.year}.</span>
       </li>)}
     </ol>
   </>;
