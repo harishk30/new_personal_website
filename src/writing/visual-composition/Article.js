@@ -47,6 +47,7 @@ export default function Article() {
     ['Making Harness Gains Reliable', 'reliable-gains'],
     ['What Changes With Reasoning?', 'reasoning'],
     ['Conclusion', 'conclusion'],
+    ['Acknowledgements', 'acknowledgements'],
   ];
   const figures = [
     ['(overall scaling', ScalingPlot], ['(category-level', CategoryPlot],

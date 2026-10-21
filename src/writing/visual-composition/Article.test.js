@@ -24,6 +24,12 @@ test('article keeps category bullets and both trace widgets while suppressing fi
     expect(container.textContent).not.toContain('To write');
     expect(container.textContent).not.toContain('Harness provides transformations that can make correct solution available');
     expect(container.textContent).not.toContain('A cost- or token-matched comparison');
+    expect(container.textContent).toContain('At xhigh reasoning, Pass@1 rises from 57.1% to 63.5%');
+    expect(container.textContent).toContain('training specifically for reliable visual decomposition');
+    expect(container.textContent).toContain('five different reasoning levels');
+    expect(container.textContent).not.toContain('four different reasoning levels');
+    expect(container.querySelector('#acknowledgements')?.tagName).toBe('H2');
+    expect(container.querySelector('a[href="#acknowledgements"]')).not.toBeNull();
   } finally {
     act(() => root.unmount());
     delete global.IS_REACT_ACT_ENVIRONMENT;

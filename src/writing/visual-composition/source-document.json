@@ -1,8 +1,8 @@
 {
   "documentId": "1HqP4nLDMz-PcZbxPhZgdVJgVZOjKsOAr9IqzIRUVE9k",
-  "tab": "New Article",
+  "tab": "Tab 2",
   "tabId": "t.te5tt51hld0w",
-  "revision": "AHj4eMSHWCrtNoPwUsMyEjg3t2J9izrpPqRydPHrX3S5eeR8SocnZLXwLacq3gakr5vtFXqdZzpCaqmh1ju8nKe-GoM1usZR-eJJ21BfdTg",
+  "revision": "AHj4eMTp4_IkkINcZpWK4bZ1einW3u4MlrOkfw0RhjOpR0IcSXOnYyq0SvOLoFC-juqxRis2wA9z5Yp68_05ht_gACIsPjEm8HiDU1f8NSM",
   "paragraphs": [
     {
       "elements": [
@@ -127,15 +127,15 @@
         },
         {
           "startIndex": 595,
-          "endIndex": 793,
+          "endIndex": 794,
           "textRun": {
             "content": ". There, he looked at the textual domain, finding that a well-designed harness allows a model to generalize across complex tasks. This is because a harness enables a model to go from a complex state ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 793,
-          "endIndex": 795,
+          "startIndex": 794,
+          "endIndex": 796,
           "textRun": {
             "content": "S ",
             "textStyle": {
@@ -144,16 +144,16 @@
           }
         },
         {
-          "startIndex": 795,
-          "endIndex": 820,
+          "startIndex": 796,
+          "endIndex": 821,
           "textRun": {
             "content": "to a set of observations ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 820,
-          "endIndex": 822,
+          "startIndex": 821,
+          "endIndex": 823,
           "textRun": {
             "content": "O ",
             "textStyle": {
@@ -162,8 +162,8 @@
           }
         },
         {
-          "startIndex": 822,
-          "endIndex": 876,
+          "startIndex": 823,
+          "endIndex": 877,
           "textRun": {
             "content": "that are in-distribution for the LLM in the harness. \n",
             "textStyle": {}
@@ -178,8 +178,8 @@
     {
       "elements": [
         {
-          "startIndex": 876,
-          "endIndex": 877,
+          "startIndex": 877,
+          "endIndex": 878,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -194,8 +194,8 @@
     {
       "elements": [
         {
-          "startIndex": 877,
-          "endIndex": 1154,
+          "startIndex": 878,
+          "endIndex": 1155,
           "textRun": {
             "content": "In the visual domain, the harness matters just as much. The harness can not just break apart the question posed to the model, but also the image itself, cropping and rescaling particular regions to surface visual information that might be inaccessible to the underlying model.\n",
             "textStyle": {}
@@ -210,8 +210,8 @@
     {
       "elements": [
         {
-          "startIndex": 1154,
-          "endIndex": 1155,
+          "startIndex": 1155,
+          "endIndex": 1156,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -226,8 +226,8 @@
     {
       "elements": [
         {
-          "startIndex": 1155,
-          "endIndex": 1194,
+          "startIndex": 1156,
+          "endIndex": 1195,
           "textRun": {
             "content": "Why is Decomposition Useful in Vision?\n",
             "textStyle": {
@@ -244,8 +244,8 @@
     {
       "elements": [
         {
-          "startIndex": 1194,
-          "endIndex": 1195,
+          "startIndex": 1195,
+          "endIndex": 1196,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -260,8 +260,8 @@
     {
       "elements": [
         {
-          "startIndex": 1195,
-          "endIndex": 1196,
+          "startIndex": 1196,
+          "endIndex": 1197,
           "inlineObjectElement": {
             "inlineObjectId": "kix.abxcmli6i6c",
             "textStyle": {
@@ -270,8 +270,8 @@
           }
         },
         {
-          "startIndex": 1196,
-          "endIndex": 1198,
+          "startIndex": 1197,
+          "endIndex": 1199,
           "textRun": {
             "content": " \n",
             "textStyle": {}
@@ -286,8 +286,8 @@
     {
       "elements": [
         {
-          "startIndex": 1198,
-          "endIndex": 1199,
+          "startIndex": 1199,
+          "endIndex": 1200,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -302,8 +302,8 @@
     {
       "elements": [
         {
-          "startIndex": 1199,
-          "endIndex": 1283,
+          "startIndex": 1200,
+          "endIndex": 1284,
           "textRun": {
             "content": "(Generate a version of this diagram which has a LLM and these inputs to the left). \n",
             "textStyle": {}
@@ -318,8 +318,8 @@
     {
       "elements": [
         {
-          "startIndex": 1283,
-          "endIndex": 1284,
+          "startIndex": 1284,
+          "endIndex": 1285,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -334,16 +334,16 @@
     {
       "elements": [
         {
-          "startIndex": 1284,
-          "endIndex": 1339,
+          "startIndex": 1285,
+          "endIndex": 1340,
           "textRun": {
             "content": "VLMs typically encode images through what’s known as a ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 1339,
-          "endIndex": 1353,
+          "startIndex": 1340,
+          "endIndex": 1354,
           "textRun": {
             "content": "vision encoder",
             "textStyle": {
@@ -352,16 +352,16 @@
           }
         },
         {
-          "startIndex": 1353,
-          "endIndex": 1396,
+          "startIndex": 1354,
+          "endIndex": 1397,
           "textRun": {
             "content": ", which extracts visual representations. A ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 1396,
-          "endIndex": 1406,
+          "startIndex": 1397,
+          "endIndex": 1407,
           "textRun": {
             "content": "projector ",
             "textStyle": {
@@ -370,8 +370,8 @@
           }
         },
         {
-          "startIndex": 1406,
-          "endIndex": 1594,
+          "startIndex": 1407,
+          "endIndex": 1595,
           "textRun": {
             "content": "then maps these representations into tokens the model can interpret alongside text. This has been remarkably useful to bridge the inherent knowledge of LLMs with multimodal capabilities. \n",
             "textStyle": {}
@@ -386,8 +386,8 @@
     {
       "elements": [
         {
-          "startIndex": 1594,
-          "endIndex": 1595,
+          "startIndex": 1595,
+          "endIndex": 1596,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -402,16 +402,16 @@
     {
       "elements": [
         {
-          "startIndex": 1595,
-          "endIndex": 1737,
+          "startIndex": 1596,
+          "endIndex": 1738,
           "textRun": {
             "content": "However, this representation is lossy with respect to the original image. It has been shown that passing an image through a vision encoder can",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 1737,
-          "endIndex": 1783,
+          "startIndex": 1738,
+          "endIndex": 1784,
           "textRun": {
             "content": " remove distinctions necessary to solve a task",
             "textStyle": {
@@ -432,16 +432,16 @@
           }
         },
         {
-          "startIndex": 1783,
-          "endIndex": 1829,
+          "startIndex": 1784,
+          "endIndex": 1830,
           "textRun": {
             "content": ". Even if this information survives encoding, ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 1829,
-          "endIndex": 1917,
+          "startIndex": 1830,
+          "endIndex": 1918,
           "textRun": {
             "content": "it isn’t guaranteed that the LLM can translate this representation into the right answer",
             "textStyle": {
@@ -462,8 +462,8 @@
           }
         },
         {
-          "startIndex": 1917,
-          "endIndex": 1920,
+          "startIndex": 1918,
+          "endIndex": 1921,
           "textRun": {
             "content": "! \n",
             "textStyle": {}
@@ -478,8 +478,8 @@
     {
       "elements": [
         {
-          "startIndex": 1920,
-          "endIndex": 1921,
+          "startIndex": 1921,
+          "endIndex": 1922,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -494,16 +494,16 @@
     {
       "elements": [
         {
-          "startIndex": 1921,
-          "endIndex": 1922,
+          "startIndex": 1922,
+          "endIndex": 1923,
           "inlineObjectElement": {
             "inlineObjectId": "kix.tpmsq37gadx0",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 1922,
-          "endIndex": 1923,
+          "startIndex": 1923,
+          "endIndex": 1924,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -518,8 +518,8 @@
     {
       "elements": [
         {
-          "startIndex": 1923,
-          "endIndex": 2460,
+          "startIndex": 1924,
+          "endIndex": 2461,
           "textRun": {
             "content": "(rework these diagrams similar to the experiments we ran, have “No Harness” be similar to OOD with just the image prompt (with an image thumbnail there), task prompt, and then answer, and “Harness” be similar to this, but we have a big image bar initially and we show that it’s decomposed. let’s also select a real example from luna harness v no harness experiments and have some way that we can actually see this comparison here (choose a good example where the composition can be seen and have some hovering way we can see this here))\n",
             "textStyle": {}
@@ -534,8 +534,8 @@
     {
       "elements": [
         {
-          "startIndex": 2460,
-          "endIndex": 2461,
+          "startIndex": 2461,
+          "endIndex": 2462,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -550,8 +550,8 @@
     {
       "elements": [
         {
-          "startIndex": 2461,
-          "endIndex": 2717,
+          "startIndex": 2462,
+          "endIndex": 2718,
           "textRun": {
             "content": "A visual harness can help address both bottlenecks. Cropping and zooming can give the vision encoder a second chance to represent relevant information, and targeted inspections/measurements can break down the problem into solvable, in-distribution tasks. \n",
             "textStyle": {}
@@ -566,8 +566,8 @@
     {
       "elements": [
         {
-          "startIndex": 2717,
-          "endIndex": 2718,
+          "startIndex": 2718,
+          "endIndex": 2719,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -582,16 +582,16 @@
     {
       "elements": [
         {
-          "startIndex": 2718,
-          "endIndex": 2778,
+          "startIndex": 2719,
+          "endIndex": 2774,
           "textRun": {
-            "content": "To investigate the effectiveness of a visual harness, I use ",
+            "content": "To study the effectiveness of a visual harness, we use ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 2778,
-          "endIndex": 2788,
+          "startIndex": 2774,
+          "endIndex": 2784,
           "textRun": {
             "content": "WorldBench",
             "textStyle": {
@@ -613,16 +613,16 @@
           }
         },
         {
-          "startIndex": 2788,
-          "endIndex": 2834,
+          "startIndex": 2784,
+          "endIndex": 2830,
           "textRun": {
             "content": ", now available as a Verifiers v1 environment ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 2834,
-          "endIndex": 2845,
+          "startIndex": 2830,
+          "endIndex": 2841,
           "textRun": {
             "content": "(link here)",
             "textStyle": {
@@ -631,8 +631,8 @@
           }
         },
         {
-          "startIndex": 2845,
-          "endIndex": 3041,
+          "startIndex": 2841,
+          "endIndex": 3037,
           "textRun": {
             "content": " on the Prime Intellect platform. WorldBench is a 2,000-question VQA benchmark centered on visual diversity, with questions spanning multiple domains and requiring both knowledge and perception. \n",
             "textStyle": {}
@@ -647,8 +647,8 @@
     {
       "elements": [
         {
-          "startIndex": 3041,
-          "endIndex": 3042,
+          "startIndex": 3037,
+          "endIndex": 3038,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -663,10 +663,10 @@
     {
       "elements": [
         {
-          "startIndex": 3042,
-          "endIndex": 3313,
+          "startIndex": 3038,
+          "endIndex": 3310,
           "textRun": {
-            "content": "I evaluate each problem with eight rollouts and report both Pass@1 and Pass@8. These experiments were done across four model sizes: Qwen-3.5 4B, Qwen-3.5 9B, Qwen-3.6 27B, and Qwen 3.5 397B (A17B). They were also done with GPT-6 Luna at four different reasoning levels. \n",
+            "content": "We evaluate each problem with eight rollouts and report both Pass@1 and Pass@8. These experiments were done across four model sizes: Qwen-3.5 4B, Qwen-3.5 9B, Qwen-3.6 27B, and Qwen 3.5 397B (A17B). They were also done with GPT-6 Luna at four different reasoning levels. \n",
             "textStyle": {}
           }
         }
@@ -679,8 +679,8 @@
     {
       "elements": [
         {
-          "startIndex": 3313,
-          "endIndex": 3314,
+          "startIndex": 3310,
+          "endIndex": 3311,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -695,8 +695,8 @@
     {
       "elements": [
         {
-          "startIndex": 3314,
-          "endIndex": 3340,
+          "startIndex": 3311,
+          "endIndex": 3337,
           "textRun": {
             "content": "What Improves With Scale?\n",
             "textStyle": {
@@ -713,8 +713,8 @@
     {
       "elements": [
         {
-          "startIndex": 3340,
-          "endIndex": 3341,
+          "startIndex": 3337,
+          "endIndex": 3338,
           "textRun": {
             "content": "\n",
             "textStyle": {
@@ -731,16 +731,16 @@
     {
       "elements": [
         {
-          "startIndex": 3341,
-          "endIndex": 3496,
+          "startIndex": 3338,
+          "endIndex": 3493,
           "textRun": {
             "content": "Across all model sizes for Qwen, scaling consistently improves Pass@1, while Pass@8 remains relatively flat. This suggests that scaling often improves the ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 3496,
-          "endIndex": 3507,
+          "startIndex": 3493,
+          "endIndex": 3504,
           "textRun": {
             "content": "reliability",
             "textStyle": {
@@ -749,16 +749,16 @@
           }
         },
         {
-          "startIndex": 3507,
-          "endIndex": 3575,
+          "startIndex": 3504,
+          "endIndex": 3572,
           "textRun": {
             "content": " of a model discovering the right solution, while not expanding the ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 3575,
-          "endIndex": 3583,
+          "startIndex": 3572,
+          "endIndex": 3580,
           "textRun": {
             "content": "coverage",
             "textStyle": {
@@ -767,8 +767,8 @@
           }
         },
         {
-          "startIndex": 3583,
-          "endIndex": 3623,
+          "startIndex": 3580,
+          "endIndex": 3620,
           "textRun": {
             "content": " of the solutions the model can solve. \n",
             "textStyle": {}
@@ -783,8 +783,8 @@
     {
       "elements": [
         {
-          "startIndex": 3623,
-          "endIndex": 3624,
+          "startIndex": 3620,
+          "endIndex": 3621,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -799,8 +799,8 @@
     {
       "elements": [
         {
-          "startIndex": 3624,
-          "endIndex": 3697,
+          "startIndex": 3621,
+          "endIndex": 3694,
           "textRun": {
             "content": "(overall scaling plot with pass@1 and pass@8, have this all in one plot)\n",
             "textStyle": {}
@@ -815,8 +815,8 @@
     {
       "elements": [
         {
-          "startIndex": 3697,
-          "endIndex": 3698,
+          "startIndex": 3694,
+          "endIndex": 3695,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -831,8 +831,8 @@
     {
       "elements": [
         {
-          "startIndex": 3698,
-          "endIndex": 3794,
+          "startIndex": 3695,
+          "endIndex": 3791,
           "textRun": {
             "content": "To investigate this further, we classify every WorldBench question into one of four categories:\n",
             "textStyle": {}
@@ -847,8 +847,8 @@
     {
       "elements": [
         {
-          "startIndex": 3794,
-          "endIndex": 3819,
+          "startIndex": 3791,
+          "endIndex": 3816,
           "textRun": {
             "content": "Perception and extraction",
             "textStyle": {
@@ -857,8 +857,8 @@
           }
         },
         {
-          "startIndex": 3819,
-          "endIndex": 3868,
+          "startIndex": 3816,
+          "endIndex": 3865,
           "textRun": {
             "content": ": OCR, counting, attributes, and small details. \n",
             "textStyle": {}
@@ -885,8 +885,8 @@
     {
       "elements": [
         {
-          "startIndex": 3868,
-          "endIndex": 3892,
+          "startIndex": 3865,
+          "endIndex": 3889,
           "textRun": {
             "content": "Relational understanding",
             "textStyle": {
@@ -895,8 +895,8 @@
           }
         },
         {
-          "startIndex": 3892,
-          "endIndex": 3931,
+          "startIndex": 3889,
+          "endIndex": 3928,
           "textRun": {
             "content": ": spatial and temporal relationships. \n",
             "textStyle": {}
@@ -923,8 +923,8 @@
     {
       "elements": [
         {
-          "startIndex": 3931,
-          "endIndex": 3965,
+          "startIndex": 3928,
+          "endIndex": 3962,
           "textRun": {
             "content": "Logical and quantitative reasoning",
             "textStyle": {
@@ -933,8 +933,8 @@
           }
         },
         {
-          "startIndex": 3965,
-          "endIndex": 4016,
+          "startIndex": 3962,
+          "endIndex": 4013,
           "textRun": {
             "content": ": arithmetic, constants, and deductive reasoning. \n",
             "textStyle": {}
@@ -961,8 +961,8 @@
     {
       "elements": [
         {
-          "startIndex": 4016,
-          "endIndex": 4039,
+          "startIndex": 4013,
+          "endIndex": 4036,
           "textRun": {
             "content": "Knowledge and semantics",
             "textStyle": {
@@ -971,8 +971,8 @@
           }
         },
         {
-          "startIndex": 4039,
-          "endIndex": 4108,
+          "startIndex": 4036,
+          "endIndex": 4105,
           "textRun": {
             "content": ": world understanding, language, conventions, and domain knowledge. \n",
             "textStyle": {}
@@ -999,8 +999,8 @@
     {
       "elements": [
         {
-          "startIndex": 4108,
-          "endIndex": 4109,
+          "startIndex": 4105,
+          "endIndex": 4106,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1015,8 +1015,8 @@
     {
       "elements": [
         {
-          "startIndex": 4109,
-          "endIndex": 4166,
+          "startIndex": 4106,
+          "endIndex": 4163,
           "textRun": {
             "content": "(category-level results, pass@1 + pass@8 on 4 plot grid)\n",
             "textStyle": {}
@@ -1031,8 +1031,8 @@
     {
       "elements": [
         {
-          "startIndex": 4166,
-          "endIndex": 4167,
+          "startIndex": 4163,
+          "endIndex": 4164,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1047,8 +1047,8 @@
     {
       "elements": [
         {
-          "startIndex": 4167,
-          "endIndex": 4286,
+          "startIndex": 4164,
+          "endIndex": 4283,
           "textRun": {
             "content": "Across all categories, scale helps with reliability but doesn’t necessarily enable the model to solve “new” problems. \n",
             "textStyle": {}
@@ -1063,8 +1063,8 @@
     {
       "elements": [
         {
-          "startIndex": 4286,
-          "endIndex": 4287,
+          "startIndex": 4283,
+          "endIndex": 4284,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1079,8 +1079,8 @@
     {
       "elements": [
         {
-          "startIndex": 4287,
-          "endIndex": 4288,
+          "startIndex": 4284,
+          "endIndex": 4285,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1095,8 +1095,8 @@
     {
       "elements": [
         {
-          "startIndex": 4288,
-          "endIndex": 4316,
+          "startIndex": 4285,
+          "endIndex": 4313,
           "textRun": {
             "content": "Reachability vs Reliability\n",
             "textStyle": {
@@ -1113,8 +1113,8 @@
     {
       "elements": [
         {
-          "startIndex": 4316,
-          "endIndex": 4317,
+          "startIndex": 4313,
+          "endIndex": 4314,
           "textRun": {
             "content": "\n",
             "textStyle": {
@@ -1131,16 +1131,16 @@
     {
       "elements": [
         {
-          "startIndex": 4317,
-          "endIndex": 4584,
+          "startIndex": 4314,
+          "endIndex": 4581,
           "textRun": {
             "content": "To see where harness changes can improve VLM performance, we measure the performance of Qwen-3.6 27B and Qwen 3.5 397B (A17B) in the Codex harness across eight rollouts, allowing it to analyze images programmatically using Python, with Pillow and NumPy preinstalled. ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 4584,
-          "endIndex": 4585,
+          "startIndex": 4581,
+          "endIndex": 4582,
           "textRun": {
             "content": "\n",
             "textStyle": {
@@ -1157,8 +1157,8 @@
     {
       "elements": [
         {
-          "startIndex": 4585,
-          "endIndex": 4586,
+          "startIndex": 4582,
+          "endIndex": 4583,
           "textRun": {
             "content": "\n",
             "textStyle": {
@@ -1175,8 +1175,8 @@
     {
       "elements": [
         {
-          "startIndex": 4586,
-          "endIndex": 4635,
+          "startIndex": 4583,
+          "endIndex": 4632,
           "textRun": {
             "content": "(Use two aligned panels, one per model, showing:\n",
             "textStyle": {}
@@ -1191,8 +1191,8 @@
     {
       "elements": [
         {
-          "startIndex": 4635,
-          "endIndex": 4680,
+          "startIndex": 4632,
+          "endIndex": 4677,
           "textRun": {
             "content": "No-harness versus harness Pass@1 and Pass@8.\n",
             "textStyle": {}
@@ -1227,8 +1227,8 @@
     {
       "elements": [
         {
-          "startIndex": 4680,
-          "endIndex": 4753,
+          "startIndex": 4677,
+          "endIndex": 4750,
           "textRun": {
             "content": "Below them, the distribution of questions with 0–8 successful attempts.)\n",
             "textStyle": {}
@@ -1263,24 +1263,24 @@
     {
       "elements": [
         {
-          "startIndex": 4753,
-          "endIndex": 4934,
+          "startIndex": 4750,
+          "endIndex": 4931,
           "textRun": {
             "content": "Looking at the distribution of problems solved, we see that the number of questions solved at least once (Pass@8) increases. This suggests that the harness allows us to improve the ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 4934,
-          "endIndex": 4942,
+          "startIndex": 4931,
+          "endIndex": 4939,
           "textRun": {
             "content": "coverage",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 4942,
-          "endIndex": 4963,
+          "startIndex": 4939,
+          "endIndex": 4960,
           "textRun": {
             "content": " of the base model. \n",
             "textStyle": {}
@@ -1295,8 +1295,8 @@
     {
       "elements": [
         {
-          "startIndex": 4963,
-          "endIndex": 4964,
+          "startIndex": 4960,
+          "endIndex": 4961,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1311,8 +1311,8 @@
     {
       "elements": [
         {
-          "startIndex": 4964,
-          "endIndex": 5096,
+          "startIndex": 4961,
+          "endIndex": 5093,
           "textRun": {
             "content": "However, the variance across rollouts also increases – the number of problems solved successfully in all eight rollouts goes down. \n",
             "textStyle": {}
@@ -1327,8 +1327,8 @@
     {
       "elements": [
         {
-          "startIndex": 5096,
-          "endIndex": 5097,
+          "startIndex": 5093,
+          "endIndex": 5094,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1343,8 +1343,8 @@
     {
       "elements": [
         {
-          "startIndex": 5097,
-          "endIndex": 5522,
+          "startIndex": 5094,
+          "endIndex": 5519,
           "textRun": {
             "content": "Additionally, increasing model size doesn’t necessarily make harness use more reliable. The harness gives both models (regardless of size) the opportunity to decompose and inspect an image, but benefitting from these operations reliably requires learning how to select useful operations and combine evidence. Therefore, we distinguish the ability of a model to solve a question and its ability to visually decompose images. \n",
             "textStyle": {}
@@ -1359,8 +1359,8 @@
     {
       "elements": [
         {
-          "startIndex": 5522,
-          "endIndex": 5523,
+          "startIndex": 5519,
+          "endIndex": 5520,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1375,8 +1375,8 @@
     {
       "elements": [
         {
-          "startIndex": 5523,
-          "endIndex": 5570,
+          "startIndex": 5520,
+          "endIndex": 5567,
           "textRun": {
             "content": "A few examples of harness use are shown below:\n",
             "textStyle": {}
@@ -1391,8 +1391,8 @@
     {
       "elements": [
         {
-          "startIndex": 5570,
-          "endIndex": 5571,
+          "startIndex": 5567,
+          "endIndex": 5568,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1407,8 +1407,8 @@
     {
       "elements": [
         {
-          "startIndex": 5571,
-          "endIndex": 5669,
+          "startIndex": 5568,
+          "endIndex": 5666,
           "textRun": {
             "content": "(embed in trajectory examples of where scaffolding takes responses from 0/8 -> some solved here) \n",
             "textStyle": {}
@@ -1423,8 +1423,8 @@
     {
       "elements": [
         {
-          "startIndex": 5669,
-          "endIndex": 5670,
+          "startIndex": 5666,
+          "endIndex": 5667,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1439,8 +1439,8 @@
     {
       "elements": [
         {
-          "startIndex": 5670,
-          "endIndex": 5888,
+          "startIndex": 5667,
+          "endIndex": 5885,
           "textRun": {
             "content": "However, is this coverage/reliability tradeoff ubiquitous for all visual harnesses, or a function of how the policy is trained and deployed? To investigate this, we evaluate GPT-6 Luna at varying levels of reasoning. \n",
             "textStyle": {}
@@ -1455,8 +1455,8 @@
     {
       "elements": [
         {
-          "startIndex": 5888,
-          "endIndex": 5889,
+          "startIndex": 5885,
+          "endIndex": 5886,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1471,8 +1471,8 @@
     {
       "elements": [
         {
-          "startIndex": 5889,
-          "endIndex": 5919,
+          "startIndex": 5886,
+          "endIndex": 5916,
           "textRun": {
             "content": "Making Harness Gains Reliable\n",
             "textStyle": {
@@ -1489,8 +1489,8 @@
     {
       "elements": [
         {
-          "startIndex": 5919,
-          "endIndex": 5920,
+          "startIndex": 5916,
+          "endIndex": 5917,
           "textRun": {
             "content": "\n",
             "textStyle": {
@@ -1507,8 +1507,8 @@
     {
       "elements": [
         {
-          "startIndex": 5920,
-          "endIndex": 6025,
+          "startIndex": 5917,
+          "endIndex": 6022,
           "textRun": {
             "content": "(Luna reasoning effort vs pass@1/pass@8, two panels, harness vs no harness + one difference graph maybe)\n",
             "textStyle": {}
@@ -1523,8 +1523,8 @@
     {
       "elements": [
         {
-          "startIndex": 6025,
-          "endIndex": 6026,
+          "startIndex": 6022,
+          "endIndex": 6023,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1539,10 +1539,10 @@
     {
       "elements": [
         {
-          "startIndex": 6026,
-          "endIndex": 6180,
+          "startIndex": 6023,
+          "endIndex": 6269,
           "textRun": {
-            "content": "With Luna, we see that the expansion of coverage with the visual harness is also made reliable, with both Pass@1 and Pass@8 increasing with harness use. \n",
+            "content": "With Luna, we see that the expansion of coverage with the visual harness is also made reliable, with both Pass@1 and Pass@8 increasing with harness use. At xhigh reasoning, Pass@1 rises from 57.1% to 63.5%, and Pass@8 rises from 75.4% to 82.4%. \n",
             "textStyle": {}
           }
         }
@@ -1555,8 +1555,8 @@
     {
       "elements": [
         {
-          "startIndex": 6180,
-          "endIndex": 6181,
+          "startIndex": 6269,
+          "endIndex": 6270,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1571,8 +1571,76 @@
     {
       "elements": [
         {
-          "startIndex": 6181,
-          "endIndex": 6272,
+          "startIndex": 6270,
+          "endIndex": 6447,
+          "textRun": {
+            "content": "This differs from the Qwen runs, where coverage (Pass@8) increased, but the reliability (Pass@1) decreased. This suggests that a visual harness expands the set of problems that ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 6447,
+          "endIndex": 6451,
+          "textRun": {
+            "content": "can ",
+            "textStyle": {
+              "italic": true
+            }
+          }
+        },
+        {
+          "startIndex": 6451,
+          "endIndex": 6514,
+          "textRun": {
+            "content": "be solved, but that a model can be trained to use this harness ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 6514,
+          "endIndex": 6522,
+          "textRun": {
+            "content": "reliably",
+            "textStyle": {
+              "italic": true
+            }
+          }
+        },
+        {
+          "startIndex": 6522,
+          "endIndex": 6557,
+          "textRun": {
+            "content": " to decompose and solve problems. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 6557,
+          "endIndex": 6558,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 6558,
+          "endIndex": 6649,
           "textRun": {
             "content": "(0 -> n/8 histogram (?) showing how many turns on avg is increased to from 0 with harness)\n",
             "textStyle": {}
@@ -1587,8 +1655,8 @@
     {
       "elements": [
         {
-          "startIndex": 6272,
-          "endIndex": 6273,
+          "startIndex": 6649,
+          "endIndex": 6650,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1603,8 +1671,40 @@
     {
       "elements": [
         {
-          "startIndex": 6273,
-          "endIndex": 6302,
+          "startIndex": 6650,
+          "endIndex": 6894,
+          "textRun": {
+            "content": "As seen in the plot above, more problems are raised from the 0/8 bucket with the visual harness as the reasoning level is raised. This suggests that reliable harness use is also a function of the inference-time compute allocated to the model. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 6894,
+          "endIndex": 6895,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 6895,
+          "endIndex": 6924,
           "textRun": {
             "content": "What Changes With Reasoning?\n",
             "textStyle": {
@@ -1621,8 +1721,8 @@
     {
       "elements": [
         {
-          "startIndex": 6302,
-          "endIndex": 6303,
+          "startIndex": 6924,
+          "endIndex": 6925,
           "textRun": {
             "content": "\n",
             "textStyle": {
@@ -1639,8 +1739,8 @@
     {
       "elements": [
         {
-          "startIndex": 6303,
-          "endIndex": 6358,
+          "startIndex": 6925,
+          "endIndex": 6980,
           "textRun": {
             "content": "(tool-use rate and calls per rollout vs output tokens)\n",
             "textStyle": {}
@@ -1655,8 +1755,8 @@
     {
       "elements": [
         {
-          "startIndex": 6358,
-          "endIndex": 6359,
+          "startIndex": 6980,
+          "endIndex": 6981,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1671,10 +1771,10 @@
     {
       "elements": [
         {
-          "startIndex": 6359,
-          "endIndex": 6438,
+          "startIndex": 6981,
+          "endIndex": 7114,
           "textRun": {
-            "content": "As reasoning effort increases, Luna’s tool using capabilities also increases. \n",
+            "content": "As reasoning effort increases, Luna tends to use tools more in the harness, and take more turns before outputting a final solution. \n",
             "textStyle": {}
           }
         }
@@ -1687,40 +1787,8 @@
     {
       "elements": [
         {
-          "startIndex": 6438,
-          "endIndex": 6439,
-          "textRun": {
-            "content": "\n",
-            "textStyle": {}
-          }
-        }
-      ],
-      "paragraphStyle": {
-        "namedStyleType": "NORMAL_TEXT",
-        "direction": "LEFT_TO_RIGHT"
-      }
-    },
-    {
-      "elements": [
-        {
-          "startIndex": 6439,
-          "endIndex": 6594,
-          "textRun": {
-            "content": "As seen below, the ability of Luna to use tools varies dramatically across reasoning efforts, and gets more reliable as inference-time compute increases. \n",
-            "textStyle": {}
-          }
-        }
-      ],
-      "paragraphStyle": {
-        "namedStyleType": "NORMAL_TEXT",
-        "direction": "LEFT_TO_RIGHT"
-      }
-    },
-    {
-      "elements": [
-        {
-          "startIndex": 6594,
-          "endIndex": 6595,
+          "startIndex": 7114,
+          "endIndex": 7115,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1735,8 +1803,40 @@
     {
       "elements": [
         {
-          "startIndex": 6595,
-          "endIndex": 6732,
+          "startIndex": 7115,
+          "endIndex": 7348,
+          "textRun": {
+            "content": "As seen below, across five reasoning levels, Luna demonstrates drastically different tool use behavior. At no/low reasoning, no tools are used, at medium reasoning, one crop is made, and at high/xhigh reasoning, two crops are made. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 7348,
+          "endIndex": 7349,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 7349,
+          "endIndex": 7486,
           "textRun": {
             "content": "(Luna trace example using tools, that shows how Luna learns to use tools well, and maybe compare this across reasoning efforts as well?)\n",
             "textStyle": {}
@@ -1751,8 +1851,8 @@
     {
       "elements": [
         {
-          "startIndex": 6732,
-          "endIndex": 6733,
+          "startIndex": 7486,
+          "endIndex": 7487,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1767,8 +1867,8 @@
     {
       "elements": [
         {
-          "startIndex": 6733,
-          "endIndex": 6744,
+          "startIndex": 7487,
+          "endIndex": 7498,
           "textRun": {
             "content": "Conclusion\n",
             "textStyle": {
@@ -1785,8 +1885,8 @@
     {
       "elements": [
         {
-          "startIndex": 6744,
-          "endIndex": 6745,
+          "startIndex": 7498,
+          "endIndex": 7499,
           "textRun": {
             "content": "\n",
             "textStyle": {
@@ -1803,10 +1903,10 @@
     {
       "elements": [
         {
-          "startIndex": 6745,
-          "endIndex": 6759,
+          "startIndex": 7499,
+          "endIndex": 7850,
           "textRun": {
-            "content": "Qwen vs. Luna\n",
+            "content": "To conclude, we’ve seen that a harness can make useful evidence accessible for a model to solve questions that it previously couldn’t, but the model needs to reliably select and integrate this evidence. The evaluation of Qwen demonstrates that the use of a harness expands coverage, but GPT-6 Luna shows that this coverage can also be made reliable. \n",
             "textStyle": {}
           }
         }
@@ -1819,8 +1919,187 @@
     {
       "elements": [
         {
-          "startIndex": 6759,
-          "endIndex": 6760,
+          "startIndex": 7850,
+          "endIndex": 7949,
+          "textRun": {
+            "content": "Looking at the trajectories, we see a simple explanation for these gains. A visual harness enables ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 7949,
+          "endIndex": 7977,
+          "textRun": {
+            "content": "compositional generalization",
+            "textStyle": {
+              "underline": true,
+              "foregroundColor": {
+                "color": {
+                  "rgbColor": {
+                    "red": 0.06666667,
+                    "green": 0.33333334,
+                    "blue": 0.8
+                  }
+                }
+              },
+              "link": {
+                "url": "https://alexzhang13.github.io/blog/2026/harness/"
+              }
+            }
+          }
+        },
+        {
+          "startIndex": 7977,
+          "endIndex": 8166,
+          "textRun": {
+            "content": ", allowing the model to break down the problem it must solve. Difficult global tasks (questions interpreting crowded images) can be broken down into a sequence of simpler local questions. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 8166,
+          "endIndex": 8167,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 8167,
+          "endIndex": 8554,
+          "textRun": {
+            "content": "The relationship between harness benefit and reasoning effort, in addition, suggests that access to visual tools alone isn’t enough. To be made reliable, models need to be able to decide how to inspect and integrate evidence. This additionally motivates training specifically for reliable visual decomposition, allowing models to properly make use of the visual tools provided to them. \n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 8554,
+          "endIndex": 8555,
+          "textRun": {
+            "content": "\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "namedStyleType": "NORMAL_TEXT",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 8555,
+          "endIndex": 8572,
+          "textRun": {
+            "content": "Acknowledgements\n",
+            "textStyle": {}
+          }
+        }
+      ],
+      "paragraphStyle": {
+        "headingId": "h.3ztjbtgkfjsj",
+        "namedStyleType": "SUBTITLE",
+        "direction": "LEFT_TO_RIGHT"
+      }
+    },
+    {
+      "elements": [
+        {
+          "startIndex": 8572,
+          "endIndex": 8663,
+          "textRun": {
+            "content": "This work was conducted as part of the Prime Intellect RL Residency. I would like to thank ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 8663,
+          "endIndex": 8679,
+          "textRun": {
+            "content": "Sebastian Müller",
+            "textStyle": {
+              "underline": true,
+              "foregroundColor": {
+                "color": {
+                  "rgbColor": {
+                    "red": 0.06666667,
+                    "green": 0.33333334,
+                    "blue": 0.8
+                  }
+                }
+              },
+              "link": {
+                "url": "https://x.com/omouamoua"
+              }
+            }
+          }
+        },
+        {
+          "startIndex": 8679,
+          "endIndex": 8726,
+          "textRun": {
+            "content": " for his invaluable mentorship and support and ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 8726,
+          "endIndex": 8741,
+          "textRun": {
+            "content": "Prime Intellect",
+            "textStyle": {
+              "underline": true,
+              "foregroundColor": {
+                "color": {
+                  "rgbColor": {
+                    "red": 0.06666667,
+                    "green": 0.33333334,
+                    "blue": 0.8
+                  }
+                }
+              },
+              "link": {
+                "url": "https://www.primeintellect.ai/"
+              }
+            }
+          }
+        },
+        {
+          "startIndex": 8741,
+          "endIndex": 8816,
+          "textRun": {
+            "content": " for providing me with the compute necessary to conduct these experiments. ",
+            "textStyle": {}
+          }
+        },
+        {
+          "startIndex": 8816,
+          "endIndex": 8817,
           "textRun": {
             "content": "\n",
             "textStyle": {
@@ -1837,24 +2116,8 @@
     {
       "elements": [
         {
-          "startIndex": 6760,
-          "endIndex": 6938,
-          "textRun": {
-            "content": "Harness provides transformations that can make correct solution available, up to how model uses information-time compute to actually select these (policy can be trained as such)\n",
-            "textStyle": {}
-          }
-        }
-      ],
-      "paragraphStyle": {
-        "namedStyleType": "NORMAL_TEXT",
-        "direction": "LEFT_TO_RIGHT"
-      }
-    },
-    {
-      "elements": [
-        {
-          "startIndex": 6938,
-          "endIndex": 6939,
+          "startIndex": 8817,
+          "endIndex": 8818,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1869,26 +2132,8 @@
     {
       "elements": [
         {
-          "startIndex": 6939,
-          "endIndex": 6940,
-          "textRun": {
-            "content": "\n",
-            "textStyle": {
-              "bold": true
-            }
-          }
-        }
-      ],
-      "paragraphStyle": {
-        "namedStyleType": "NORMAL_TEXT",
-        "direction": "LEFT_TO_RIGHT"
-      }
-    },
-    {
-      "elements": [
-        {
-          "startIndex": 6940,
-          "endIndex": 6941,
+          "startIndex": 8818,
+          "endIndex": 8819,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1903,8 +2148,8 @@
     {
       "elements": [
         {
-          "startIndex": 6941,
-          "endIndex": 6942,
+          "startIndex": 8819,
+          "endIndex": 8820,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1919,8 +2164,8 @@
     {
       "elements": [
         {
-          "startIndex": 6942,
-          "endIndex": 6943,
+          "startIndex": 8820,
+          "endIndex": 8821,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1935,8 +2180,8 @@
     {
       "elements": [
         {
-          "startIndex": 6943,
-          "endIndex": 6944,
+          "startIndex": 8821,
+          "endIndex": 8822,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1951,8 +2196,8 @@
     {
       "elements": [
         {
-          "startIndex": 6944,
-          "endIndex": 6945,
+          "startIndex": 8822,
+          "endIndex": 8823,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1967,24 +2212,8 @@
     {
       "elements": [
         {
-          "startIndex": 6945,
-          "endIndex": 6946,
-          "textRun": {
-            "content": "\n",
-            "textStyle": {}
-          }
-        }
-      ],
-      "paragraphStyle": {
-        "namedStyleType": "NORMAL_TEXT",
-        "direction": "LEFT_TO_RIGHT"
-      }
-    },
-    {
-      "elements": [
-        {
-          "startIndex": 6946,
-          "endIndex": 6947,
+          "startIndex": 8823,
+          "endIndex": 8824,
           "textRun": {
             "content": "\n",
             "textStyle": {}
