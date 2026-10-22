@@ -1674,7 +1674,7 @@
           "startIndex": 7002,
           "endIndex": 7221,
           "textRun": {
-            "content": "The harness enables the model to solve problems that Luna missed in all eight attempts without tools. The plot above shows how many of these previously unanswered problems become solvable once, several, or every time. \n",
+            "content": "The harness enables the model to solve problems that Luna missed in all eight attempts without tools. The plot above shows the fraction of these questions answered correctly with the harness in at least one attempt, at least two attempts, and so on, up to all eight. \n",
             "textStyle": {}
           }
         }
