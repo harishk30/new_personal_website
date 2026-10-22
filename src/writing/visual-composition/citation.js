@@ -36,8 +36,7 @@ export const references = [
   },
   {
     id: 'yin2026worldbench',
-    authors: 'Yida Yin*, Harish Krishnakumar*, Chung Peng Lee, Boya Zeng, Wenhao Chai, Shengbang Tong, Wenhu Chen, Hu Xu, Xingyu Fu, Gabriel Sarch, Aleksandra Korolova, and Zhuang Liu',
-    note: '* Equal contribution.',
+    authors: 'Yida Yin, Harish Krishnakumar, Chung Peng Lee, Boya Zeng, Wenhao Chai, Shengbang Tong, Wenhu Chen, Hu Xu, Xingyu Fu, Gabriel Sarch, Aleksandra Korolova, and Zhuang Liu',
     title: 'WorldBench: A Challenging and Visually Diverse Multimodal Reasoning Benchmark',
     year: '2026',
     url: 'https://arxiv.org/abs/2606.06538',
@@ -78,7 +77,6 @@ export default function ArticleCitation() {
         <a href={reference.url}>{reference.title}</a>
         <span className="reference-authors">{reference.authors}.</span>
         <span className="reference-publication">{reference.conference ? `${reference.conference}, ` : ''}{reference.year}.</span>
-        {reference.note && <span className="reference-note">{reference.note}</span>}
       </li>)}
     </ol>
   </>;

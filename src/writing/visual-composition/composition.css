@@ -12,8 +12,8 @@
 .composition-page .article-references li { padding-left: 6px; margin-bottom: 26px; scroll-margin-top: 28px; overflow-wrap: anywhere; }
 .composition-page .article-references li::marker { color: var(--muted); font-variant-numeric: tabular-nums; }
 .composition-page .article-references a { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
-.composition-page .reference-authors, .composition-page .reference-publication, .composition-page .reference-note { display: block; }
-.composition-page .reference-publication, .composition-page .reference-note { color: var(--muted); font-size: 14px; }
+.composition-page .reference-authors, .composition-page .reference-publication { display: block; }
+.composition-page .reference-publication { color: var(--muted); font-size: 14px; }
 .composition-page #introduction { scroll-margin-top: 28px; }
 .composition-page .article-header h1 { max-width: 720px; }
 @font-face { font-family: 'Visual Composition Math'; src: url('./fonts/math-italic.woff2') format('woff2'); font-style: italic; font-weight: 400; font-display: swap; }

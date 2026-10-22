@@ -35,11 +35,11 @@ test('shows both authors and four deduplicated research references below the cit
   expect([...container.querySelectorAll('h2')].map(h => h.id)).toEqual(['citation', 'references']);
 });
 
-test('credits equal contribution only in the WorldBench reference', () => {
+test('shows WorldBench authors without contribution markers', () => {
   const reference = container.querySelector('#ref-yin2026worldbench');
-  expect(reference.querySelector('.reference-authors').textContent).toContain('Yida Yin*, Harish Krishnakumar*,');
-  expect(reference.querySelector('.reference-note').textContent).toBe('* Equal contribution.');
-  expect(container.querySelectorAll('.reference-note')).toHaveLength(1);
+  expect(reference.querySelector('.reference-authors').textContent).toContain('Yida Yin, Harish Krishnakumar,');
+  expect(reference.textContent).not.toContain('*');
+  expect(reference.textContent).not.toContain('Equal contribution');
 });
 
 test('copies the exact BibTeX with an accessible success message', async () => {
