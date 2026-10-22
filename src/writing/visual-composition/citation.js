@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { Check, Copy } from 'lucide-react';
+import ArticleFootnotes from './footnotes';
 
 export const bibtex = `@article{krishnakumar2026visualcomposition,
   title  = {Visual Harnesses Are Compositional Generalizers:
@@ -71,6 +72,7 @@ export default function ArticleCitation() {
       <pre tabIndex={0} aria-label="BibTeX citation"><code ref={codeRef}>{bibtex}</code></pre>
       <p className="citation-status" role="status">{status === 'copied' ? 'Citation copied.' : status === 'unavailable' ? 'Copy unavailable. Select and copy the citation manually.' : ''}</p>
     </div>
+    <ArticleFootnotes />
     <h2 id="references">References</h2>
     <ol className="article-references" aria-labelledby="references">
       {references.map(reference => <li key={reference.id} id={`ref-${reference.id}`}>

@@ -6,6 +6,7 @@ import { EncoderDiagram, HarnessComparison } from './diagrams';
 import { ScalingPlot, CategoryPlot, QwenHarnessPlot, LunaEffortPlot, LunaRescuePlot, LunaBehaviorPlot } from './plots';
 import { QwenExamples, LunaExample } from './examples';
 import ArticleCitation from './citation';
+import { harnessSentence } from './footnotes';
 import '../improving-vlms/article.css';
 import './composition.css';
 
@@ -97,7 +98,7 @@ export default function Article() {
       section = headings.find(([label]) => label.toLowerCase() === text.toLowerCase())[1];
       blocks.push(<h2 key={i} id={section}><Inline paragraph={paragraph} /></h2>);
     } else {
-      blocks.push(<p key={i}><Inline paragraph={paragraph} /></p>);
+      blocks.push(<p key={i}><Inline paragraph={paragraph} />{text.endsWith(harnessSentence) && <sup className="footnote-marker"><a id="fnref-harness" href="#fn-harness" role="doc-noteref" aria-label="Footnote 1: visual harness">1</a></sup>}</p>);
     }
   }
   flushList();
@@ -123,6 +124,7 @@ export default function Article() {
             <li><a href="#introduction">Introduction</a></li>
             {headings.map(([label, id]) => <li key={id}><a href={`#${id}`}>{label}</a></li>)}
             <li><a href="#citation">Citation</a></li>
+            <li><a href="#footnotes">Footnotes</a></li>
             <li><a href="#references">References</a></li>
           </ol>
         </nav>

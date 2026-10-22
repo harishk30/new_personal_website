@@ -1,6 +1,7 @@
 import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import Article from './Article';
+import { harnessPrompt, harnessSentence } from './footnotes';
 
 jest.mock('react-router-dom', () => ({ Link: ({ to, children }) => <a href={to}>{children}</a> }), { virtual: true });
 jest.mock('../../ThemeToggle', () => ({ __esModule: true, default: () => null, useTheme: () => ({ theme: 'light', toggleTheme: () => {} }) }));
@@ -30,6 +31,15 @@ test('article keeps category bullets and both trace widgets while suppressing fi
     expect(container.textContent).not.toContain('four different reasoning levels');
     expect(container.querySelector('#acknowledgements')?.tagName).toBe('H2');
     expect(container.querySelector('a[href="#acknowledgements"]')).not.toBeNull();
+    const marker = container.querySelector('#fnref-harness');
+    expect(marker.textContent).toBe('1');
+    expect(marker.closest('p').textContent).toContain(harnessSentence);
+    expect(marker.getAttribute('href')).toBe('#fn-harness');
+    const note = container.querySelector('#fn-harness');
+    expect(note.textContent).toContain('Codex CLI 0.146.1');
+    expect(note.querySelector('details').open).toBe(false);
+    expect(note.querySelector('pre').textContent).toBe(harnessPrompt);
+    expect(note.querySelector('a').getAttribute('href')).toBe('#fnref-harness');
   } finally {
     act(() => root.unmount());
     delete global.IS_REACT_ACT_ENVIRONMENT;

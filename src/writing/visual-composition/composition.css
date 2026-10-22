@@ -14,6 +14,16 @@
 .composition-page .article-references a { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
 .composition-page .reference-authors, .composition-page .reference-publication { display: block; }
 .composition-page .reference-publication { color: var(--muted); font-size: 14px; }
+.composition-page .footnote-marker { font-size: .7em; line-height: 0; }
+.composition-page .footnote-marker a { padding: 3px; scroll-margin-top: 40px; }
+.composition-page .article-footnotes { max-width: 720px; margin-inline: auto; }
+.composition-page .article-footnotes ol { padding-left: 25px; margin: 0; }
+.composition-page .article-footnotes li { padding-left: 6px; scroll-margin-top: 40px; }
+.composition-page .article-footnotes li::marker { color: var(--muted); font-variant-numeric: tabular-nums; }
+.composition-page .article-footnotes p { margin: 0 0 12px; font-size: 15px; line-height: 1.7; }
+.composition-page .article-footnotes summary { cursor: pointer; padding-block: 10px; font-size: 14px; color: var(--accent); }
+.composition-page .article-footnotes pre { max-height: 22rem; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; padding: 16px; margin: 8px 0 0; background: var(--trace-surface); border: 1px solid var(--line); border-radius: 2px; font: 13px/1.8 ui-monospace, SFMono-Regular, Consolas, monospace; }
+.composition-page .article-footnotes :focus-visible, .composition-page .footnote-marker a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .composition-page #introduction { scroll-margin-top: 28px; }
 .composition-page .article-header h1 { max-width: 720px; }
 @font-face { font-family: 'Visual Composition Math'; src: url('./fonts/math-italic.woff2') format('woff2'); font-style: italic; font-weight: 400; font-display: swap; }

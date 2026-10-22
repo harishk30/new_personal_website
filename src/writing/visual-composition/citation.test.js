@@ -32,7 +32,7 @@ test('shows both authors and four deduplicated research references below the cit
   expect(container.querySelectorAll('.article-references li')).toHaveLength(4);
   expect(new Set(references.map(r => r.url)).size).toBe(4);
   expect([...container.querySelectorAll('.reference-publication')].map(e => e.textContent)).toEqual(['2026.', 'CVPR, 2024.', 'ACCV, 2024.', '2026.']);
-  expect([...container.querySelectorAll('h2')].map(h => h.id)).toEqual(['citation', 'references']);
+  expect([...container.querySelectorAll('h2')].map(h => h.id)).toEqual(['citation', 'footnotes', 'references']);
 });
 
 test('shows WorldBench authors without contribution markers', () => {
