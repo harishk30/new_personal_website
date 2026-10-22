@@ -108,27 +108,36 @@ function EffortMark({ cx, cy, style }) {
   return <circle cx={cx} cy={cy} r={size} fill={style.color} />;
 }
 
+function RescueTick({ x, y, payload }) {
+  const all = Number(payload.value) === 8;
+  return <g transform={`translate(${x},${y})`} fill="var(--muted)" textAnchor="middle" fontSize={11}>
+    <text className="rescue-tick-wide"><tspan x="0" dy="10">{all ? 'All 8' : `At least ${payload.value}`}</tspan></text>
+    <text className="rescue-tick-narrow"><tspan x="0" dy="10">{all ? 'All' : 'At'}</tspan>{!all && <tspan x="0" dy="13">least</tspan>}<tspan x="0" dy="13">{payload.value}</tspan></text>
+  </g>;
+}
+
 export function LunaRescuePlot() {
   const rows = rescueConsistency(data.rescued);
   return <Figure n={7} caption="Among questions answered incorrectly in all eight no-harness attempts, each curve shows the share reaching at least the indicated number of harness successes.">
-    <h3 className="rescue-heading">Previously 0/8 questions: success after harness use</h3>
-    <ul className="chart-legend rescue-legend">{data.rescued.map((r, i) => <li key={r.effort}>
+    <h3 className="rescue-heading">Can tools solve questions the model previously missed?</h3>
+    <div id="rescue-legend-heading" className="rescue-legend-heading">Reasoning effort</div>
+    <ul className="chart-legend rescue-legend" aria-labelledby="rescue-legend-heading">{data.rescued.map((r, i) => <li key={r.effort}>
       <svg width="32" height="14" viewBox="0 0 32 14" aria-hidden="true"><path d="M0 7 H32" stroke={effortStyles[i].color} strokeWidth="2" strokeDasharray={effortStyles[i].dash} /><EffortMark cx={16} cy={7} style={effortStyles[i]} /></svg>
       <span>{r.effort}<span className="cohort-size">n = {r.total}</span></span>
     </li>)}</ul>
-    <div className="y-axis-heading">Share of baseline 0/8 questions meeting threshold</div>
+    <div className="y-axis-heading">Previously missed questions solved (%)</div>
     <ChartContainer className="research-chart rescue-chart" aria-label="Luna rescue consistency across five reasoning efforts">
-      <LineChart data={rows} accessibilityLayer aria-label="Previously 0/8 questions: success after harness use" margin={{ top: 16, right: 18, bottom: 8, left: 0 }}>
+      <LineChart data={rows} accessibilityLayer aria-label="Can tools solve questions the model previously missed?" margin={{ top: 16, right: 18, bottom: 8, left: 0 }}>
         <CartesianGrid vertical={false} stroke="var(--line)" />
-        <XAxis dataKey="threshold" interval={0} padding={{ left: 20, right: 20 }} tickLine={false} tickMargin={10} axisLine={{ stroke: 'var(--line)' }} />
+        <XAxis dataKey="threshold" interval={0} padding={{ left: 16, right: 16 }} tick={<RescueTick />} height={52} tickLine={false} tickMargin={10} axisLine={{ stroke: 'var(--line)' }} />
         <YAxis domain={[0, 50]} ticks={[0,10,20,30,40,50]} tickFormatter={v => `${v}%`} width={52} axisLine={false} tickLine={false} />
         <ChartTooltip cursor={{ stroke: 'var(--muted)', strokeDasharray: '3 4', strokeWidth: 1 }} isAnimationActive={false} content={props => <div role="status" aria-live="polite" aria-atomic="true"><ChartTooltipContent {...props} className="chart-tooltip" labelFormatter={v => `At least ${v} successful ${Number(v) === 1 ? 'attempt' : 'attempts'} out of 8`} formatter={(v, name) => <div className="rescue-tooltip-row"><span>{name} effort</span><strong>{percentage(v)}</strong></div>} /></div>} />
         {data.rescued.map((r, i) => <Line key={r.effort} dataKey={r.effort} type="linear" stroke={effortStyles[i].color} strokeDasharray={effortStyles[i].dash} strokeWidth={2.2} activeDot={false} isAnimationActive={false} dot={props => <EffortMark cx={props.cx} cy={props.cy} style={effortStyles[i]} />} />)}
       </LineChart>
     </ChartContainer>
-    <div className="x-axis-heading">Minimum successful harness attempts (out of 8)</div>
+    <div className="x-axis-heading">Correct answers required across 8 harness attempts</div>
     <div className="threshold-guide"><span>1: solved at least once</span><span>8: successful in all 8 runs</span></div>
-    <DataTable rows={rows} x={{ key: 'threshold', label: 'Minimum successful harness attempts' }} series={data.rescued.map(r => ({ key: r.effort, label: `${r.effort} (n=${r.total})` }))} label="Share of baseline 0/8 questions" format={percentage} />
+    <DataTable rows={rows.map(r => ({ ...r, thresholdLabel: r.threshold === 8 ? 'All 8' : `At least ${r.threshold}` }))} x={{ key: 'thresholdLabel', label: 'Correct answers required across 8 harness attempts' }} series={data.rescued.map(r => ({ key: r.effort, label: `${r.effort} (n=${r.total})` }))} label="Previously missed questions solved (%)" format={percentage} />
   </Figure>;
 }
 
