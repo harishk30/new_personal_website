@@ -1,4 +1,4 @@
-export const harnessSentence = 'These models were each tested with and without a visual harness.';
+export const harnessSentence = 'The Qwen models were tested with and without a visual harness.';
 
 export const harnessPrompt = `Answer the visual multiple-choice question using evidence from the image. Reason carefully before deciding.
 

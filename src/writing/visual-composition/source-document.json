@@ -666,7 +666,7 @@
           "startIndex": 3039,
           "endIndex": 3376,
           "textRun": {
-            "content": "We evaluate each problem with eight rollouts and report both Pass@1 and Pass@8. These experiments were done across four model sizes: Qwen-3.5 4B, Qwen-3.5 9B, Qwen-3.6 27B, and Qwen 3.5 397B (A17B). They were also done with GPT-6 Luna at four different reasoning levels. These models were each tested with and without a visual harness. \n",
+            "content": "We evaluate each problem with eight rollouts and report both Pass@1 and Pass@8. These experiments were done across four model sizes: Qwen-3.5 4B, Qwen-3.5 9B, Qwen-3.6 27B, and Qwen 3.5 397B (A17B). They were also done with GPT-6 Luna at four different reasoning levels. The Qwen models were tested with and without a visual harness. \n",
             "textStyle": {}
           }
         }
