@@ -1542,7 +1542,7 @@
           "startIndex": 6156,
           "endIndex": 6429,
           "textRun": {
-            "content": "With Luna, we see that the expansion of coverage with the visual harness is also made reliable, with both Pass@1 and Pass@8 increasing with harness use at medium effort and above. At xhigh reasoning, Pass@1 rises from 57.1% to 63.5%, and Pass@8 rises from 75.4% to 82.4%. \n",
+            "content": "With Luna, we see that the expansion of coverage with the visual harness is also made reliable, with both Pass@1 and Pass@8 increasing with harness use at medium effort and above. At xhigh reasoning, Pass@1 rises from 57.1% to 63.5%, and Pass@8 rises from 75.4% to 82.4%. This differs from the Qwen harness runs, where coverage (Pass@8) increased, but the reliability (Pass@1) stayed constant or decreased. \n",
             "textStyle": {}
           }
         }
@@ -1574,7 +1574,7 @@
           "startIndex": 6430,
           "endIndex": 6643,
           "textRun": {
-            "content": "This differs from the Qwen harness runs, where coverage (Pass@8) increased, but the reliability (Pass@1) stayed constant or decreased. This suggests not only that a visual harness expands the set of problems that ",
+            "content": "Additionally, for Luna, harness performance increases with reasoning, which implies that using the harness properly dramatically improves performance. This suggests not only that a visual harness expands the set of problems that ",
             "textStyle": {}
           }
         },
