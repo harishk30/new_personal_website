@@ -2,7 +2,7 @@
   "documentId": "1HqP4nLDMz-PcZbxPhZgdVJgVZOjKsOAr9IqzIRUVE9k",
   "tab": "Tab 2",
   "tabId": "t.te5tt51hld0w",
-  "revision": "AHj4eMQYj8wyEmj7WowLDPMnnDVlfNney8yR2LU0ugnwT7V-1D54X3gLSKKhJ6MZILFlF-x6L3XExsrVikAyNNVv55wAYxwJlVjouhvCzbo",
+  "revision": "AHj4eMSODqKi5ZYqHiDGhig-bmEJ9pxshZPgBKSD0ROWVmCtjs3ZqHx8hQpdU-ywuETi89Weyl4dJCw7cJgm1d8vR6fE6lD2dmEhEkt_88U",
   "paragraphs": [
     {
       "elements": [
@@ -1572,15 +1572,15 @@
       "elements": [
         {
           "startIndex": 6430,
-          "endIndex": 6616,
+          "endIndex": 6643,
           "textRun": {
-            "content": "This differs from the Qwen runs, where coverage (Pass@8) increased, but the reliability (Pass@1) decreased. This suggests not only that a visual harness expands the set of problems that ",
+            "content": "This differs from the Qwen harness runs, where coverage (Pass@8) increased, but the reliability (Pass@1) stayed constant or decreased. This suggests not only that a visual harness expands the set of problems that ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 6616,
-          "endIndex": 6620,
+          "startIndex": 6643,
+          "endIndex": 6647,
           "textRun": {
             "content": "can ",
             "textStyle": {
@@ -1589,16 +1589,16 @@
           }
         },
         {
-          "startIndex": 6620,
-          "endIndex": 6688,
+          "startIndex": 6647,
+          "endIndex": 6715,
           "textRun": {
             "content": "be solved, but also that a model can be trained to use this harness ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 6688,
-          "endIndex": 6696,
+          "startIndex": 6715,
+          "endIndex": 6723,
           "textRun": {
             "content": "reliably",
             "textStyle": {
@@ -1607,8 +1607,8 @@
           }
         },
         {
-          "startIndex": 6696,
-          "endIndex": 6731,
+          "startIndex": 6723,
+          "endIndex": 6758,
           "textRun": {
             "content": " to decompose and solve problems. \n",
             "textStyle": {}
@@ -1623,8 +1623,8 @@
     {
       "elements": [
         {
-          "startIndex": 6731,
-          "endIndex": 6732,
+          "startIndex": 6758,
+          "endIndex": 6759,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1639,8 +1639,8 @@
     {
       "elements": [
         {
-          "startIndex": 6732,
-          "endIndex": 6823,
+          "startIndex": 6759,
+          "endIndex": 6850,
           "textRun": {
             "content": "(0 -> n/8 histogram (?) showing how many turns on avg is increased to from 0 with harness)\n",
             "textStyle": {}
@@ -1655,8 +1655,8 @@
     {
       "elements": [
         {
-          "startIndex": 6823,
-          "endIndex": 6824,
+          "startIndex": 6850,
+          "endIndex": 6851,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1671,8 +1671,8 @@
     {
       "elements": [
         {
-          "startIndex": 6824,
-          "endIndex": 7068,
+          "startIndex": 6851,
+          "endIndex": 7095,
           "textRun": {
             "content": "As seen in the plot above, a larger share of problems are made solvable with the visual harness as the reasoning level is raised. This suggests that reliable harness use is also a function of the inference-time compute allocated to the model. \n",
             "textStyle": {}
@@ -1687,8 +1687,8 @@
     {
       "elements": [
         {
-          "startIndex": 7068,
-          "endIndex": 7069,
+          "startIndex": 7095,
+          "endIndex": 7096,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1703,8 +1703,8 @@
     {
       "elements": [
         {
-          "startIndex": 7069,
-          "endIndex": 7098,
+          "startIndex": 7096,
+          "endIndex": 7125,
           "textRun": {
             "content": "What Changes With Reasoning?\n",
             "textStyle": {
@@ -1721,8 +1721,8 @@
     {
       "elements": [
         {
-          "startIndex": 7098,
-          "endIndex": 7099,
+          "startIndex": 7125,
+          "endIndex": 7126,
           "textRun": {
             "content": "\n",
             "textStyle": {
@@ -1739,8 +1739,8 @@
     {
       "elements": [
         {
-          "startIndex": 7099,
-          "endIndex": 7154,
+          "startIndex": 7126,
+          "endIndex": 7181,
           "textRun": {
             "content": "(tool-use rate and calls per rollout vs output tokens)\n",
             "textStyle": {}
@@ -1755,8 +1755,8 @@
     {
       "elements": [
         {
-          "startIndex": 7154,
-          "endIndex": 7155,
+          "startIndex": 7181,
+          "endIndex": 7182,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1771,8 +1771,8 @@
     {
       "elements": [
         {
-          "startIndex": 7155,
-          "endIndex": 7288,
+          "startIndex": 7182,
+          "endIndex": 7315,
           "textRun": {
             "content": "As reasoning effort increases, Luna tends to use tools more in the harness, and take more turns before outputting a final solution. \n",
             "textStyle": {}
@@ -1787,8 +1787,8 @@
     {
       "elements": [
         {
-          "startIndex": 7288,
-          "endIndex": 7289,
+          "startIndex": 7315,
+          "endIndex": 7316,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1803,8 +1803,8 @@
     {
       "elements": [
         {
-          "startIndex": 7289,
-          "endIndex": 7522,
+          "startIndex": 7316,
+          "endIndex": 7549,
           "textRun": {
             "content": "As seen below, across five reasoning levels, Luna demonstrates drastically different tool use behavior. At no/low reasoning, no tools are used, at medium reasoning, one crop is made, and at high/xhigh reasoning, two crops are made. \n",
             "textStyle": {}
@@ -1819,8 +1819,8 @@
     {
       "elements": [
         {
-          "startIndex": 7522,
-          "endIndex": 7523,
+          "startIndex": 7549,
+          "endIndex": 7550,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1835,8 +1835,8 @@
     {
       "elements": [
         {
-          "startIndex": 7523,
-          "endIndex": 7660,
+          "startIndex": 7550,
+          "endIndex": 7687,
           "textRun": {
             "content": "(Luna trace example using tools, that shows how Luna learns to use tools well, and maybe compare this across reasoning efforts as well?)\n",
             "textStyle": {}
@@ -1851,8 +1851,8 @@
     {
       "elements": [
         {
-          "startIndex": 7660,
-          "endIndex": 7661,
+          "startIndex": 7687,
+          "endIndex": 7688,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1867,8 +1867,8 @@
     {
       "elements": [
         {
-          "startIndex": 7661,
-          "endIndex": 7672,
+          "startIndex": 7688,
+          "endIndex": 7699,
           "textRun": {
             "content": "Conclusion\n",
             "textStyle": {
@@ -1885,8 +1885,8 @@
     {
       "elements": [
         {
-          "startIndex": 7672,
-          "endIndex": 7673,
+          "startIndex": 7699,
+          "endIndex": 7700,
           "textRun": {
             "content": "\n",
             "textStyle": {
@@ -1903,8 +1903,8 @@
     {
       "elements": [
         {
-          "startIndex": 7673,
-          "endIndex": 8024,
+          "startIndex": 7700,
+          "endIndex": 8051,
           "textRun": {
             "content": "To conclude, we’ve seen that a harness can make useful evidence accessible for a model to solve questions that it previously couldn’t, but the model needs to reliably select and integrate this evidence. The evaluation of Qwen demonstrates that the use of a harness expands coverage, but GPT-6 Luna shows that this coverage can also be made reliable. \n",
             "textStyle": {}
@@ -1919,16 +1919,16 @@
     {
       "elements": [
         {
-          "startIndex": 8024,
-          "endIndex": 8123,
+          "startIndex": 8051,
+          "endIndex": 8150,
           "textRun": {
             "content": "Looking at the trajectories, we see a simple explanation for these gains. A visual harness enables ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 8123,
-          "endIndex": 8151,
+          "startIndex": 8150,
+          "endIndex": 8178,
           "textRun": {
             "content": "compositional generalization",
             "textStyle": {
@@ -1949,8 +1949,8 @@
           }
         },
         {
-          "startIndex": 8151,
-          "endIndex": 8340,
+          "startIndex": 8178,
+          "endIndex": 8367,
           "textRun": {
             "content": ", allowing the model to break down the problem it must solve. Difficult global tasks (questions interpreting crowded images) can be broken down into a sequence of simpler local questions. \n",
             "textStyle": {}
@@ -1965,8 +1965,8 @@
     {
       "elements": [
         {
-          "startIndex": 8340,
-          "endIndex": 8341,
+          "startIndex": 8367,
+          "endIndex": 8368,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -1981,8 +1981,8 @@
     {
       "elements": [
         {
-          "startIndex": 8341,
-          "endIndex": 8701,
+          "startIndex": 8368,
+          "endIndex": 8728,
           "textRun": {
             "content": "The relationship between harness benefit and reasoning effort suggests that access to visual tools alone isn’t enough. To be made reliable, models need to be able to decide how to inspect and integrate evidence. This motivates training specifically for reliable visual decomposition, allowing models to properly make use of the visual tools provided to them. \n",
             "textStyle": {}
@@ -1997,8 +1997,8 @@
     {
       "elements": [
         {
-          "startIndex": 8701,
-          "endIndex": 8702,
+          "startIndex": 8728,
+          "endIndex": 8729,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -2013,8 +2013,8 @@
     {
       "elements": [
         {
-          "startIndex": 8702,
-          "endIndex": 8719,
+          "startIndex": 8729,
+          "endIndex": 8746,
           "textRun": {
             "content": "Acknowledgements\n",
             "textStyle": {}
@@ -2030,16 +2030,16 @@
     {
       "elements": [
         {
-          "startIndex": 8719,
-          "endIndex": 8810,
+          "startIndex": 8746,
+          "endIndex": 8837,
           "textRun": {
             "content": "This work was conducted as part of the Prime Intellect RL Residency. I would like to thank ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 8810,
-          "endIndex": 8826,
+          "startIndex": 8837,
+          "endIndex": 8853,
           "textRun": {
             "content": "Sebastian Müller",
             "textStyle": {
@@ -2060,16 +2060,16 @@
           }
         },
         {
-          "startIndex": 8826,
-          "endIndex": 8873,
+          "startIndex": 8853,
+          "endIndex": 8900,
           "textRun": {
             "content": " for his invaluable mentorship and support and ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 8873,
-          "endIndex": 8888,
+          "startIndex": 8900,
+          "endIndex": 8915,
           "textRun": {
             "content": "Prime Intellect",
             "textStyle": {
@@ -2090,16 +2090,16 @@
           }
         },
         {
-          "startIndex": 8888,
-          "endIndex": 8963,
+          "startIndex": 8915,
+          "endIndex": 8990,
           "textRun": {
             "content": " for providing me with the compute necessary to conduct these experiments. ",
             "textStyle": {}
           }
         },
         {
-          "startIndex": 8963,
-          "endIndex": 8964,
+          "startIndex": 8990,
+          "endIndex": 8991,
           "textRun": {
             "content": "\n",
             "textStyle": {
@@ -2116,8 +2116,8 @@
     {
       "elements": [
         {
-          "startIndex": 8964,
-          "endIndex": 8965,
+          "startIndex": 8991,
+          "endIndex": 8992,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -2132,8 +2132,8 @@
     {
       "elements": [
         {
-          "startIndex": 8965,
-          "endIndex": 8966,
+          "startIndex": 8992,
+          "endIndex": 8993,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -2148,8 +2148,8 @@
     {
       "elements": [
         {
-          "startIndex": 8966,
-          "endIndex": 8967,
+          "startIndex": 8993,
+          "endIndex": 8994,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -2164,8 +2164,8 @@
     {
       "elements": [
         {
-          "startIndex": 8967,
-          "endIndex": 8968,
+          "startIndex": 8994,
+          "endIndex": 8995,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -2180,8 +2180,8 @@
     {
       "elements": [
         {
-          "startIndex": 8968,
-          "endIndex": 8969,
+          "startIndex": 8995,
+          "endIndex": 8996,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -2196,8 +2196,8 @@
     {
       "elements": [
         {
-          "startIndex": 8969,
-          "endIndex": 8970,
+          "startIndex": 8996,
+          "endIndex": 8997,
           "textRun": {
             "content": "\n",
             "textStyle": {}
@@ -2212,8 +2212,8 @@
     {
       "elements": [
         {
-          "startIndex": 8970,
-          "endIndex": 8971,
+          "startIndex": 8997,
+          "endIndex": 8998,
           "textRun": {
             "content": "\n",
             "textStyle": {}
