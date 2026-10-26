@@ -177,6 +177,13 @@ function App() {
           <div className="section-heading">
             <h2 id="writing-title">Writing</h2>
           </div>
+          <Link className="writing-link" to="/writing/visual-composition">
+            <span>
+              <strong>Visual Harnesses Are Compositional Generalizers</strong>
+              <small>Rethinking How We Scale and Train VLMs</small>
+            </span>
+            <span aria-hidden="true">→</span>
+          </Link>
           <ExternalLink
             className="writing-link"
             href="https://open.substack.com/pub/harishkk/p/sidekick-from-passive-to-proactive?r=75hdfc&utm_campaign=post&utm_medium=web"

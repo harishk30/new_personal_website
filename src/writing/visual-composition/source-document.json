@@ -616,7 +616,7 @@
           "startIndex": 2785,
           "endIndex": 2831,
           "textRun": {
-            "content": ", now available as a Verifiers v1 environment ",
+            "content": ", now available as a ",
             "textStyle": {}
           }
         },
@@ -624,9 +624,11 @@
           "startIndex": 2831,
           "endIndex": 2842,
           "textRun": {
-            "content": "(link here)",
+            "content": "Verifiers v1 environment",
             "textStyle": {
-              "italic": true
+              "link": {
+                "url": "https://github.com/PrimeIntellect-ai/residency-environments/tree/main/environments/worldbench"
+              }
             }
           }
         },

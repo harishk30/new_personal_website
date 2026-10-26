@@ -20,6 +20,8 @@ test('article keeps category bullets and both trace widgets while suppressing fi
     expect(container.querySelector('[data-testid="qwen"]')).not.toBeNull();
     expect(container.querySelector('[data-testid="luna"]')).not.toBeNull();
     expect(container.textContent).not.toMatch(/Use two aligned|embed in trajectory|Generate a version/);
+    expect(container.textContent).not.toContain('(link here)');
+    expect(container.querySelector('a[href="https://github.com/PrimeIntellect-ai/residency-environments/tree/main/environments/worldbench"]').textContent).toBe('Verifiers v1 environment');
     expect(container.textContent).toContain('a harness enables a model to go from a complex state');
     expect(container.querySelectorAll('.writing-notes')).toHaveLength(0);
     expect(container.textContent).not.toContain('To write');
