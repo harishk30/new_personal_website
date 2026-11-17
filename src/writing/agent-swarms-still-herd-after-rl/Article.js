@@ -6,8 +6,11 @@ import source from './source-document.json';
 import '../improving-vlms/article.css';
 import './article.css';
 
+const wideFigures = new Set(['search-example.png', 'puzzle-setup.png', 'patrol-clues.png', 'patrol-board.png', 'credit.png', 'collaboration.png']);
+
 function Figure({ image, onExpand, eager = false }) {
-  return <figure className="swarm-figure">
+  const wide = wideFigures.has(image.src.split('/').pop());
+  return <figure className={`swarm-figure${wide ? ' swarm-figure--wide' : ''}`}>
     <button className="swarm-image-open" type="button" onClick={() => onExpand(image)} aria-label={`Enlarge figure: ${image.alt}`}>
       <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading={eager ? 'eager' : 'lazy'} decoding="async" />
       <span className="swarm-image-hint" aria-hidden="true"><Expand size={16} /> Enlarge</span>

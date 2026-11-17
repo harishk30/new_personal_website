@@ -8,8 +8,11 @@
 .swarm-page .article-body li::marker { color: var(--accent); }
 .swarm-page .article-body code { font-size: .85em; overflow-wrap: anywhere; }
 .swarm-page .swarm-figure { max-width: 720px; width: 100%; margin: 36px auto 40px; }
+.swarm-page .swarm-figure--wide { max-width: 900px; }
 .swarm-page .swarm-image-open { position: relative; display: block; width: 100%; padding: 0; border: 0; background: transparent; color: var(--ink); cursor: zoom-in; }
 .swarm-page .swarm-image-open img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 2px; }
+:root[data-theme='dark'] .swarm-page .swarm-image-open img,
+:root[data-theme='dark'] .swarm-page .swarm-image-scroll img { filter: brightness(.9); }
 .swarm-page .swarm-image-hint { display: flex; align-items: center; gap: 6px; width: max-content; margin: 8px 0 0 auto; color: var(--muted); font-size: 11px; line-height: 1.5; opacity: 0; transition: opacity .15s; }
 .swarm-page .swarm-image-open:hover .swarm-image-hint, .swarm-page .swarm-image-open:focus-visible .swarm-image-hint { opacity: 1; }
 .swarm-page .swarm-table-scroll { max-width: 900px; margin: 28px auto 36px; overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--soft) transparent; }
