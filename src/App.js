@@ -178,6 +178,13 @@ function App() {
           <div className="section-heading">
             <h2 id="writing-title">Writing</h2>
           </div>
+          <Link className="writing-link" to="/writing/agent-swarms-still-herd-after-rl">
+            <span>
+              <strong>Agent Swarms Still Herd After RL</strong>
+              <small>With Ashton Chew · November 17, 2026</small>
+            </span>
+            <span aria-hidden="true">→</span>
+          </Link>
           <Link className="writing-link" to="/writing/visual-composition">
             <span>
               <strong>Visual Harnesses Are Compositional Generalizers</strong>

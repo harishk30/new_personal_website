@@ -1,0 +1,36 @@
+.swarm-page .swarm-byline { margin: 22px 0 6px; font-size: 15px; line-height: 1.7; color: var(--ink); }
+.swarm-page .swarm-byline a, .swarm-page .swarm-publication a { text-decoration-color: var(--line); }
+.swarm-page .swarm-publication { margin: 0; font-size: 13px; line-height: 1.7; color: var(--muted); }
+.swarm-page #introduction, .swarm-page .article-body h3 { scroll-margin-top: 28px; }
+.swarm-page .article-body > h3 { max-width: 720px; margin: 42px auto 20px; font-size: 20px; font-weight: 600; line-height: 1.4; text-wrap: pretty; }
+.swarm-page .article-body > ul { max-width: 720px; margin: 0 auto 30px; padding-left: 24px; }
+.swarm-page .article-body li { padding-left: 5px; margin-block: 10px; }
+.swarm-page .article-body li::marker { color: var(--accent); }
+.swarm-page .article-body code { font-size: .85em; overflow-wrap: anywhere; }
+.swarm-page .swarm-figure { max-width: 720px; width: 100%; margin: 36px auto 40px; }
+.swarm-page .swarm-image-open { position: relative; display: block; width: 100%; padding: 0; border: 0; background: transparent; color: var(--ink); cursor: zoom-in; }
+.swarm-page .swarm-image-open img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 2px; }
+.swarm-page .swarm-image-hint { display: flex; align-items: center; gap: 6px; width: max-content; margin: 8px 0 0 auto; color: var(--muted); font-size: 11px; line-height: 1.5; opacity: 0; transition: opacity .15s; }
+.swarm-page .swarm-image-open:hover .swarm-image-hint, .swarm-page .swarm-image-open:focus-visible .swarm-image-hint { opacity: 1; }
+.swarm-page .swarm-table-scroll { max-width: 900px; margin: 28px auto 36px; overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--soft) transparent; }
+.swarm-page .swarm-table-scroll table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 14px; line-height: 1.65; font-variant-numeric: tabular-nums; text-align: left; }
+.swarm-page .swarm-table-scroll th, .swarm-page .swarm-table-scroll td { padding: 13px 16px; vertical-align: top; border-bottom: 1px solid var(--line); }
+.swarm-page .swarm-table-scroll thead { color: var(--muted); border-top: 1px solid var(--line); }
+.swarm-page .swarm-table-scroll th { font-weight: 600; }
+.swarm-page .swarm-table-scroll td:first-child { font-weight: 500; min-width: 180px; }
+.swarm-page .swarm-image-dialog { position: fixed; width: min(1240px, calc(100% - 32px)); max-width: none; max-height: 92dvh; padding: 0; border: 1px solid var(--line); border-radius: 3px; color: var(--ink); background: var(--paper); }
+.swarm-page .swarm-image-dialog::backdrop { background: rgba(0, 0, 0, .75); }
+.swarm-page .swarm-image-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px 8px 20px; font-size: 13px; }
+.swarm-page .swarm-image-toolbar button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
+.swarm-page .swarm-image-scroll { max-height: calc(92dvh - 62px); overflow: auto; overscroll-behavior: contain; }
+.swarm-page .swarm-image-scroll img { display: block; width: max(100%, 960px); max-width: none; height: auto; }
+@media (hover: none) {
+  .swarm-page .swarm-image-hint { opacity: 1; }
+}
+@media (max-width: 720px) {
+  .swarm-page .swarm-byline { font-size: 14px; }
+  .swarm-page .swarm-publication { font-size: 12px; }
+  .swarm-page .article-body > h3 { font-size: 19px; margin-top: 34px; }
+  .swarm-page .swarm-figure { margin-block: 30px; }
+  .swarm-page .swarm-table-scroll table { font-size: 13px; }
+}
