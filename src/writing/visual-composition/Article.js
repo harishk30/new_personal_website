@@ -108,14 +108,14 @@ export default function Article() {
       <Link className="wordmark" to="/">Harish Krishnakumar</Link>
       <nav className="small-nav" aria-label="Primary navigation">
         <a href="https://drive.google.com/file/d/1YdKi_LyDbFa8svTUyrGwNRLmzmwi1Bru/view?usp=sharing">CV</a>
-        <a href="https://open.substack.com/pub/harishkk">Writing</a>
+        <a href="/#blog">Blog</a>
         <Link to="/photography">Photography</Link>
         <ThemeToggle theme={theme} onToggle={toggleTheme} />
       </nav>
     </header>
     <main id="article" className="article-shell"><article>
       <header className="article-header">
-        <div className="section-heading article-section-heading"><span>Writing</span></div>
+        <div className="section-heading article-section-heading"><a href="/#blog">Blog</a></div>
         <h1><Inline paragraph={title} /></h1>
         <p className="composition-subtitle"><Inline paragraph={subtitle} /></p>
         <nav className="article-contents" aria-labelledby="contents-label">

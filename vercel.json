@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/writing/agent-swarms-still-herd-after-rl",
+      "destination": "/writing/agent-swarms",
+      "permanent": true
+    }
+  ]
+}

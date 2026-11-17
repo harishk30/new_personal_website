@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './App.css';
 import NBodyBackground from './NBodyBackground';
@@ -61,6 +61,12 @@ function App() {
   const { theme, toggleTheme } = useTheme();
   const visibleResearch = showAllResearch ? research : research.slice(0, 3);
 
+  useLayoutEffect(() => {
+    if (window.location.hash === '#blog') {
+      document.getElementById('blog')?.scrollIntoView({ block: 'start', behavior: 'instant' });
+    }
+  }, []);
+
   return (
     <div className="site-shell">
       <NBodyBackground theme={theme} />
@@ -73,7 +79,7 @@ function App() {
           <ExternalLink href="https://drive.google.com/file/d/1YdKi_LyDbFa8svTUyrGwNRLmzmwi1Bru/view?usp=sharing">
             CV
           </ExternalLink>
-          <ExternalLink href="https://open.substack.com/pub/harishkk">Writing</ExternalLink>
+          <a href="#blog">Blog</a>
           <Link to="/photography">Photography</Link>
           <ThemeToggle theme={theme} onToggle={toggleTheme} />
         </nav>
@@ -174,34 +180,34 @@ function App() {
           <p className="equal-note">* equal contribution</p>
         </section>
 
-        <section className="writing-section" aria-labelledby="writing-title">
+        <section className="blog-section" id="blog" aria-labelledby="blog-title">
           <div className="section-heading">
-            <h2 id="writing-title">Writing</h2>
+            <h2 id="blog-title">Blog</h2>
           </div>
-          <Link className="writing-link" to="/writing/agent-swarms-still-herd-after-rl">
-            <span>
-              <strong>Why Agent Swarms Still Herd After RL</strong>
-              <small>With Ashton Chew · November 17, 2026</small>
-            </span>
-            <span aria-hidden="true">→</span>
-          </Link>
-          <Link className="writing-link" to="/writing/visual-composition">
-            <span>
-              <strong>Visual Harnesses Are Compositional Generalizers</strong>
-              <small>Rethinking How We Scale and Train VLMs</small>
-            </span>
-            <span aria-hidden="true">→</span>
-          </Link>
-          <ExternalLink
-            className="writing-link"
-            href="https://open.substack.com/pub/harishkk/p/sidekick-from-passive-to-proactive?r=75hdfc&utm_campaign=post&utm_medium=web"
-          >
-            <span>
-              <strong>Sidekick: From Passive to Proactive Assistants</strong>
-              <small>What changes when systems help at the right moment, without being asked?</small>
-            </span>
-            <span aria-hidden="true">↗</span>
-          </ExternalLink>
+          <ul className="blog-list">
+            <li>
+              <Link className="blog-link" to="/writing/agent-swarms">
+                <span>Why Agent Swarms Still Herd After RL</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+              <p className="blog-meta"><time dateTime="2026-11-17">November 17, 2026</time> · With Ashton Chew</p>
+            </li>
+            <li>
+              <Link className="blog-link" to="/writing/visual-composition">
+                <span>Visual Harnesses Are Compositional Generalizers</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+              <p className="blog-meta">Rethinking how we scale and train VLMs</p>
+            </li>
+            <li>
+              <ExternalLink className="blog-link" href="https://open.substack.com/pub/harishkk/p/sidekick-from-passive-to-proactive?r=75hdfc&utm_campaign=post&utm_medium=web">
+                <span>Sidekick: From Passive to Proactive Assistants</span>
+                <span aria-hidden="true">↗</span>
+              </ExternalLink>
+              <p className="blog-meta">On Substack · Helping at the right moment, without being asked</p>
+            </li>
+          </ul>
+          <ExternalLink className="blog-archive-link" href="https://open.substack.com/pub/harishkk">More on Substack <span aria-hidden="true">↗</span></ExternalLink>
         </section>
       </main>
 
