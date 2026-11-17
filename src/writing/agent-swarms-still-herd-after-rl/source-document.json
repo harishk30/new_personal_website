@@ -1,5 +1,5 @@
 {
-  "title": "Agent Swarms Still Herd After RL",
+  "title": "Why Agent Swarms Still Herd After RL",
   "description": "We trained swarms of four agents on search and hidden-clue puzzles. RL raised puzzle scores, but a third of agents still voted against their own evidence.",
   "published": "2026-11-17T17:00:00.000Z",
   "sourceUrl": "https://ashtonchew.com/blog/agent-swarms-still-herd-after-rl/",
