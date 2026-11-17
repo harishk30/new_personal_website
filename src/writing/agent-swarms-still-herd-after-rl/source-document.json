@@ -5,12 +5,12 @@
   "sourceUrl": "https://ashtonchew.com/blog/agent-swarms-still-herd-after-rl/",
   "authors": [
     {
-      "name": "Ashton Chew",
-      "url": "https://ashtonchew.com/"
-    },
-    {
       "name": "Harish Krishnakumar",
       "url": "https://www.harishkk.com/"
+    },
+    {
+      "name": "Ashton Chew",
+      "url": "https://ashtonchew.com/"
     }
   ],
   "hero": {
