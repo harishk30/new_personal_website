@@ -6,11 +6,8 @@ import source from './source-document.json';
 import '../improving-vlms/article.css';
 import './article.css';
 
-const wideFigures = new Set(['search-example.png', 'puzzle-setup.png', 'patrol-clues.png', 'patrol-board.png', 'credit.png', 'collaboration.png']);
-
 function Figure({ image, onExpand, eager = false }) {
-  const wide = wideFigures.has(image.src.split('/').pop());
-  return <figure className={`swarm-figure${wide ? ' swarm-figure--wide' : ''}`}>
+  return <figure className="swarm-figure">
     <button className="swarm-image-open" type="button" onClick={() => onExpand(image)} aria-label={`Enlarge figure: ${image.alt}`}>
       <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading={eager ? 'eager' : 'lazy'} decoding="async" />
       <span className="swarm-image-hint" aria-hidden="true"><Expand size={16} /> Enlarge</span>
@@ -69,14 +66,16 @@ export default function Article() {
     </header>
     <main id="article" className="article-shell"><article>
       <header className="article-header">
-        <div className="section-heading article-section-heading"><span>Writing</span></div>
-        <h1>{source.title}</h1>
-        <p className="swarm-byline">
-          {source.authors.map((author, index) => <Fragment key={author.url}>
-            {index > 0 && ' and '}<a href={author.url} rel="author">{author.name}</a>
-          </Fragment>)}
-        </p>
-        <p className="swarm-publication"><time dateTime={source.published}>November 17, 2026</time><span aria-hidden="true"> · </span><a href={source.sourceUrl}>Also on Ashton’s blog</a></p>
+        <div className="swarm-heading">
+          <div className="section-heading article-section-heading"><span>Writing</span></div>
+          <h1>{source.title}</h1>
+          <p className="swarm-byline">
+            {source.authors.map((author, index) => <Fragment key={author.url}>
+              {index > 0 && ' and '}<a href={author.url} rel="author">{author.name}</a>
+            </Fragment>)}
+          </p>
+          <p className="swarm-publication"><time dateTime={source.published}>November 17, 2026</time><span aria-hidden="true"> · </span><a href={source.sourceUrl}>Also on Ashton’s blog</a></p>
+        </div>
         <Figure image={source.hero.props} onExpand={setExpandedImage} eager />
         <nav className="article-contents" aria-labelledby="contents-label">
           <div id="contents-label" className="contents-label">Table of contents</div>
