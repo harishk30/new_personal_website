@@ -100,6 +100,7 @@ function App() {
           <div className="contact-row" aria-label="Contact and profiles">
             <a href="mailto:hkrishnakumar@princeton.edu">Email</a>
             <ExternalLink href="https://github.com/harishk30">GitHub</ExternalLink>
+            <ExternalLink href="https://x.com/harishkrik">Twitter</ExternalLink>
             <ExternalLink href="https://scholar.google.com/citations?user=wNnR_PAAAAAJ&hl=en">
               Scholar
             </ExternalLink>
