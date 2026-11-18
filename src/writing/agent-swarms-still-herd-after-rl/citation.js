@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Check, Copy } from 'lucide-react';
 
-export const bibtex = `@article{krishnakumar2026agentswarms,
+export const bibtex = `@article{2026agentswarms,
   title  = {Why Agent Swarms Still Herd After {RL}},
   author = {Krishnakumar, Harish and Chew, Ashton},
   year   = {2026},
