@@ -317,8 +317,11 @@
 }
 
 .blog-section {
-  margin-top: clamp(116px, 16vw, 174px);
   scroll-margin-top: 48px;
+}
+
+.blog-section + .research-section {
+  margin-top: clamp(116px, 16vw, 174px);
 }
 
 .blog-list {
@@ -362,13 +365,6 @@
   flex-shrink: 0;
 }
 
-.blog-archive-link {
-  display: inline-block;
-  margin-top: 22px;
-  color: var(--muted);
-  font-size: 12px;
-  text-underline-offset: 4px;
-}
 
 .site-footer {
   display: flex;

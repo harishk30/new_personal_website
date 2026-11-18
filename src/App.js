@@ -116,6 +116,35 @@ function App() {
           </div>
         </section>
 
+        <section className="blog-section" id="blog" aria-labelledby="blog-title">
+          <div className="section-heading">
+            <h2 id="blog-title">Blog</h2>
+          </div>
+          <ul className="blog-list">
+            <li>
+              <Link className="blog-link" to="/writing/agent-swarms">
+                <span>Why Agent Swarms Still Herd After RL</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+              <p className="blog-meta"><time dateTime="2026-11-17">November 17, 2026</time> · With Ashton Chew</p>
+            </li>
+            <li>
+              <Link className="blog-link" to="/writing/visual-composition">
+                <span>Visual Harnesses Are Compositional Generalizers</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+              <p className="blog-meta">Rethinking how we scale and train VLMs</p>
+            </li>
+            <li>
+              <ExternalLink className="blog-link" href="https://open.substack.com/pub/harishkk/p/sidekick-from-passive-to-proactive?r=75hdfc&utm_campaign=post&utm_medium=web">
+                <span>Sidekick: From Passive to Proactive Assistants</span>
+                <span aria-hidden="true">↗</span>
+              </ExternalLink>
+              <p className="blog-meta">On Substack · Helping at the right moment, without being asked</p>
+            </li>
+          </ul>
+        </section>
+
         <section className="research-section" id="research" aria-labelledby="research-title">
           <div className="section-heading">
             <h2 id="research-title">Selected research</h2>
@@ -180,35 +209,6 @@ function App() {
           <p className="equal-note">* equal contribution</p>
         </section>
 
-        <section className="blog-section" id="blog" aria-labelledby="blog-title">
-          <div className="section-heading">
-            <h2 id="blog-title">Blog</h2>
-          </div>
-          <ul className="blog-list">
-            <li>
-              <Link className="blog-link" to="/writing/agent-swarms">
-                <span>Why Agent Swarms Still Herd After RL</span>
-                <span aria-hidden="true">→</span>
-              </Link>
-              <p className="blog-meta"><time dateTime="2026-11-17">November 17, 2026</time> · With Ashton Chew</p>
-            </li>
-            <li>
-              <Link className="blog-link" to="/writing/visual-composition">
-                <span>Visual Harnesses Are Compositional Generalizers</span>
-                <span aria-hidden="true">→</span>
-              </Link>
-              <p className="blog-meta">Rethinking how we scale and train VLMs</p>
-            </li>
-            <li>
-              <ExternalLink className="blog-link" href="https://open.substack.com/pub/harishkk/p/sidekick-from-passive-to-proactive?r=75hdfc&utm_campaign=post&utm_medium=web">
-                <span>Sidekick: From Passive to Proactive Assistants</span>
-                <span aria-hidden="true">↗</span>
-              </ExternalLink>
-              <p className="blog-meta">On Substack · Helping at the right moment, without being asked</p>
-            </li>
-          </ul>
-          <ExternalLink className="blog-archive-link" href="https://open.substack.com/pub/harishkk">More on Substack <span aria-hidden="true">↗</span></ExternalLink>
-        </section>
       </main>
 
       <footer className="site-footer">
