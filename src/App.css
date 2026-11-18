@@ -316,7 +316,8 @@
   font-size: 10px;
 }
 
-.blog-section {
+.blog-section,
+.research-section {
   scroll-margin-top: 48px;
 }
 
@@ -446,6 +447,13 @@
 .photo-figure small {
   color: var(--soft);
   text-align: right;
+}
+
+@media (max-width: 540px) {
+  .page-topbar {
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 
 @media (max-width: 720px) {

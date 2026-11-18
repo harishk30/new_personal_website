@@ -62,8 +62,8 @@ function App() {
   const visibleResearch = showAllResearch ? research : research.slice(0, 3);
 
   useLayoutEffect(() => {
-    if (window.location.hash === '#blog') {
-      document.getElementById('blog')?.scrollIntoView({ block: 'start', behavior: 'instant' });
+    if (['#blog', '#research'].includes(window.location.hash)) {
+      document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ block: 'start', behavior: 'instant' });
     }
   }, []);
 
@@ -80,6 +80,7 @@ function App() {
             CV
           </ExternalLink>
           <a href="#blog">Blog</a>
+          <a href="#research">Research</a>
           <Link to="/photography">Photography</Link>
           <ThemeToggle theme={theme} onToggle={toggleTheme} />
         </nav>

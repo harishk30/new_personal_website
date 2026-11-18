@@ -109,6 +109,7 @@ export default function Article() {
       <nav className="small-nav" aria-label="Primary navigation">
         <a href="https://drive.google.com/file/d/1YdKi_LyDbFa8svTUyrGwNRLmzmwi1Bru/view?usp=sharing">CV</a>
         <a href="/#blog">Blog</a>
+        <a href="/#research">Research</a>
         <Link to="/photography">Photography</Link>
         <ThemeToggle theme={theme} onToggle={toggleTheme} />
       </nav>
