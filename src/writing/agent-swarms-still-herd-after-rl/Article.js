@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Expand, X } from 'lucide-react';
 import ThemeToggle, { useTheme } from '../../ThemeToggle';
 import source from './source-document.json';
+import ArticleCitation from './citation';
 import '../improving-vlms/article.css';
 import './article.css';
 
@@ -83,11 +84,13 @@ export default function Article() {
           <ol>
             <li><a href="#introduction">Introduction</a></li>
             {source.sections.map(section => <li key={section.id}><a href={`#${section.id}`}>{section.title}</a></li>)}
+            <li><a href="#citation">Citation</a></li>
           </ol>
         </nav>
       </header>
       <div id="introduction" className="article-body">
         {source.children.map((node, index) => <Content key={index} node={node} onExpand={setExpandedImage} />)}
+        <ArticleCitation />
       </div>
     </article></main>
     <footer className="site-footer"><span>© 2026 Harish Krishnakumar</span><a href="#article">Back to top ↑</a></footer>
