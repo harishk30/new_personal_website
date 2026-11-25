@@ -123,6 +123,13 @@ function App() {
           </div>
           <ul className="blog-list">
             <li>
+              <Link className="blog-link" to="/writing/deep-research-agent">
+                <span>Training a Frontier Deep Research Agent</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+              <p className="blog-meta"><time dateTime="2026-11-25">November 25, 2026</time> · Synthetic data, SFT, RL, and inference-time scaling</p>
+            </li>
+            <li>
               <Link className="blog-link" to="/writing/agent-swarms">
                 <span>Why Agent Swarms Still Herd After RL</span>
                 <span aria-hidden="true">→</span>
