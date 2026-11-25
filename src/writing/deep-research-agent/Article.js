@@ -88,7 +88,12 @@ export default function Article() {
           <div id="contents-label" className="contents-label">Table of contents</div>
           <ol>
             <li><a href="#introduction">Introduction</a></li>
-            {source.sections.map(section => <li key={section.id}><a href={`#${section.id}`}>{section.title}</a></li>)}
+            {source.sections.map(section => <li key={section.id}>
+              <a href={`#${section.id}`}>{section.title}</a>
+              {section.subsections && <ol className="contents-subsections">
+                {section.subsections.map(sub => <li key={sub.id}><a href={`#${sub.id}`}>{sub.title}</a></li>)}
+              </ol>}
+            </li>)}
             <li><a href="#citation">Citation</a></li>
           </ol>
         </nav>

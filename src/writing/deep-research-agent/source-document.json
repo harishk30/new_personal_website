@@ -47,7 +47,21 @@
     },
     {
       "id": "appendix",
-      "title": "Appendix"
+      "title": "Appendix",
+      "subsections": [
+        {
+          "id": "appendix-a",
+          "title": "A. Multi-Model Synthetic Data Mixtures"
+        },
+        {
+          "id": "appendix-b",
+          "title": "B. Train-Inference Mismatch"
+        },
+        {
+          "id": "appendix-c",
+          "title": "C. Systems for Long-Context Agents"
+        }
+      ]
     }
   ],
   "children": [
