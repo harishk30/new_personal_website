@@ -1,0 +1,7 @@
+.research-agent-page .research-equation { max-width: 720px; margin: 24px auto 28px; overflow-x: auto; scrollbar-width: thin; }
+.research-agent-page .research-equation img { display: block; width: 620px; max-width: none; height: auto; margin-inline: auto; }
+:root[data-theme='dark'] .research-agent-page .research-equation img { filter: invert(.9); }
+@media (max-width: 720px) {
+  .research-agent-page .research-equation img { width: 520px; margin-inline: 0; }
+}
+.research-agent-page .research-agent-date { margin-top: 22px; }

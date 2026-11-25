@@ -1,0 +1,951 @@
+{
+  "title": "Training a Frontier Deep Research Agent: Synthetic Data, SFT, RL, and Inference-Time Scaling",
+  "description": "We trained small open models to find the papers that historical machine learning research cited, approaching a frontier research agent’s recall at a fraction of the cost and beating it with inference-time scaling.",
+  "published": "2026-11-25T17:00:00.000Z",
+  "hero": {
+    "tag": "img",
+    "props": {
+      "src": "/writing/deep-research-agent/cover.gif",
+      "alt": "Animated illustration: a small robot research agent stands among a scattered cloud of paper documents.",
+      "width": 1280,
+      "height": 600
+    },
+    "children": []
+  },
+  "sections": [
+    {
+      "id": "task-curation",
+      "title": "Task Curation"
+    },
+    {
+      "id": "harness-design",
+      "title": "Harness Design"
+    },
+    {
+      "id": "synthetic-data-generation",
+      "title": "Synthetic Data Generation"
+    },
+    {
+      "id": "sft",
+      "title": "SFT"
+    },
+    {
+      "id": "rl",
+      "title": "RL"
+    },
+    {
+      "id": "transferring-to-a-stronger-model",
+      "title": "Transferring to a Stronger Model"
+    },
+    {
+      "id": "inference-time-scaling",
+      "title": "Inference-Time Scaling"
+    },
+    {
+      "id": "discussion-and-conclusion",
+      "title": "Discussion and conclusion"
+    },
+    {
+      "id": "appendix",
+      "title": "Appendix"
+    }
+  ],
+  "children": [
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "In 1827, botanist Robert Brown observed microscopic pollen particles jittering erratically in water. He initially thought these particles were alive. Nearly 80 years later, Albert Einstein explained this phenomenon through the lens of statistics. In 2015, machine learning researchers drew inspiration from statistical mechanics to devise a training paradigm that learned to reverse the process of adding noise to data. This l",
+        "ine of research inspired diffusion models, which revolutionized the field of image generation."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "All research is iterative. The ideas that inspire any unique and impactful piece of research are scattered across papers spanning decades and disciplines. With the ability of LLMs to sift through hundreds of data sources in one query, it’s now possible to dramatically accelerate scientific synthesis."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "With this in mind, we want to equip models with something similar to an actual researcher’s intuition. This includes the ability to recognize ideas that matter, find missing knowledge, and connect unrelated work."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "Making the right connections requires more than searching for vaguely relevant papers. We can frame literature retrieval as a decision-making process: an agent must identify what it doesn’t know, break it down, revise its interpretations, and decide which ideas get carried over. We make this problem measurable. ",
+        {
+          "tag": "strong",
+          "props": {},
+          "children": [
+            "Given a high-level research direction, can a model recover papers cited by historical research"
+          ]
+        },
+        "?"
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/recall-vs-cost.png",
+        "alt": "Scatter plot of recall against estimated model cost per question on a log scale. Qwen3 4B RL reaches 8.4% at about $0.002; Qwen3.6 35B-A3B RL reaches 14.6% at about $0.005; 4B plus GPT 5.6 selection reaches 16.1% at about $0.18; 35B-A3B plus GPT 5.6 selection reaches 19.7% at about $0.31. GPT 5.6 Sol xhigh reaches 15.1% at about $1. A dashed line marks the observed frontier.",
+        "width": 1776,
+        "height": 1073
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "To study this, we train a specialized family of small models to approach the recall of a frontier research agent on historical machine learning papers at 0.16% of the cost. With inference-time scaling, ",
+        {
+          "tag": "strong",
+          "props": {},
+          "children": [
+            "we exceed the frontier at less than a third of the cost"
+          ]
+        },
+        "!"
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "Getting there required experimentation with task construction, harness design, synthetic data, SFT, RL, systems optimization, inference-time scaling, and more (turns out it isn’t easy to train long-context models on an academic budget)!"
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "In this blog post, we openly describe our recipe used to train a frontier deep research agent. We hope this makes the science and engineering of mid/post-training specialized models more accessible."
+      ]
+    },
+    {
+      "tag": "h2",
+      "props": {
+        "id": "task-curation"
+      },
+      "children": [
+        "Task Curation"
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/task-curation.gif",
+        "alt": "Animated illustration of task curation: the robot reads the related-work section of a paper titled \"Learning on unseen graphs\", whose three cited claims become a research question, \"How can graph networks generalize to unseen nodes?\", split into three subquestions (unseen nodes, neighbor importance, structural limits), each linked to its cited paper.",
+        "width": 1280,
+        "height": 600
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We start with a corpus of ~20,000 papers from ICML, ICLR, NeurIPS, and COLM. Historical papers provide us with a rich source of prior scientific decisions, and allow us to curate tasks. Looking at a paper, we can ask: what would someone working on this problem need to discover?"
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "For each paper, we extract the related works and citations, and parse parenthetical and in-text citations within the related work section. After parsing citations, we match them to their corresponding paper on ArXiv."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We then use an LLM (Qwen 27B) to generate a research background, research question, and subquestions for each paper, each paired with a subset of relevant citations from the initial paper. Our evaluation tests if a model given the background and research question can recall the gold citations."
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/research-request.png",
+        "alt": "Example research request: \"I’m working on problems involving the architectural evolution and empirical performance of continuous generative models…\" ending in the highlighted research question \"I want to research the development of continuous diffusion and flow-based architectures.\" Verbatim task excerpt; citation-budget instructions omitted.",
+        "width": 1800,
+        "height": 616
+      },
+      "children": []
+    },
+    {
+      "tag": "h2",
+      "props": {
+        "id": "harness-design"
+      },
+      "children": [
+        "Harness Design"
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/harness.png",
+        "alt": "Diagram of the deep research harness: a research question leads to an active subquestion, then to a search-and-inspect step that can refine its query. From there the agent either moves to the next subquestion or finishes and returns its final citations.",
+        "width": 1920,
+        "height": 900
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "To construct tasks, we decompose each paper into a primary research question and subquestions. Similarly, in our deep research harness, we enforce that agents must decompose broad research questions into targeted subquestions. For each of these subquestions, agents are allowed to reason, search, read abstracts, and refine their later queries. At the end of their trajectories, agents combine their discoveries into one final citation set."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We enforced this for two main reasons. For one, we didn’t want models to search without direction – when doing research, it’s natural to break apart your initial task, and we wanted to offer the same opportunity within the harness. Additionally, requiring the model to ask sub-questions allows for a degree of transparency into decisions behind searches that wouldn’t be present otherwise."
+      ]
+    },
+    {
+      "tag": "h2",
+      "props": {
+        "id": "synthetic-data-generation"
+      },
+      "children": [
+        "Synthetic Data Generation"
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/synthetic-data.gif",
+        "alt": "Animated illustration of synthetic data generation: starting from the background and question, a Qwen3.5-27B teacher that privately holds the gold citations searches subquestions 1 to 3 against the real retriever, refining queries until the targets appear, and the results are written into a training trace of reasoning, searches, observations and citations.",
+        "width": 1280,
+        "height": 600
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "Before RL, we generate example trajectories for the model to learn from (SFT initialization). But, this is hard when the max recall of even frontier models is ~15% on the retrieval benchmark! This rules out distillation. Instead, we create a scalable pipeline to generate high-quality synthetic responses given an initial research question. This uses an LLM (Qwen 27B) with access to privileged information, including reference citations, questions, and subquestions."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "Our goal is to generate natural trajectories, as if they were generated by an agent in a production setting, without having any downstream indication that the teacher has access to reference citations. To enforce this, we construct each subquestion individually as a separate search session. The teacher model proposes a query, the retriever is called, and then we check if the target papers are available in the visible results. We continue until the targets have appeared, or the search limit is reached."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "After constructing the sequence of searches within subquestions, we synthesize reasoning explaining the model’s decisions. This includes assessing evidence returned by searches and transitioning between subquestions. Here, we are supervising reasoning to simulate the thought process behind making the decisions we intend to see. Finally, we combine the returned citations into one final citation set that is returned. There is a citation limit enforced in the initial question, and we add plausible non-target papers to the predicted citations to make the trajectories realistic."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We had a few key takeaways from the synthetic data curation process:"
+      ]
+    },
+    {
+      "tag": "ul",
+      "props": {},
+      "children": [
+        {
+          "tag": "li",
+          "props": {},
+          "children": [
+            "Getting synthetic data right is a very involved process. It’s hard not to have privileged information leak into the traces, meaning you have to get your hands dirty with the data to maintain its quality!"
+          ]
+        },
+        {
+          "tag": "li",
+          "props": {},
+          "children": [
+            "Going step-by-step is often better than generating all of the data at once. We found that breaking down questions into subquestions and constructing reasoning around returned results significantly improved data quality."
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "A lot of synthetic data research is proprietary, so we hope our findings can help others build out data pipelines for their own tasks!"
+      ]
+    },
+    {
+      "tag": "h2",
+      "props": {
+        "id": "sft"
+      },
+      "children": [
+        "SFT"
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We quickly learned that not all data is created equal. Model behavior is very brittle to what SFT data is fed in."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "When we perform SFT on the entire synthetic data corpus, we only see a marginal gain in recall. Looking at the trajectories closer, we see that the model increasingly begins to violate harness protocols. This includes not opening subquestions, doing extra searches, and more!"
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/sft-data-mixtures.png",
+        "alt": "Two line charts over SFT steps comparing full-corpus and conservative SFT data against the base model. Left, recall: full corpus hovers between 2% and 2.8% over 9K steps, while the conservative mixture jumps to about 5% near step 3.8K. Right, protocol violations: full corpus spikes to 39% and stays between 11% and 27%; the conservative mixture peaks at 45% then falls to about 2%.",
+        "width": 1776,
+        "height": 668
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "This led us to suspect that some of the synthetic trajectories saturating the search and subquestion budget were pushing the base model towards this unhealthy behavior. Thus, we created a data mixture that was filtered to have <= 2 searches per subquestion on average. Around ~7k examples remained for SFT, leaving the rest of the ~12.5k questions for RL."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "After training on the conservative data mixture, we reach a 5% recall with 97% of the trajectories being valid. Here, we have a policy that has better paper selection ",
+        {
+          "tag": "em",
+          "props": {},
+          "children": [
+            "and"
+          ]
+        },
+        " reliable harness use."
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/sft-vs-teacher.png",
+        "alt": "Line chart of recall over SFT training steps for Qwen3-4B. Full-corpus SFT stays between 2% and 2.8%. Conservative SFT reaches 4.95%, above the Qwen3.5-27B teacher at 4.54% and the 2% base model. 100-question evaluation.",
+        "width": 1776,
+        "height": 999
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "As seen above, with our synthetic data pipeline, we can actually surpass the performance of the teacher model! There are a ton more experiments to be done with synthetic data (see Appendix A for some examples), but one of the coolest parts of this project for us was seeing this result."
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/sft-behavior.png",
+        "alt": "Three line charts over training examples consumed for Qwen3-4B. Final citation recall rises from 2% to 4.95% at 7,492 examples. Valid completion dips from 98% to 53% mid-training, then recovers to 97%. Retrieved-gold coverage rises from about 5.2% to 7.2%.",
+        "width": 1697,
+        "height": 1731
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "Looking at model behavior, we see that the number of gold papers retrieved by the queries it formulates increases! SFT isn’t just teaching the model formatting within our harness, but also a methodology to break apart questions and perform searches."
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/sft-example.png",
+        "alt": "Side-by-side trajectory excerpts for the same question. The base model, after its first search, decides video-generation papers are too specific and searches \"continuous diffusion model theory\", returning six citations with 0.0% recall. After SFT, the model notes the results lack insight into discrete scientific domains, searches \"diffusion probability flow protein structure prediction discrete scientific domains\", and recovers one gold citation (2210.02747) for 33.3% recall.",
+        "width": 1800,
+        "height": 1332
+      },
+      "children": []
+    },
+    {
+      "tag": "h2",
+      "props": {
+        "id": "rl"
+      },
+      "children": [
+        "RL"
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "The post-SFT policy provides a good initialization for the model, but RL provides an on-policy objective for the model to learn how to successfully recover citations itself. We use recall over the target citations as the reward signal."
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/best-of-n.png",
+        "alt": "Line chart of recall against rollouts per question, n from 1 to 40. Mean best recall among the first n rollouts climbs from about 3.5% to 16.62% at the chosen group size n = 30 and 17.37% at n = 40, while mean recall across rollouts stays flat near 3.2%. 100 questions; best-of-n recall is an oracle, not a selected answer.",
+        "width": 1776,
+        "height": 984
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "Our initial recipe uses GRPO with 40 prompts and a group size of 30 sampled trajectories per prompt. We choose n = 30 by looking at the best@n recall and finding the point where it saturates. These are the gains we hope to exploit via RL training!"
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "As a refresher, the GRPO training objective is:"
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/grpo-objective.png",
+        "alt": "GRPO objective: J_GRPO(θ) = ⟨ min( r_{i,t}(θ) A_i, clip(r_{i,t}(θ), 1 − ε_low, 1 + ε_high) A_i ) ⟩",
+        "width": 2048,
+        "height": 78,
+        "variant": "equation"
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We clip the importance sampling (IS) ratio to limit the incentive for excessively large policy updates."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We also ablate the CISPO objective, which is:"
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/cispo-objective.png",
+        "alt": "CISPO objective: J_CISPO(θ) = ⟨ stopgrad[ clip(r_{i,t}(θ), c_low, c_high) ] A_i log π_θ(y_{i,t} | h_{i,t}) ⟩",
+        "width": 2048,
+        "height": 74,
+        "variant": "equation"
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "CISPO clips the importance sampling (IS) weight directly and applies a stopgrad to it, meaning that it’s treated as a constant during backprop. Unlike GRPO’s clipped surrogate objective, what this means is that tokens continue providing learning signals beyond the IS clipping thresholds, but have bounded IS weights."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We train at a 45K token maximum context length, returning only the top 5 search results with every query. At eval time, we expand this, utilizing Qwen’s full 131K token context window, with the ability to process top 10 search results at a time."
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/rl-training-curves.png",
+        "alt": "Training and held-out evaluation recall reward for GRPO and CISPO. Training rewards for both fluctuate between about 3% and 9%. GRPO held-out evaluation peaks at 10.29% near step 80 and drops to 4.79% near step 160; context grows from 45K with top-5 results to 131K with top-10 after step 50. CISPO evaluation peaks at 10.63% at step 80, drops to 5.37% near step 100, and recovers to 10.40% at step 120.",
+        "width": 1776,
+        "height": 1199
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We find that with both objectives, the policy learns, but improvement is not steady. Both runs have substantial regressions after obtaining strong checkpoints, and then recover. After training, we carry forward the CISPO step 120 checkpoint. While it didn’t have the highest validation score, we look past eval reward at the health of the policy as well."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "With GRPO, we find that while later checkpoints appear healthy solely based on eval scores, they tend to repeat searches, copy specific arXiv IDs into their queries, and hyperfixate on explaining “mixed results”. The number of trajectories containing the phrase “mixed results” rises from 2.9% to 95.7%, and the fraction with an arXiv ID in a query rises from 0% to 39.9%."
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/rl-vs-sft.png",
+        "alt": "Bar charts comparing SFT with SFT + RL. Final citation recall rises from 6.93% to 10.77% and retrieved-gold coverage from 9.76% to 12.41% on 1,059 jointly valid questions. Valid trajectories fall slightly from 99.55% to 96.38% across all 1,104 paired questions.",
+        "width": 1776,
+        "height": 1790
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We find that, relative to the base checkpoint, the CISPO trained model has an improved recall and coverage of gold papers within its queries. Protocol compliance, in fact, slightly deteriorates, so gains are coming entirely from improved search behavior."
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/rl-example.png",
+        "alt": "Side-by-side trajectory excerpts for the same question. After its first search, the SFT policy searches \"diffusion gradient descent neural network weight optimization\" and returns four citations with 0.0% recall. The SFT + RL policy decides the initial query was too broad, searches \"diffusion probabilistic models optimization weight spaces latent representations internal model parameters reconstruction tasks implicit neural fields arxiv\", and recovers gold citation 2303.17015 for 50.0% recall. CISPO step 120.",
+        "width": 1800,
+        "height": 1238
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "An example is shown above involving diffusion in neural-network weight spaces. The SFT policy diagnoses the mistake with the first search, but repeats it by performing an identical query."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "The RL policy, on the other hand, changes the query to target weight spaces, internal parameters, reconstruction, and implicit neural fields. This query allows it to recover a gold citation and return it, which makes recall rise to 50%."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "While both trajectories exhibit evidence of fluent reasoning, the RL trained checkpoint is able to reason better over prior judgements and formulate new queries."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "Training can additionally help models link a question across foundational and neighboring literature. For instance, when the model is asked about physical simulations with equivariant graph neural networks, the SFT policy searches around velocity and particle simulation but fails to retrieve the target papers. The RL policy, on the other hand, has a productive chain of reasoning – it first discovers ",
+        {
+          "tag": "em",
+          "props": {},
+          "children": [
+            "Graph Neural Ordinary Differential Equations"
+          ]
+        },
+        ", realizes continuous-time modeling is important, and then refines its search towards ",
+        {
+          "tag": "em",
+          "props": {},
+          "children": [
+            "Hamiltonian Graph Networks with ODE Integrators"
+          ]
+        },
+        ". This thought process raises the recall from 0% to 44.4%, highlighting the ability of the RL policy to follow useful connections across the literature and make productive conclusions."
+      ]
+    },
+    {
+      "tag": "h2",
+      "props": {
+        "id": "transferring-to-a-stronger-model"
+      },
+      "children": [
+        "Transferring to a Stronger Model"
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "With Thinking Machine’s ",
+        {
+          "tag": "a",
+          "props": {
+            "href": "https://thinkingmachines.ai/tinker/"
+          },
+          "children": [
+            "Tinker"
+          ]
+        },
+        ", we post-trained Qwen3.6 35B-A3B with the same SFT and RL recipe. We find similar gains as we do with the 4B model:"
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/qwen-35b-transfer.png",
+        "alt": "Line chart of recall for Qwen3.6 35B-A3B: 2.29% for the base model, 6.92% after SFT, and 14.56% after RL (checkpoint 60). 100 questions.",
+        "width": 1776,
+        "height": 906
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "This is extremely promising! The recipe we created with the 4B model transfers over to larger model sizes, and almost doubles the SFT recall after RL. Qwen 35B almost matches the GPT 5.6 baseline on the task at ~1/200 of the cost!"
+      ]
+    },
+    {
+      "tag": "h2",
+      "props": {
+        "id": "inference-time-scaling"
+      },
+      "children": [
+        "Inference-Time Scaling"
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "Scaling up agents ",
+        {
+          "tag": "a",
+          "props": {
+            "href": "https://openai.com/index/gpt-5-6/"
+          },
+          "children": [
+            "in parallel at inference time"
+          ]
+        },
+        " can produce diverse solutions that improve upon the performance of an individual model. A single trajectory produced by our model is one way to explore the literature, while sampling multiple trajectories can provide different perspectives."
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/parallel-trajectories.gif",
+        "alt": "Animated illustration of inference-time scaling: three robots run parallel trajectories on the same question, their candidate papers are pooled into a candidate union, and a GPT selector picks the final citations.",
+        "width": 1280,
+        "height": 600
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We create an inference-time harness that builds on this shape – we sample 30 trajectories from the trained policy, take the union of the selected papers, and have a selector model (GPT 5.6 Sol) choose a final citation set to return."
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/inference-time-scaling.png",
+        "alt": "Bar chart of recall on the 100-question evaluation. Qwen3 4B: 8.42% standalone at $0.0016 per question, 16.09% with 30 rollouts plus GPT selection at $0.1797, and a 19.59% union-recall upper bound. Qwen3.6 35B-A3B: 14.56% standalone at $0.0048, 19.69% with selection at $0.3100, and a 34.49% union recall. A dashed line marks GPT 5.6 Sol xhigh at 15.06%.",
+        "width": 1776,
+        "height": 851
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "For 4B, recall improves from 8.42% to 16.09% after inference-time scaling. For 35B-A3B, recall improves from 14.56% to 19.69%."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "Selection here still remains a significant bottleneck. We measure the “union recall” – the maximum possible recall within the set of papers returned to the selector model. The union recall is 19.59% and 34.49% for 4B and 35B respectively. There is much progress to be made here, as stronger selector could exploit the additional inference-time compute more effectively."
+      ]
+    },
+    {
+      "tag": "h2",
+      "props": {
+        "id": "discussion-and-conclusion"
+      },
+      "children": [
+        "Discussion and conclusion"
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We started with a broad question: can a model be trained to find papers that inspire useful research? With our results, we find that specialization goes a long way. We construct an evaluation dataset from historic papers, carefully synthesize trajectories to train an initial search policy, and then use RL to improve that model. We find that the policy improves at following evidence, refining queries, and retaining useful discoveries."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We had a few key takeaways:"
+      ]
+    },
+    {
+      "tag": "ul",
+      "props": {},
+      "children": [
+        {
+          "tag": "li",
+          "props": {},
+          "children": [
+            {
+              "tag": "strong",
+              "props": {},
+              "children": [
+                "Good synthetic data requires a carefully tuned recipe."
+              ]
+            },
+            " Privileged information can help construct useful demonstrations, but careful attention is needed to ensure that the searches, reasoning, and filtering are coherent. Not all data is made the same!"
+          ]
+        },
+        {
+          "tag": "li",
+          "props": {},
+          "children": [
+            {
+              "tag": "strong",
+              "props": {},
+              "children": [
+                "Looking at trajectories alongside RL curves is extremely useful."
+              ]
+            },
+            " With our later GRPO steps, we found that the trajectories actually regressed despite high eval scores."
+          ]
+        },
+        {
+          "tag": "li",
+          "props": {},
+          "children": [
+            {
+              "tag": "strong",
+              "props": {},
+              "children": [
+                "A good data recipe transfers across model families."
+              ]
+            },
+            " We find that the synthetic data → SFT → RL pipeline improves both the 4B and 35B models."
+          ]
+        },
+        {
+          "tag": "li",
+          "props": {},
+          "children": [
+            {
+              "tag": "strong",
+              "props": {},
+              "children": [
+                "Specialized models can make frontier models more effective! "
+              ]
+            },
+            "Inference-time scaling of our retriever beats frontier model recall at a cheaper cost. Trained models can be at the Pareto frontier of a specific task."
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "While there still remains substantial room for improvement, we hope by sharing our results openly, we make training specialized models more accessible. Finding the right papers is only one important part of research, and we think there’s tons of room to train scientific models! We hope more work extends on these ideas, fine-tuning cheap, smart, and accurate models to accelerate scientific progress."
+      ]
+    },
+    {
+      "tag": "h2",
+      "props": {
+        "id": "appendix"
+      },
+      "children": [
+        "Appendix"
+      ]
+    },
+    {
+      "tag": "h3",
+      "props": {
+        "id": "appendix-a"
+      },
+      "children": [
+        "A. Multi-Model Synthetic Data Mixtures"
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "These results weren’t included in the primary blogpost as they involve a dataset we were exploring later on, but we think they’re still interesting/useful to improve future synthetic data research."
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We previously used Qwen-27B to generate synthetic data. Here, we try adding additional models to the mix to introduce diversity. We ablate Qwen, Gemma, Muse Glimmer, and a mix of the three (QGM)."
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/teacher-mixtures.png",
+        "alt": "Line chart of Qwen3.5-9B recall against SFT example boundary (10K, 20K, 30K) for different teacher models. Gemma stays highest at about 15.3% to 15.9%; Qwen rises from 10.9% to 15.7% then 14.7%; the QGM mixture rises from 8.5% to 12.7%; Muse rises from 8.8% to 10.3%.",
+        "width": 1776,
+        "height": 937
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We find that the choice of generation model matters quite a bit. The QGM mixture and Muse lag behind Qwen and Gemma. Additionally, even though a Qwen model is being fine-tuned, we find that a Gemma teacher still edges it out!"
+      ]
+    },
+    {
+      "tag": "h3",
+      "props": {
+        "id": "appendix-b"
+      },
+      "children": [
+        "B. Train-Inference Mismatch"
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We ran a few training experiments with Qwen 3.5 9B that weren’t included in the initial blogpost. Qwen 3.5’s architecture mixes Gated Delta Net (GDN) layers with standard attention, which makes train-inference mismatch more pronounced. It has been shown that using a FP32 LM head can ",
+        {
+          "tag": "a",
+          "props": {
+            "href": "https://arxiv.org/html/2606.23321v1"
+          },
+          "children": [
+            "reduce this mismatch"
+          ]
+        },
+        "."
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/fp32-lm-head.png",
+        "alt": "Two scatter plots of learner versus rollout selected-token probability for Qwen3.5-9B. With a BF16 output projection, the mean absolute log-probability difference is 0.01525 (p01–p99 ratio 0.899–1.107). With an FP32 output projection and chunked learner, it is 0.01095 (ratio 0.940–1.061), and points sit tighter on the diagonal.",
+        "width": 1776,
+        "height": 943
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We find that switching to an FP32 LM head reduces the mean absolute rollout/learner log-prob difference from 0.01525 to 0.01095."
+      ]
+    },
+    {
+      "tag": "h3",
+      "props": {
+        "id": "appendix-c"
+      },
+      "children": [
+        "C. Systems for Long-Context Agents"
+      ]
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We’re dealing with training agents that can output up to 131k tokens! The LLM projects each token’s hidden state into a score for each vocabulary entry. With the FP32 LM head, this tensor occupies ",
+        {
+          "tag": "strong",
+          "props": {},
+          "children": [
+            "B x T x V x 4 bytes"
+          ]
+        },
+        " for a microbatch of size B, T token positions, and vocabulary size V. This means that the allocation grows linearly with sequence length."
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/chunked-lm-head.gif",
+        "alt": "Animated diagram of training-time scoring of a stored rollout. In the full version, hidden states H (T × d) times LM-head weights Wᵀ (d × V) produce a full T × V matrix of FP32 logits before a log-softmax selects each generated token’s log-probability. In the chunked version, only a 256 × V block of logits exists at a time, yielding the same T × 1 log-probabilities: log p(y_t) = z_{t,y_t} − logsumexp over v of z_{t,v}.",
+        "width": 1280,
+        "height": 768
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "RL doesn’t need to retain a vocabulary-wide tensor for each position. Knowing this, we instead normalize across the entire vocabulary, but process 256 token positions at a time. We recompute chunks during the backwards pass. This allows us to scale up training to long contexts with our limited training budget!"
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/chunked-memory.png",
+        "alt": "Line chart of peak allocated GPU memory against tokens per sequence for Qwen3.5-9B on 4 GPUs. The full FP32 head climbs from about 35 GiB at 4,096 tokens to 61.5 GiB at 16,384 tokens. The chunked FP32 head with 256-token chunks grows slowly, from about 33 GiB to 36.0 GiB at 16,384 and 43.9 GiB at 45,000 tokens.",
+        "width": 1776,
+        "height": 824
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "Additionally, a lot of systems issues were introduced by the GDN layers of Qwen 3.5. One of these was that Ulysses sequence parallelism does not preserve recurrent state. Thus, with SP enabled, we didn’t compute the same function as the unsharded model! This was silently killing our RL training jobs until we found the error with the SP implementation."
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/ulysses-mismatch.png",
+        "alt": "Bar chart of mean absolute log-probability difference between the learner and vLLM for Qwen3.5-4B over the same 46,044 action tokens. The existing Ulysses path with DP2 / SP2 shows 0.08769; DP4 / SP1 with no sequence sharding shows 0.01160.",
+        "width": 1776,
+        "height": 779
+      },
+      "children": []
+    },
+    {
+      "tag": "p",
+      "props": {},
+      "children": [
+        "We also found that it’s important to be mindful of the kernels you’re using for your workloads! There’s FlashAttention for full-attention layers; FlashQLA for GDN; and Liger/Quack for other kernels. We find that there’s no winner between Liger and Quack for our workloads."
+      ]
+    },
+    {
+      "tag": "img",
+      "props": {
+        "src": "/writing/deep-research-agent/kernels.png",
+        "alt": "Two line charts for Qwen3.5-9B on 4 H200s across 10K, 20K and 30K tokens per sequence. Update time grows from about 1.5 to 4.9 seconds for HF, with Quack, Liger, and Liger MLP plus tuned Quack RMSNorm slightly faster and nearly identical to each other. Peak memory per GPU grows from about 47 to 65 GiB for the Liger variants and to about 72 GiB for Quack.",
+        "width": 1776,
+        "height": 730
+      },
+      "children": []
+    }
+  ]
+}

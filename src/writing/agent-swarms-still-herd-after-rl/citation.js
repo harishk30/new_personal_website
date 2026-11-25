@@ -9,12 +9,12 @@ export const bibtex = `@article{2026agentswarms,
   url    = {https://www.harishkk.com/writing/agent-swarms}
 }`;
 
-export default function ArticleCitation() {
+export default function ArticleCitation({ text = bibtex }) {
   const [status, setStatus] = useState('');
   const codeRef = useRef(null);
   async function copyCitation() {
     try {
-      await navigator.clipboard.writeText(bibtex);
+      await navigator.clipboard.writeText(text);
       setStatus('copied');
     } catch {
       const selection = window.getSelection();
@@ -34,7 +34,7 @@ export default function ArticleCitation() {
           {status === 'copied' ? <Check size={18} aria-hidden="true" /> : <Copy size={18} aria-hidden="true" />}
         </button>
       </div>
-      <pre tabIndex={0} aria-label="BibTeX citation"><code ref={codeRef}>{bibtex}</code></pre>
+      <pre tabIndex={0} aria-label="BibTeX citation"><code ref={codeRef}>{text}</code></pre>
       <p className="citation-status" role="status">{status === 'copied' ? 'Citation copied.' : status === 'unavailable' ? 'Copy unavailable. Select and copy the citation manually.' : ''}</p>
     </div>
   </>;

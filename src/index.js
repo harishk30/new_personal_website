@@ -8,6 +8,7 @@ import Photography from './Photography';
 const ImprovingVLMs = lazy(() => import('./writing/improving-vlms/Article'));
 const VisualComposition = lazy(() => import('./writing/visual-composition/Article'));
 const AgentSwarms = lazy(() => import('./writing/agent-swarms-still-herd-after-rl/Article'));
+const DeepResearchAgent = lazy(() => import('./writing/deep-research-agent/Article'));
 
 function LegacyAgentSwarms() {
   const { search, hash } = useLocation();
@@ -25,6 +26,7 @@ root.render(
         <Route path="/writing/visual-composition" element={<Suspense fallback={<main className="content-column" aria-busy="true">Loading article...</main>}><VisualComposition /></Suspense>} />
         <Route path="/writing/agent-swarms" element={<Suspense fallback={<main className="content-column" aria-busy="true">Loading article...</main>}><AgentSwarms /></Suspense>} />
         <Route path="/writing/agent-swarms-still-herd-after-rl" element={<LegacyAgentSwarms />} />
+        <Route path="/writing/deep-research-agent" element={<Suspense fallback={<main className="content-column" aria-busy="true">Loading article...</main>}><DeepResearchAgent /></Suspense>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
